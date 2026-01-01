@@ -1,0 +1,23 @@
+$font-weights: ("R": normal,
+  "M": 500,
+  "B": bold);
+
+@each $suffix,
+$weight in $font-weights {
+  @font-face {
+    font-family: 'GenSenRounded2JP-#{$suffix}';
+    src: url('/chinese-font/GenSenRounded2JP-#{$suffix}.otf') format('opentype');
+    font-weight: $weight;
+    font-style: normal;
+    unicode-range: U+4E00-9FFF;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'GenSenRounded2JP-M', "Marmelad";
+}
