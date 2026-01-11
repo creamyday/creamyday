@@ -19,8 +19,11 @@ https://creamyday.github.io/creamyday/
 ## 開始撰寫專案
 git clone > npm install > npm run dev
 
-## 上傳 gitHub pages
+<!-- ## 上傳 gitHub pages
 先刪除dist資料夾或rm -rf dist > npm run deploy
 
 ## 檢查 gitHub pages
-npm run preview
+npm run preview -->
+
+## 自動化gh-pages
+若無重置，可自行至setting>pages關閉重開

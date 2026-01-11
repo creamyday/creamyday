@@ -24,8 +24,6 @@ const createRoutes = createHashRouter([
       },
     ],
   },
-], {
-  basename: import.meta.env.DEV ? '/' : import.meta.env.VITE_GITHUB_PAGES_PATH, // 這裡一定要加，且要跟你的倉庫名稱一致
-});
+]);
 
 export default createRoutes;
