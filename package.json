@@ -2,7 +2,7 @@
   "name": "creamyday",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://github.com/creamyday/creamyday",
+  "homepage": "https://creamyday.github.io/creamyday/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "axios": "^1.13.2",
