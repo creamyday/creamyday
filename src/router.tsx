@@ -4,6 +4,7 @@ import App from "./App";
 import Login from "./pages/Login";
 import Home from "./pages/customer/Home";
 import About from "./pages/customer/About";
+import NotFound from "./pages/NotFound";
 
 const createRoutes = createHashRouter([
   {
@@ -21,6 +22,10 @@ const createRoutes = createHashRouter([
       {
         path: "/about",
         Component: About,
+      },
+      {
+        path: "*",
+        Component: NotFound,
       },
     ],
   },
