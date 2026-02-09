@@ -1,0 +1,25 @@
+
+.logo-circle {
+  width: 51px;
+  height: 51px;
+  border: 1px solid #763E1B;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-circle img {
+  width: 180%;       // 控制 icon 比例
+  height: auto;
+  object-fit: contain;
+  transform: translate(-2px, -3px); //微調
+}
+.navbar-brand{
+    padding-left: 7.5px;
+}
+
+.py-12{
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
