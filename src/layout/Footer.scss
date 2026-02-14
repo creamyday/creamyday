@@ -33,7 +33,7 @@ footer {
 }
 
 /* 非手機（平板以上） */
-@media (min-width: 577px) {
+@media (min-width: 576px) {
   footer {
     padding-top: 80px;
     padding-bottom: 80px;
@@ -46,7 +46,7 @@ footer {
   padding-bottom: 12px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .link-padding {
     padding: 8px 20px;
   }
@@ -179,9 +179,6 @@ footer {
 }
 
 //下半部版權
-/* ===============================
-   Footer info（桌機預設）
-   =============================== */
 
 .footer-info {
   display: flex;
@@ -258,7 +255,7 @@ a.footer-item:hover {
    📱 手機版
    =============================== */
 
-@media (max-width: 575.98px) {
+@media (max-width: 992px) {
   /* 外層改直排 */
   .footer-wrapper {
     flex-direction: column;
@@ -279,10 +276,10 @@ a.footer-item:hover {
     }
   }
 
-  /* 🔑 關鍵：讓每個 item 寬度一致 */
+  /* 讓每個 item 寬度一致 */
   .footer-item {
     width: 100%;
-    max-width: 480px;        /* ← 所有線的共同寬度 */
+    max-width: 480px;        /* 所有線的共同寬度 */
     text-align: center;
 
     padding-left: 0;

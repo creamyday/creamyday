@@ -2,6 +2,22 @@ import axios from "axios";
 import { useState } from "react"
 import { useNavigate } from "react-router";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+const handleLogin = async () => {
+  try {
+    const res = await axios.post(`${API_URL}/v2/admin/signin`, data);
+    const { token, expired } = res.data;
+
+    document.cookie = `token=${token}; expires=${new Date(expired)}; path=/`;
+    axios.defaults.headers.common["Authorization"] = token;
+
+    navigate("/");
+  } catch (error) {
+    console.log("登入失敗", error?.response || error);
+  }
+};
+
 export default function Login() {
   const navigate = useNavigate();
   const [data,setData] = useState({
@@ -47,13 +63,13 @@ export default function Login() {
           <div className="mb-2">
             <label htmlFor="email" className="form-label w-100">
               Email
-              <input id="email" className="form-control" name="username" type="email" placeholder="Email Address" onChange={changeData} />
+              <input id="email" className="form-control" name="username" type="email" placeholder="name@example.com" onChange={changeData} />
             </label>
           </div>
           <div className="mb-2">
             <label htmlFor="password" className="form-label w-100">
               密碼
-              <input type="password" className="form-control" name="password" placeholder="name@example.com" onChange={changeData}/>
+              <input type="password" className="form-control" name="password" placeholder="Password" onChange={changeData}/>
             </label>
           </div>
           <button type="button" className="btn btn-primary" onClick={submit}>登入</button>
