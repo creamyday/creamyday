@@ -1,5 +1,4 @@
-import { Link } from "react-router";
-import "./Footer.scss";
+// import { Link } from "react-router";
 import { Icon } from "@iconify/react";
 
 export default function Footer() {
