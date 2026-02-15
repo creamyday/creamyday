@@ -56,7 +56,7 @@ export default function Login() {
     <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
-          <h2>登入帳號</h2>
+          <h2 className="text-center">歡迎登入，CreamyDay</h2>
           <div className={`alert alert-danger ${isError?'d-block':'d-none'}`} role="alert" >
             登入失敗
           </div>
@@ -72,7 +72,13 @@ export default function Login() {
               <input type="password" className="form-control" name="password" placeholder="Password" onChange={changeData}/>
             </label>
           </div>
-          <button type="button" className="btn btn-primary" onClick={submit}>登入</button>
+          <div className="d-flex justify-content-center">
+          <button type="button" className="btn btn-primary text-center mb-2" onClick={submit}>登入</button>
+        </div>
+        <div>
+          <p className="text-center mb-1">還沒​加入​會員​嗎?​ <a className="text-decoration-none" href="#">立即​加入</a>​</p>
+          <p className="text-center mb-0"><a className="text-decoration-none" href="#">忘記密碼</a></p>
+        </div>
         </div>
       </div>
     </div>
