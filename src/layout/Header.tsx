@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -17,7 +18,7 @@ function MobileMenu({ isAuth, user, onLogout }: {
   user: { name: string } | null;
   onLogout: () => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="mobile-nav">

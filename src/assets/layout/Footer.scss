@@ -16,12 +16,12 @@
 
 @font-face {
   font-family: 'GenSenRounded2JP-M';
-  src: url('/fonts/GenSenRounded2JP-M.woff2') format('woff2');
+  src: url('/chinese-font/GenSenRounded2JP-M.otf') format('otf');
 }
 
 @font-face {
   font-family: 'GenSenRounded2JP-R';
-  src: url('/fonts/GenSenRounded2JP-R.woff2') format('woff2');
+  src: url('/chinese-font/GenSenRounded2JP-R.otf') format('otf');
 }
 
 
@@ -52,12 +52,12 @@ footer {
   }
 }
 
-.mb-12{
+.mb-12 {
   margin-bottom: 12px;
 }
 
-.mb-36{
-   margin-bottom: 36px;
+.mb-36 {
+  margin-bottom: 36px;
 }
 
 /* 手機（xs） */
@@ -66,10 +66,11 @@ footer {
 
 }
 
-.mb-60{
+.mb-60 {
   margin-bottom: 60px;
 }
-.mb-0{
+
+.mb-0 {
   margin-bottom: 0px;
 }
 
@@ -82,7 +83,7 @@ footer {
   .mb-60 {
     margin-bottom: 0;
   }
-  
+
 }
 
 
@@ -135,9 +136,11 @@ footer {
 
 //社群 icon 列表
 .social-list {
-  display: flex;         /* 橫排 */
+  display: flex;
+  /* 橫排 */
   align-items: center;
-  gap: 12px;             /* icon 間距 */
+  gap: 12px;
+  /* icon 間距 */
 }
 
 // 連結本身
@@ -155,15 +158,15 @@ footer {
   cursor: pointer;
 
   transition:
-  transform 0.2s ease,
+    transform 0.2s ease,
     color 0.2s ease,
     opacity 0.2s ease;
 }
 
 @media (min-width: 576px) {
- .social-icon {
-  font-size: 36px;
-}
+  .social-icon {
+    font-size: 36px;
+  }
 }
 
 //共用 hover 效果
@@ -173,9 +176,11 @@ footer {
 }
 
 .social-list {
-  display: flex;         /* 橫排 */
+  display: flex;
+  /* 橫排 */
   align-items: center;
-  gap: 12px;             /* icon 間距 */
+  gap: 12px;
+  /* icon 間距 */
 }
 
 //下半部版權
@@ -256,6 +261,7 @@ a.footer-item:hover {
    =============================== */
 
 @media (max-width: 992px) {
+
   /* 外層改直排 */
   .footer-wrapper {
     flex-direction: column;
@@ -279,7 +285,8 @@ a.footer-item:hover {
   /* 讓每個 item 寬度一致 */
   .footer-item {
     width: 100%;
-    max-width: 480px;        /* 所有線的共同寬度 */
+    max-width: 480px;
+    /* 所有線的共同寬度 */
     text-align: center;
 
     padding-left: 0;
