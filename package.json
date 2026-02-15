@@ -12,6 +12,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@iconify/react": "^6.0.2",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
     "c3": "^0.7.20",
