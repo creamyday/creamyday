@@ -171,7 +171,7 @@ export default function Header() {
         {/* 電腦版的header 左邊的logo+文字 */}
         <div className="brand d-flex align-items-center">
           <div className="logo-circle">
-            <img src="/logo1.png" alt="CreamyDay Logo" />
+            <img src="./logo1.png" alt="CreamyDay Logo" />
           </div>
           <h1 className="navbar-brand text-primary">CreamyDay</h1>
         </div>
