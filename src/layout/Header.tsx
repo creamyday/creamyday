@@ -242,7 +242,7 @@ export default function Header() {
                   </Link>
                 </li>         
                 <li>
-                  <Link className="dropdown-item" to="/products/roll">
+                  <Link className="dropdown-item mb-12" to="/products/roll">
                     生乳捲
                   </Link>
                 </li>
