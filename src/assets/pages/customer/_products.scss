@@ -131,8 +131,8 @@
     padding: 12px 20px;
     border: 1px solid $gray-300;
     border-radius: 4px;
-    background: transparent url("/icon-arrow.svg") no-repeat right 20px
-      center / 24px;
+    background: transparent url("/icon-arrow.svg") no-repeat right 20px center /
+      24px;
     appearance: none;
     font-size: 14px;
     line-height: 1.5;
@@ -161,6 +161,9 @@
 
 //-- 商品卡片區 --//
 .product-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
   transition: transform 0.3s ease;
 
   &:hover &__title {
