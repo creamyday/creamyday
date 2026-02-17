@@ -37,28 +37,23 @@ function MobileMenu({ isAuth, user, onLogout }: {
         </div>
 
         <div className={`submenu ${isOpen ? "show" : ""}`}>
-          <NavLink to="/new" className="menu-subtitle">
+          <NavLink to="/products/new" className="menu-subtitle">
             新品推薦
           </NavLink>
-
-          <NavLink to="/hot" className="menu-subtitle">
+          <NavLink to="/products/hot" className="menu-subtitle">
             熱門商品
           </NavLink>
-
-          <NavLink to="/tiramisu" className="menu-subtitle">
-            提拉米蘇
-          </NavLink>
-          <NavLink to="/basque" className="menu-subtitle">
+          <NavLink to="/products/basque" className="menu-subtitle">
             巴斯克乳酪蛋糕
           </NavLink>
-          <NavLink to="/cheese" className="menu-subtitle">
-            生乳酪蛋糕
+          <NavLink to="/products/tiramisu" className="menu-subtitle">
+            提拉米蘇
           </NavLink>
-          <NavLink to="/cream" className="menu-subtitle">
-            奶油蛋糕
-          </NavLink>
-          <NavLink to="/roll" className="menu-subtitle">
+          <NavLink to="/products/roll" className="menu-subtitle">
             生乳捲
+          </NavLink>
+          <NavLink to="/products/other" className="menu-subtitle">
+            其他甜點
           </NavLink>
         </div>
       </div>
@@ -227,38 +222,33 @@ export default function Header() {
 
               <ul className="dropdown-menu">
                 <li>
-                  <Link className="dropdown-item mb-12" to="/new">
+                  <Link className="dropdown-item mb-12" to="/products/new">
                     新品推薦
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item mb-12" to="/hot">
+                  <Link className="dropdown-item mb-12" to="/products/hot">
                     熱門商品
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item mb-12" to="/tiramisu">
-                    提拉米蘇
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item mb-12" to="/basque">
+                  <Link className="dropdown-item mb-12" to="/products/basque">
                     巴斯克乳酪蛋糕
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item mb-12" to="/cheese">
-                    生乳酪蛋糕
+                  <Link className="dropdown-item mb-12" to="/products/tiramisu">
+                    提拉米蘇
                   </Link>
-                </li>
+                </li>         
                 <li>
-                  <Link className="dropdown-item mb-12" to="/cream">
-                    奶油蛋糕
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/roll">
+                  <Link className="dropdown-item" to="/products/roll">
                     生乳捲
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/products/other">
+                    其他甜點
                   </Link>
                 </li>
               </ul>
