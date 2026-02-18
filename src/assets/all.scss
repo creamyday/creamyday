@@ -3,8 +3,8 @@
 //custom
 @import './base/base.scss';
 @import "./vendors/bootstrap/variables";
+@import "bootstrap/scss/bootstrap";
 @import "./layout/Footer.scss";
 @import "./layout/Header.scss";
+@import "./pages/customer/products";
 
-
-@import "bootstrap/scss/bootstrap";
