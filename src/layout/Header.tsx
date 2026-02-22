@@ -165,12 +165,14 @@ export default function Header() {
     <nav className="navbar navbar-expand-lg navbar-light bg-white">
       <div className="container d-flex  align-items-center ">
         {/* 電腦版的header 左邊的logo+文字 */}
+        <a className="text-decoration-none" href="/">
         <div className="brand d-flex align-items-center">
           <div className="logo-circle">
             <img src="./logo1.png" alt="CreamyDay Logo" />
           </div>
           <h1 className="navbar-brand text-primary">CreamyDay</h1>
         </div>
+        </a>
 
         {/* 手機的漢堡選單 */}
         <button
