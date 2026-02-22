@@ -8,6 +8,8 @@ import NotFound from "./pages/NotFound";
 import Products from "./pages/customer/Products";
 import ProductDetail from "./pages/customer/ProductDetail";
 import Faqs from "./pages/customer/Faqs";
+import ForgetPassword from "./pages/customer/ForgetPassword";
+
 
 const createRoutes = createHashRouter([
   {
@@ -21,6 +23,10 @@ const createRoutes = createHashRouter([
       {
         path: "/login",
         Component: Login,
+      },
+      {
+        path: '/forgetPassword',
+        Component: ForgetPassword,
       },
       {
         path: "/about",
