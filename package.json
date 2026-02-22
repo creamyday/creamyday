@@ -13,12 +13,14 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
+    "@types/react-scroll": "^1.8.10",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
     "c3": "^0.7.20",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router": "^7.11.0"
+    "react-router": "^7.11.0",
+    "react-scroll": "^1.9.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
