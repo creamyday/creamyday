@@ -1,4 +1,4 @@
-import '../../assets/pages/customer/home.scss';
+import '../../assets/pages/customer/Home.scss';
 
 export default function Home() {
   return (
