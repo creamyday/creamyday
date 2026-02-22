@@ -7,6 +7,7 @@ import About from "./pages/customer/About";
 import NotFound from "./pages/NotFound";
 import Products from "./pages/customer/Products";
 import ProductDetail from "./pages/customer/ProductDetail";
+import Faqs from "./pages/customer/Faqs";
 
 const createRoutes = createHashRouter([
   {
@@ -32,6 +33,10 @@ const createRoutes = createHashRouter([
       {
         path: "products/:category/:productId",
         Component: ProductDetail,
+      },
+      {
+        path: "faq",
+        Component: Faqs,
       },
       {
         path: "*",
