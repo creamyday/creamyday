@@ -81,6 +81,11 @@ export default function ProductDetail() {
 
   const [selectedOptionName, setSelectedOptionName] = useState<string>("");
 
+  // 🔥
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [addToCartMsg, setAddToCartMsg] = useState<string | null>(null);
+  // 🔥
+
   // 取得單一商品資料
   useEffect(() => {
     const getProduct = async () => {
@@ -108,6 +113,10 @@ export default function ProductDetail() {
         setActiveImgIndex(0);
         setQuantity(1);
         setSelectedOptionName(response.data.product.options?.[0]?.name ?? "");
+        console.log(
+          "default option name:",
+          response.data.product.options?.[0]?.name,
+        );
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
           setErrorMsg(error.response?.data?.message ?? "取得商品失敗");
@@ -130,6 +139,35 @@ export default function ProductDetail() {
       product.options[0] ??
       null;
   }
+  console.log("selectedOptionName:", selectedOptionName);
+  console.log("selectedOption:", selectedOption);
+
+  // 🔥
+  const optionStock = selectedOption?.stock ?? 0;
+  const isSoldOut = optionStock <= 0;
+
+  // 數量上限：如果你的規則是「不能超過庫存」就用 stock
+  // 如果你要限制最多 10 個，也可以 Math.min(optionStock, 10)
+  const maxQty = optionStock > 0 ? optionStock : 1;
+
+  console.log({
+    optionStock,
+    isSoldOut,
+    maxQty,
+    quantity,
+  });
+
+  // 保護：如果切換尺寸後 qty 超過庫存，修正回上限
+  useEffect(() => {
+    if (!isSoldOut && quantity > maxQty) {
+      setQuantity(maxQty);
+    }
+    if (isSoldOut) {
+      setQuantity(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOptionName, optionStock]);
+  // 🔥
 
   if (loading) {
     return (
@@ -167,10 +205,92 @@ export default function ProductDetail() {
     setActiveImgIndex((prev) => (prev === imgCount - 1 ? 0 : prev + 1));
   };
 
-  const increment = () => setQuantity((prev) => prev + 1);
-  const decrement = () => {
-    if (quantity > 1) setQuantity((prev) => prev - 1);
+  // const increment = () => setQuantity((prev) => prev + 1);
+  // const decrement = () => {
+  //   if (quantity > 1) setQuantity((prev) => prev - 1);
+  // };
+
+  // 🔥
+  const increment = () => {
+    console.log("before increment qty:", quantity, "maxQty:", maxQty);
+    if (isSoldOut) return;
+    setQuantity((prev) => (prev >= maxQty ? prev : prev + 1));
   };
+
+  const decrement = () => {
+    if (isSoldOut) return;
+    setQuantity((prev) => (prev <= 1 ? 1 : prev - 1));
+  };
+  // 🔥
+
+  // 🔥
+  const handleAddToCart = async () => {
+    setAddToCartMsg(null);
+
+    if (!product) return;
+
+    // 防呆
+    if (isSoldOut) {
+      setAddToCartMsg("商品已售完");
+      return;
+    }
+
+    // 如果你一定要選尺寸（你的資料看起來是一定有 options）
+    if (product.options?.length && !selectedOptionName) {
+      setAddToCartMsg("請先選擇尺寸");
+      return;
+    }
+
+    if (quantity < 1) {
+      setAddToCartMsg("數量至少為 1");
+      return;
+    }
+
+    if (quantity > maxQty) {
+      setAddToCartMsg(`數量不可超過庫存（最多 ${maxQty}）`);
+      return;
+    }
+
+    setIsAddingToCart(true);
+
+    try {
+      // ⚠️ 這裡是「基本加入購物車」
+      // 如果你的後端/六角 API 沒有支援 size/option，你只能先送 product_id + qty
+      const payload = {
+        data: {
+          product_id: product.id,
+          qty: quantity,
+          // 如果你們的 API 有自訂欄位支援尺寸（不一定有）
+          // size: selectedOptionName,
+          // option: selectedOptionName,
+        },
+      };
+
+      console.log("add to cart payload:", {
+        product_id: product.id,
+        qty: quantity,
+        selectedOptionName,
+      });
+
+      const res = await axios.post(
+        `${API_URL}/v2/api/${API_PATH}/cart`,
+        payload,
+      );
+      setAddToCartMsg(res.data?.message ?? "已加入購物車");
+
+      // 如果你有全域購物車數量/Redux/Context，這裡可以順便觸發更新
+      // await getCart();
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setAddToCartMsg(error.response?.data?.message ?? "加入購物車失敗");
+      } else {
+        setAddToCartMsg("加入購物車失敗");
+      }
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+  // 🔥
 
   return (
     <>
@@ -273,7 +393,10 @@ export default function ProductDetail() {
                       className="product-main__select"
                       value={selectedOptionName}
                       onChange={(e) => setSelectedOptionName(e.target.value)}
-                      disabled={!product.options?.length}
+                      // disabled={!product.options?.length}
+                      disabled={
+                        !product.options?.length || isSoldOut || isAddingToCart
+                      }
                     >
                       {product.options.map((option) => (
                         <option key={option.name} value={option.name}>
@@ -291,7 +414,8 @@ export default function ProductDetail() {
                       type="button"
                       className="product-main__qty-btn"
                       onClick={decrement}
-                      disabled={quantity <= 1}
+                      // disabled={quantity <= 1}
+                      disabled={quantity <= 1 || isSoldOut || isAddingToCart}
                     >
                       <img src={ICON.minus} alt="減少" />
                     </button>
@@ -307,6 +431,9 @@ export default function ProductDetail() {
                       type="button"
                       className="product-main__qty-btn"
                       onClick={increment}
+                      disabled={
+                        isSoldOut || isAddingToCart || quantity >= maxQty
+                      }
                     >
                       <img src={ICON.plus} alt="增加" />
                     </button>
@@ -315,7 +442,7 @@ export default function ProductDetail() {
               </div>
 
               <div className="product-main__action">
-                <button
+                {/* <button
                   type="button"
                   className="product-main__btn product-main__btn--cart"
                 >
@@ -325,15 +452,41 @@ export default function ProductDetail() {
                     alt="cart"
                     className="product-main__btn-icon"
                   />
-                </button>
+                </button> */}
 
                 <button
+                  type="button"
+                  className="product-main__btn product-main__btn--cart"
+                  onClick={handleAddToCart}
+                  disabled={isSoldOut || isAddingToCart}
+                >
+                  {isAddingToCart ? "加入中..." : "加入購物車"}
+                  <img
+                    src={ICON.cart}
+                    alt="cart"
+                    className="product-main__btn-icon"
+                  />
+                </button>
+
+                {/* <button
                   type="button"
                   className="product-main__btn product-main__btn--buy"
                 >
                   立即購買
+                </button> */}
+
+                <button
+                  type="button"
+                  className="product-main__btn product-main__btn--buy"
+                  disabled={isSoldOut || isAddingToCart}
+                >
+                  立即購買
                 </button>
               </div>
+
+              {addToCartMsg && (
+                <p className="product-main__hint">{addToCartMsg}</p>
+              )}
 
               <div className="product-main__wishlist">
                 <button type="button" className="product-main__wishlist-btn">
