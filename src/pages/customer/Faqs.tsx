@@ -151,7 +151,7 @@ function Faqs() {
           <div className="faqs-hero__heading">
             <img
               className="faqs-hero__animal"
-              src="/bear.png"
+              src="./bear.png"
               alt=""
               aria-hidden="true"
             />
@@ -163,7 +163,7 @@ function Faqs() {
 
             <img
               className="faqs-hero__animal"
-              src="/rabbit.png"
+              src="./rabbit.png"
               alt=""
               aria-hidden="true"
             />
