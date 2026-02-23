@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react"
-import { useNavigate } from "react-router";
+import { useNavigate,Link } from "react-router";
 
 // const API_URL = import.meta.env.VITE_API_URL;
 
@@ -73,12 +73,12 @@ export default function Login() {
             </label>
           </div>
           <div className="d-flex justify-content-center">
-          <button type="button" className="btn btn-primary text-center mb-2" onClick={submit}>登入</button>
+            <button type="button" className="btn btn-primary text-center mb-2" onClick={submit}>登入</button>
+          </div>
         </div>
         <div>
           <p className="text-center mb-1">還沒​加入​會員​嗎?​ <a className="text-decoration-none" href="#">立即​加入</a>​</p>
-          <p className="text-center mb-0"><a className="text-decoration-none" href="#">忘記密碼</a></p>
-        </div>
+          <p className="text-center mb-0"><Link className="text-decoration-none" to="/forgetPassword">忘記密碼</Link></p>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 @import "bootstrap/scss/functions";
 
-//custom
 @import "./base/base.scss";
 @import "./vendors/bootstrap/variables";
 @import "./layout/Footer.scss";
@@ -10,3 +10,4 @@
 @import "./pages/customer/products";
 @import "./pages/customer/productDetail";
 @import "./pages/customer/faqs";
+@import "./pages/customer/ForgetPassword";
