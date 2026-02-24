@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
@@ -108,7 +109,11 @@ export default function ForgetPassword(){
                 )}
               />
               <button type="button" className="btn py-0" onClick={() => toggleEye('eye1')}>
-                <i className={`bi ${showPassword.eye1 ? 'bi-eye-fill' :'bi-eye-slash-fill'} input-icon`}></i>
+                <Icon
+                  icon={showPassword.eye1 ? 'heroicons-solid:eye' : 'majesticons:eye-off'}
+                  className="input-icon"
+                  width="24px"
+                />
               </button>
             </div>
             {errors.password && <span className="text-danger">{errors.password?.message}</span>}
@@ -128,7 +133,11 @@ export default function ForgetPassword(){
                 )}
               />
               <button type="button" className="btn py-0" onClick={() => toggleEye('eye2')}>
-                <i className={`bi ${showPassword.eye2 ? 'bi-eye-fill' : 'bi-eye-slash-fill'} input-icon`}></i>
+                <Icon
+                  icon={showPassword.eye2 ? 'heroicons-solid:eye':'majesticons:eye-off'}
+                  className="input-icon"
+                  width="24px"
+                />
               </button>
             </div>
             {errors.again_password && <span className="text-danger">{errors.again_password?.message}</span>}
