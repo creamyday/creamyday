@@ -2,6 +2,8 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router";
+import { useDispatch,useSelector } from "react-redux";
+import { changeShow } from "../stores/carts.ts";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -119,6 +121,8 @@ export default function Header() {
   interface UserType {
     name: string;
   }
+  const dispatch = useDispatch();  
+  const { isShow,products } = useSelector((state: any) => state.carts);
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
   const navigate = useNavigate();
@@ -151,6 +155,7 @@ export default function Header() {
     };
 
     checkLogin();
+    dispatch(changeShow(false));
   }, [location.pathname]);
 
   const logout = () => {
@@ -175,6 +180,19 @@ export default function Header() {
         </a>
 
         {/* 手機的漢堡選單 */}
+        <div>
+        <button
+          type="button"
+            className="btn border-0 p-0 d-inline d-lg-none position-relative"
+          onClick={() => dispatch(changeShow(!isShow))}>
+          <Icon
+            icon="ph:shopping-cart-simple"
+            width="24px"
+          />
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{products && products.length>0}</span>
+        </button>
+        
+
         <button
           className="navbar-toggler border-0 "
           type="button"
@@ -183,6 +201,7 @@ export default function Header() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        </div>
 
         <div
           className="offcanvas offcanvas-end mobile-menu d-lg-none"
@@ -271,6 +290,7 @@ export default function Header() {
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  onClick={() => dispatch(changeShow(false))}
                 >
                   <Icon
                     icon="mdi:account-circle-outline"
@@ -280,11 +300,16 @@ export default function Header() {
                   {user?.name}
                 </button>
 
-                <Icon
-                  icon="ph:shopping-cart-simple"
-                  className="m-12"
-                  width="24px"
-                />
+                <button
+                  type="button"
+                  className="btn border-0 p-0"
+                  onClick={() => dispatch(changeShow(!isShow))}>
+                  <Icon
+                    icon="ph:shopping-cart-simple"
+                    width="24px"
+                  />
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{products && products.length > 0}</span>
+                </button>
 
                 <ul className="dropdown-menu dropdown-menu-end">
                   <li>
