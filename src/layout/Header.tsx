@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeShow } from "../stores/carts.ts";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -15,12 +15,16 @@ const getToken = () => {
     ?.split("=")[1];
 };
 
-function MobileMenu({ isAuth, user, onLogout }: {
+function MobileMenu({
+  isAuth,
+  user,
+  onLogout,
+}: {
   isAuth: boolean;
   user: { name: string } | null;
   onLogout: () => void;
 }) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="mobile-nav">
@@ -67,52 +71,48 @@ function MobileMenu({ isAuth, user, onLogout }: {
       <div className="menu-divider"></div>
 
       {isAuth && (
-    <>
-      <div className="mobile-user">
+        <>
+          <div className="mobile-user">
+            <div className="user-header">
+              <span>個人帳戶</span>
 
-        <div className="user-header">
-          <span>個人帳戶</span>
+              <div className="user-info">
+                <Icon icon="mdi:account-circle-outline" width="20" />
+                <span>{user?.name}</span>
+              </div>
+            </div>
 
-          <div className="user-info">
-            <Icon icon="mdi:account-circle-outline" width="20" />
-            <span>{user?.name}</span>
+            <NavLink to="/profile" className="menu-subtitle">
+              個人資訊
+            </NavLink>
+
+            <NavLink to="/favorite" className="menu-subtitle">
+              我的收藏
+            </NavLink>
+
+            <NavLink to="/orders" className="menu-subtitle">
+              訂單管理
+            </NavLink>
+
+            <NavLink to="/password" className="menu-subtitle">
+              密碼變更
+            </NavLink>
           </div>
-        </div>
 
-        <NavLink to="/profile" className="menu-subtitle">
-          個人資訊
+          <div className="menu-divider"></div>
+        </>
+      )}
+
+      {/* 登入登出按鈕 */}
+      {!isAuth ? (
+        <NavLink to="/Login" className="mobile-login-btn">
+          登入 / 註冊
         </NavLink>
-
-        <NavLink to="/favorite" className="menu-subtitle">
-          我的收藏
-        </NavLink>
-
-        <NavLink to="/orders" className="menu-subtitle">
-          訂單管理
-        </NavLink>
-
-        <NavLink to="/password" className="menu-subtitle">
-          密碼變更
-        </NavLink>
-
-      </div>
-
-      <div className="menu-divider"></div>
-    </>
-
-     )}
-
-  {/* 登入登出按鈕 */}
-  {!isAuth ? (
-    <NavLink to="/Login" className="mobile-login-btn">
-      登入 / 註冊
-    </NavLink>
-  ) : (
-    <button type="button" className="mobile-login-btn" onClick={onLogout}>
-      登出
-    </button>
-  )}
-
+      ) : (
+        <button type="button" className="mobile-login-btn" onClick={onLogout}>
+          登出
+        </button>
+      )}
     </div>
   );
 }
@@ -121,8 +121,8 @@ export default function Header() {
   interface UserType {
     name: string;
   }
-  const dispatch = useDispatch();  
-  const { isShow,products } = useSelector((state: any) => state.carts);
+  const dispatch = useDispatch();
+  const { isShow, products } = useSelector((state: any) => state.carts);
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
   const navigate = useNavigate();
@@ -171,36 +171,35 @@ export default function Header() {
       <div className="container d-flex  align-items-center ">
         {/* 電腦版的header 左邊的logo+文字 */}
         <a className="text-decoration-none" href="/">
-        <div className="brand d-flex align-items-center">
-          <div className="logo-circle">
-            <img src="./logo1.png" alt="CreamyDay Logo" />
+          <div className="brand d-flex align-items-center">
+            <div className="logo-circle">
+              <img src="./logo1.png" alt="CreamyDay Logo" />
+            </div>
+            <h1 className="navbar-brand text-primary">CreamyDay</h1>
           </div>
-          <h1 className="navbar-brand text-primary">CreamyDay</h1>
-        </div>
         </a>
 
         {/* 手機的漢堡選單 */}
         <div>
-        <button
-          type="button"
+          <button
+            type="button"
             className="btn border-0 p-0 d-inline d-lg-none position-relative"
-          onClick={() => dispatch(changeShow(!isShow))}>
-          <Icon
-            icon="ph:shopping-cart-simple"
-            width="24px"
-          />
-            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{products && products.length>0}</span>
-        </button>
-        
+            onClick={() => dispatch(changeShow(!isShow))}
+          >
+            <Icon icon="ph:shopping-cart-simple" width="24px" />
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {products && products.length > 0}
+            </span>
+          </button>
 
-        <button
-          className="navbar-toggler border-0 "
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#mobileMenu"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+          <button
+            className="navbar-toggler border-0 "
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#mobileMenu"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
         </div>
 
         <div
@@ -209,11 +208,7 @@ export default function Header() {
           id="mobileMenu"
         >
           <div className="offcanvas-body">
-            <MobileMenu
-  isAuth={isAuth}
-  user={user} 
-  onLogout={logout}
-/>
+            <MobileMenu isAuth={isAuth} user={user} onLogout={logout} />
           </div>
         </div>
 
@@ -261,7 +256,7 @@ export default function Header() {
                   <Link className="dropdown-item mb-12" to="/products/tiramisu">
                     提拉米蘇
                   </Link>
-                </li>         
+                </li>
                 <li>
                   <Link className="dropdown-item mb-12" to="/products/roll">
                     生乳捲
@@ -303,12 +298,12 @@ export default function Header() {
                 <button
                   type="button"
                   className="btn border-0 p-0"
-                  onClick={() => dispatch(changeShow(!isShow))}>
-                  <Icon
-                    icon="ph:shopping-cart-simple"
-                    width="24px"
-                  />
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{products && products.length > 0}</span>
+                  onClick={() => dispatch(changeShow(!isShow))}
+                >
+                  <Icon icon="ph:shopping-cart-simple" width="24px" />
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {products && products.length > 0}
+                  </span>
                 </button>
 
                 <ul className="dropdown-menu dropdown-menu-end">
@@ -326,17 +321,34 @@ export default function Header() {
                   </li>
 
                   <li>
-                    <button type="button" className="dropdown-item btn-outline-primary" onClick={logout}>
+                    <button
+                      type="button"
+                      className="dropdown-item btn-outline-primary"
+                      onClick={logout}
+                    >
                       登出
                     </button>
                   </li>
                 </ul>
               </div>
             ) : (
-              <Link className="btn btn-outline-primary login-btn" to="/login">
+              <Link className="btn btn-outline-primary login-btn me-3" to="/login">
                 登入 / 註冊
               </Link>
             )}
+            <button
+              type="button"
+              className="btn border-0 p-0 position-relative"
+              onClick={() => dispatch(changeShow(!isShow))}
+            >
+              <Icon icon="ph:shopping-cart-simple" width="24px" />
+
+              {products?.length > 0 && (
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {products.length}
+                </span>
+              )}
+            </button>
           </div>
         </div>
       </div>

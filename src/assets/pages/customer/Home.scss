@@ -1,8 +1,29 @@
+
+/* Medium  */
+@font-face {
+  font-family: "GenSenRounded";
+  src: url("/fonts/GenSenRounded2JPM.ttf") format("truetype");
+  font-weight: 500;   
+  font-style: normal;
+}
+
+.GSR-Medium {
+  font-family: "GenSenRounded", sans-serif;
+  font-weight: 500;   
+}
+
+body {
+  background-color: #FFF7EB;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+/* Hero */
 .hero-wrapper {
   position: relative;
   width: 100%;
-  height: 100vh; 
   overflow: hidden;
+  padding: 60px 0;
 }
 
 /* 背景圖 */
@@ -12,5 +33,502 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1; 
+  z-index: -1;
+}
+
+.hero-carousel {
+  border-radius: 24px;
+  overflow: hidden;
+
+  .carousel-item {
+    height: 680px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .carousel-caption {
+    left: 0;
+    right: 0;
+  }
+
+  /*  Indicators */
+  .carousel-indicators {
+    [data-bs-target] {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 0;
+      background-color: rgba(255, 255, 255, 0.5);
+      opacity: 1;
+      margin: 0 6px;
+      transition: all 0.3s ease;
+    }
+
+    .active {
+      background-color: #ffffff;
+      transform: scale(1.2);
+    }
+  }
+}
+
+.carousel-indicators [data-bs-target]::before,
+.carousel-indicators [data-bs-target]::after {
+  display: none;
+}
+
+/* 第三張圖位置 */
+.carousel-item:nth-child(3) {
+  img {
+    object-position: center 75%;
+  }
+}
+
+/* 文字區 */
+.custom-caption {
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+}
+
+.caption-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carousel-caption {
+  .caption-text {
+    color: #FAFAFA;
+    text-align: left;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .hero-title {
+    font-size: 28px;
+    font-weight: 400;
+    margin: 16px 0;
+    letter-spacing: 0.04em;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .hero-line {
+    width: 457px;
+    height: 1px;
+    background: #ffffff;
+  }
+}
+
+.hero-btn {
+  font-family: "GenSenRounded", sans-serif;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px 28px;
+  border: 1px solid #FAFAFA;
+  border-radius: 5px;
+
+  color: #FAFAFA;
+  text-decoration: none;
+  font-size: 20px;
+
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(70, 70, 70, 0.3);
+  }
+
+  &:active {
+    background: rgba(70, 70, 70, 0.5);
+    transform: translateY(1px);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  &:visited {
+    color: #FAFAFA;
+  }
+}
+
+/* 防止 Bootstrap / Link 預設覆蓋 */
+.carousel-caption .hero-btn {
+  color: #FAFAFA;
+}
+
+
+@media (max-width: 991.98px) {
+  .hero-wrapper {
+    padding: 0;
+
+    .container {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      max-width: 100% !important;
+    }
+  }
+
+  .hero-carousel {
+    border-radius: 0;
+
+    .carousel-item {
+      height: 620px;
+    }
+  }
+
+  .carousel-caption.custom-caption {
+    padding: 0 !important;
+  }
+
+  .caption-content {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .carousel-caption {
+    .caption-text {
+      width: 100%;
+      text-align: center;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+    }
+
+    .hero-title {
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .hero-line {
+      width: 351px;
+      margin: 12px auto;
+    }
+  }
+
+  .hero-btn {
+    font-size: 14px;
+    padding: 13.5px 35px;
+  }
+}
+
+/* 通用樣式 */
+.title-header {
+  padding: 0 32px;
+}
+@media (max-width: 575.98px) {
+  .title-header {
+    padding: 0 12px;
+  }
+}
+
+.mb-32 {
+  margin-bottom: 32px;
+}
+@media (max-width: 575.98px) {
+  .mb-32 {
+    margin-bottom: 24px;
+  }
+}
+
+.mb-12 {
+  margin-bottom: 12px;
+}
+
+.py-12 {
+  padding: 12px 0;
+}
+
+.title-text {
+  font-family: "Marmelad", sans-serif;
+  color: #815630;
+  font-size: 28px;
+  font-weight: normal;
+  border-bottom: 2px solid #815630;
+}
+
+@media (max-width: 991.98px) { 
+  .title-text {
+    font-size: 21px;
+  }
+}
+
+.title-img {
+  height: 120px !important;
+  width: auto;
+  object-fit: contain;
+}
+@media (max-width: 991.98px) { 
+  .title-img {
+    height: 60px !important;
+  }
+}
+
+.subtitle-text {
+  font-family: "GenSenRounded", sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+@media (max-width: 991.98px) { 
+  .subtitle-text {
+    font-size: 18px;
+  }
+}
+
+/* Recommed 區塊 */
+.recommed-wrapper {
+  padding: 60px 0px;
+}
+
+
+
+/* about區塊 */
+.about-wrapper {
+  padding: 60px 0px;
+
+  .about-row {
+    display: flex;
+    align-items: center;      
+    justify-content: center;
+    margin: 32px 0;
+
+    .about-text {
+      width: 526px;
+      font-size: 22px;
+      line-height: 1.7;
+      margin: 0 24px;         
+      text-align: center;
+      color:#292929;
+    }
+
+    .cake-img {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .leaf-img{
+    align-self: flex-end;
+    width: 86px;
+    height: 76px;
+    } 
+  }
+
+}
+@media (max-width: 992px) {
+
+  .about-wrapper {
+    padding: 28px 0px;
+
+    .about-row {
+      flex-direction: column;
+      width: 100%;
+    
+
+      .about-text {
+      width: 100%;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0 0 32px 0;
+    }
+    
+
+    .cake-img {
+      max-width: 256px;
+      height: auto;
+    }
+    
+    .leaf-img{
+    align-self: flex-end;
+    width: 70px;
+    height: 61px;
+    } 
+  }
+}
+}
+
+
+
+
+/* Moment 區塊 */
+.moment-wrapper {
+  padding: 60px 0px;
+
+  .moment-bg {
+    max-width: 1520px;
+    margin: 0 auto;
+    border-radius: 24px;
+    background-color: #f6e9d7;
+    padding: 40px 0px;
+  }
+
+  .moment-img {
+    height: 120px !important;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .moment-slider {
+    position: relative;
+    max-width: 1136px;
+    margin: 0 auto;
+    
+
+    .swiper {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      box-sizing: border-box;
+    }
+
+    .swiper-slide {
+      width: auto !important;
+      display: flex;
+      justify-content: center;
+    }
+
+    .moment-list {
+      padding: 12px 0;
+      overflow: visible;
+      display: block;
+    }
+
+    /* 卡片本體 */
+    .moment-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px 20px;
+      width: 416px;
+      height: 212px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+      border: 1px solid #D3B997;
+
+      .moment-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .avatar {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .moment-name {
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+
+      .moment-date {
+        margin-left: auto;
+        font-size: 16px;
+        color: #8E6745;
+      }
+
+      .moment-content {
+        font-size: 20px;
+      }
+
+      .stars {
+        display: flex;
+
+        svg {
+          fill: #815630;
+          width: 20px;
+          height: 24px;
+        }
+      }
+    }
+
+    /* 自訂箭頭 */
+    .moment-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: #fafafa;
+      color: #815630;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      cursor: pointer;
+
+      &--prev { left: -60px; }
+      &--next { right: -60px; }
+    }
+  }
+}
+
+
+@media (max-width: 991.98px) {
+  .moment-wrapper {
+     padding: 0 0;
+    .moment-bg {
+      border-radius: 0;
+    }
+
+    .moment-slider {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+
+      .swiper {
+        width: 100%;
+        padding: 0;
+      }
+
+      .moment-arrow {
+        display: none !important;
+      }
+
+      .moment-card {
+        padding: 22px 20px;
+        width: 257px;
+        height: 220px;
+        border-radius: 10px;
+
+        .moment-header {
+          .moment-name {
+            font-size: 16px;
+          }
+        }
+
+        .moment-date {
+          font-size: 14px;
+        }
+
+        .moment-content {
+          font-size: 16px;
+        }
+      }
+    }
+  }
 }
