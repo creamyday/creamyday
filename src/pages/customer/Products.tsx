@@ -20,7 +20,7 @@ const categoryLabel: Record<CategorySlug, string> = {
 const labelToSlug: Record<string, CategorySlug> = {
   新品推薦: "new",
   熱門商品: "hot",
-  巴斯克: "basque",
+  巴斯克乳酪蛋糕: "basque",
   提拉米蘇: "tiramisu",
   生乳捲: "roll",
   其他甜點: "other",
@@ -28,9 +28,6 @@ const labelToSlug: Record<string, CategorySlug> = {
 
 type ProductOption = {
   name: string;
-  origin_price: number;
-  price: number;
-  stock: number;
   freebie_note: string;
 };
 
@@ -55,6 +52,8 @@ type Product = {
   isNew: boolean;
   imageUrl: string;
   imagesUrl: string[];
+  groupKey: string;
+  stock: number;
 };
 
 const isCategorySlug = (value: unknown): value is CategorySlug => {
@@ -85,7 +84,17 @@ export default function Products() {
   const [favoriteSet, setFavoriteSet] = useState<Set<string>>(new Set());
   const [sortKey, setSortKey] = useState<SortKey>("default");
 
-  let filtered = products.filter((p) => {
+  const displayProducts = Object.values(
+    products.reduce<Record<string, Product>>((acc, p) => {
+      const key = p.groupKey;
+      const old = acc[key];
+
+      if (!old || p.price < old.price) acc[key] = p;
+      return acc;
+    }, {}),
+  );
+
+  let filtered = displayProducts.filter((p) => {
     const slug = labelToSlug[p.category] ?? "other";
 
     if (activeSlug === "new") return p.isNew;
