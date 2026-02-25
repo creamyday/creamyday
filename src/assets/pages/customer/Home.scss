@@ -1,13 +1,15 @@
-body{
-background-color: #FFF7EB;
-;
+body {
+  background-color: #FFF7EB;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
 }
 
+/* Hero */
 .hero-wrapper {
   position: relative;
   width: 100%;
-  height: 100vh; 
   overflow: hidden;
+  padding: 60px 0;
 }
 
 /* 背景圖 */
@@ -17,35 +19,72 @@ background-color: #FFF7EB;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1; 
-}
-
-.hero-wrapper {
-  padding: 60px 0;
+  z-index: -1;
 }
 
 .hero-carousel {
   border-radius: 24px;
   overflow: hidden;
+
+  .carousel-item {
+    height: 680px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .carousel-caption {
+    left: 0;
+    right: 0;
+  }
+
+  
+  .carousel-indicators {
+    [data-bs-target] {
+      width: 10px;
+      height: 10px;
+
+      border-radius: 50%;
+      border: 0;
+
+      background-color: rgba(255, 255, 255, 0.5);
+      opacity: 1;
+
+      margin: 0 6px;
+      transition: all 0.3s ease;
+    }
+
+    .active {
+      background-color: #ffffff;
+      transform: scale(1.2);
+    }
+  }
 }
 
-.hero-carousel .carousel-item {
-  height: 680px;
+/* 防止 Bootstrap 偽元素 */
+.carousel-indicators [data-bs-target]::before,
+.carousel-indicators [data-bs-target]::after {
+  display: none;
 }
 
-.hero-carousel img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* 第三張圖位置 */
+.carousel-item:nth-child(3) {
+  img {
+    object-position: center 75%;
+  }
 }
 
-/* caption */
+/* 文字區 */
 .custom-caption {
   top: 0;
   bottom: 0;
   display: flex;
   align-items: center;
-  padding: 0 80px;
+  padding: 0 32px;
 }
 
 .caption-content {
@@ -55,81 +94,386 @@ background-color: #FFF7EB;
   align-items: center;
 }
 
-.caption-text {
-  color: white;
-  text-align: left;
+.carousel-caption {
+  .caption-text {
+    color: #FAFAFA;
+    text-align: left;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .hero-title {
+    font-size: 28px;
+    font-weight: 400;
+    margin: 16px 0;
+    letter-spacing: 0.04em;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .hero-line {
+    width: 457px;
+    height: 1px;
+    background: #ffffff;
+  }
 }
 
-.caption-text h2 {
-  font-size: 36px;
-  margin-bottom: 16px;
-}
 
-.caption-text p {
-  font-size: 20px;
-}
-
-/* button */
 .hero-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 13.5px 35px;
+  border: 1px solid #FAFAFA;
+  border-radius: 5px;
+  font-size: 14px;
 
-  padding: 10px 28px;
-  border: 1.5px solid white;
-  border-radius: 30px;
-
-  color: white;
+  color: #FAFAFA;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 20px;
 
   transition: all 0.3s ease;
-}
+  cursor: pointer;
 
-.hero-btn:hover {
-  background: white;
-  color: black;
-}
-
-/* mobile */
-@media (max-width: 575.98px) {
-
-  .hero-wrapper {
-    padding: 0;
+  &:hover {
+    background: rgba(70, 70, 70, 0.3);
   }
 
-  .container {
-    max-width: 100%;
+  &:active {
+    background: rgba(70, 70, 70, 0.5);
+    transform: translateY(1px);
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  &:visited {
+    color: #FAFAFA;
+  }
+}
+
+/* 防止 Bootstrap / Link 預設覆蓋 */
+.carousel-caption .hero-btn {
+  color: #FAFAFA;
+}
+
+
+
+
+/* 手機 + 平板 */
+@media (max-width: 991.98px) {
+  .hero-wrapper {
     padding: 0;
+
+    .container {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      max-width: 100% !important;
+    }
   }
 
   .hero-carousel {
     border-radius: 0;
+
+    .carousel-item {
+      height: 620px;
+    }
   }
 
-  .hero-carousel .carousel-item {
-    height: 520px;
-  }
-
-  .custom-caption {
-    padding: 0 24px;
+  .carousel-caption.custom-caption {
+    padding: 0 !important;
   }
 
   .caption-content {
+    width: 100%;
     flex-direction: column;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
     gap: 16px;
   }
 
-  .caption-text {
-    text-align: center;
-  }
+  .carousel-caption {
+    .caption-text {
+      width: 100%;
+      text-align: center;
+    }
 
-  .caption-text h2 {
-    font-size: 28px;
-  }
+    .hero-title {
+      font-size: 18px;
+      text-align: center;
+    }
 
-  .caption-text p {
-    font-size: 16px;
+    
+    .hero-line {
+      width: 351px;
+      margin: 12px auto;
+    }
   }
 }
+
+/* 通用樣式 */
+.title-header {
+  padding: 0 32px;
+}
+@media (max-width: 575.98px) {
+  .title-header {
+    padding: 0 12px;
+  }
+}
+
+.mb-32 {
+  margin-bottom: 32px;
+}
+@media (max-width: 575.98px) {
+  .mb-32 {
+    margin-bottom: 24px;
+  }
+}
+
+.mb-12 {
+  margin-bottom: 12px;
+}
+
+.py-12 {
+  padding: 12px 0;
+}
+
+.title-text {
+  font-family: "Marmelad", sans-serif;
+  color: #815630;
+  font-size: 28px;
+  font-weight: normal;
+  border-bottom: 2px solid #815630;
+}
+
+@media (max-width: 991.98px) {
+  .title-text {
+    font-size: 21px;
+  }
+}
+
+.title-img {
+  height: 120px !important;
+  width: auto;
+  object-fit: contain;
+}
+@media (max-width: 991.98px) {
+  .text-img {
+  height: 60px !important;
+  width: auto;
+  object-fit: contain;
+}
+}
+
+.subtitle-text{
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+@media (max-width: 991.98px) {
+  .subtitle-text{
+  font-size: 18px;
+}
+}
+
+
+
+
+/* Recommed 區塊 */
+.recommed-wrapper {
+  padding: 60px 0px;
+}
+
+
+
+
+
+/* Moment 區塊 */
+.moment-wrapper {
+  padding: 60px 0px;
+
+  .moment-bg {
+    max-width: 1520px;
+    margin: 0 auto;
+    border-radius: 24px;
+    background-color: #f6e9d7;
+    padding: 40px 0px;
+  }
+
+
+  .moment-slider {
+    position: relative;
+    max-width: 1136px;
+    margin: 0 auto;
+    
+
+    .swiper {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      box-sizing: border-box;
+    }
+
+    .swiper-slide {
+      width: auto !important;
+      display: flex;
+      justify-content: center;
+    }
+
+    .moment-list {
+      padding: 12px 0;
+      overflow: visible;
+      display: block;
+    }
+
+    /* 卡片本體 */
+    .moment-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px 20px;
+      width: 416px;
+      height: 212px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+      border: 1px solid #D3B997;
+
+      .moment-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .avatar {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .moment-name {
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+
+      .moment-date {
+        margin-left: auto;
+        font-size: 16px;
+        color: #8E6745;
+      }
+
+      .moment-content {
+        font-size: 20px;
+      }
+
+      .stars {
+        display: flex;
+
+        svg {
+          fill: #815630;
+          width: 20px;
+          height: 24px;
+        }
+      }
+    }
+
+    /* 自訂箭頭 */
+    .moment-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: #fafafa;
+      color: #815630;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      cursor: pointer;
+
+      &--prev { left: -60px; }
+      &--next { right: -60px; }
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  .moment-wrapper {
+    padding: 0 0;
+
+    /* 平板+手機：咖啡色背景滿版、突破 container、不要圓角 */
+    .moment-bg {
+      max-width: none;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      border-radius: 0;
+      padding: 40px 0;
+    }
+
+    /* 平板+手機：卡片區域滿版 + 安全邊距 */
+    .moment-slider {
+      max-width: none;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      padding: 0 16px;
+
+      .swiper {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      /* 平板+手機：隱藏左右箭頭，改滑動 */
+      .moment-arrow,
+      .moment-arrow--prev,
+      .moment-arrow--next {
+        display: none !important;
+      }
+
+      .moment-list {
+        overflow: hidden;
+        padding: 12px 0;
+      }
+
+      .swiper-slide {
+        width: auto !important;
+        display: flex;
+        justify-content: center;
+      }
+
+      .moment-card {
+        padding: 22px 20px;
+        width: 257px;
+        height: 220px;
+        border-radius: 16px;
+
+        .moment-header .moment-name {
+          font-size: 16px;
+        }
+
+        .moment-date {
+          font-size: 14px;
+        }
+
+        .moment-content {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+
+
