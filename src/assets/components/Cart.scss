@@ -1,0 +1,89 @@
+.cart-wrapper {
+  right: 0;
+  position: absolute;
+  z-index: 1011;
+  margin-top: 28px;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 18px;
+  min-width: 611px;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+
+  @media (max-width: 992px) {
+    position: fixed;
+    height: 100vh;
+    margin-top: initial;
+    padding-top: 28px;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-width: 280px;
+    border-radius: initial;
+  }
+
+  img {
+    min-width: 160px;
+    width: 160px;
+    min-height: 160px;
+    height: 160px;
+    object-fit: cover;
+  }
+
+  .input-group-wrapper {
+
+    @media (max-width: 992px) {
+      margin-top: 12px;
+    }
+
+    .input-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .form-control {
+      width: 3em;
+      text-align: center;
+    }
+  }
+
+  .mt-12 {
+    margin-top: 12px;
+  }
+
+  .mb-40 {
+    margin-bottom: 40px;
+
+    @media (max-width: 992px) {
+      margin-bottom: 24px;
+    }
+  }
+
+
+  .btns {
+    .btn {
+      padding: 20px;
+
+      @media (max-width: 992px) {
+        padding: 12px;
+      }
+    }
+
+    h6 {
+      padding-right: 12px;
+    }
+
+    .btn:first-of-type {
+      margin-right: 20px;
+
+      @media (max-width: 992px) {
+        margin-right: initial;
+        margin-bottom: 12px;
+      }
+    }
+  }
+}
+
+.Marmelad {
+  font-family: "Marmelad";
+}

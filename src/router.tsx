@@ -12,6 +12,11 @@ import ProductsManagement from "./pages/admin/ProductsManagement";
 import OrdersManagement from "./pages/admin/OrdersManagement";
 import AdminLogin from "./pages/admin/AdminLogin";
 import CouponsManagement from "./pages/admin/CouponsManagement";
+import NotFound from "./pages/NotFound";
+import Products from "./pages/customer/Products";
+import ProductDetail from "./pages/customer/ProductDetail";
+import Faqs from "./pages/customer/Faqs";
+import ForgetPassword from "./pages/customer/ForgetPassword";
 
 
 const createRoutes = createHashRouter([
@@ -28,8 +33,28 @@ const createRoutes = createHashRouter([
         Component: Login,
       },
       {
+        path: '/forgetPassword',
+        Component: ForgetPassword,
+      },
+      {
         path: "/about",
         Component: About,
+      },
+      {
+        path: "products/:category",
+        Component: Products,
+      },
+      {
+        path: "products/:category/:productId",
+        Component: ProductDetail,
+      },
+      {
+        path: "faq",
+        Component: Faqs,
+      },
+      {
+        path: "*",
+        Component: NotFound,
       },
     ],
   },

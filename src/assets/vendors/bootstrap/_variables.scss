@@ -323,7 +323,8 @@ $theme-colors: ("primary": $primary,
   "warning": $warning,
   "danger": $danger,
   "light": $light,
-  "dark": $dark) !default;
+  "dark": $dark,
+  "orange":$orange) !default;
 // scss-docs-end theme-colors-map
 
 // scss-docs-start theme-text-variables
@@ -597,7 +598,9 @@ $aspect-ratios: ("1x1": 100%,
 
 // scss-docs-start font-variables
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: "GenSenRounded2JP-R","Marmelad",system-ui,
+$font-family-sans-serif: "GenSenRounded2JP-R-Full",
+"Marmelad",
+system-ui,
 -apple-system,
 "Segoe UI",
 Roboto,
@@ -610,7 +613,9 @@ sans-serif,
 "Segoe UI Emoji",
 "Segoe UI Symbol",
 "Noto Color Emoji" !default;
-$font-family-monospace: "GenSenRounded2JP-R","Marmelad",SFMono-Regular,
+$font-family-monospace: "GenSenRounded2JP-R-Full",
+"Marmelad",
+SFMono-Regular,
 Menlo,
 Monaco,
 Consolas,
@@ -642,12 +647,19 @@ $line-height-base: 1.5 !default;
 $line-height-sm: 1.25 !default;
 $line-height-lg: 2 !default;
 
-$h1-font-size: $font-size-base * 2.5 !default;
+/* $h1-font-size: $font-size-base * 2.5 !default;
 $h2-font-size: $font-size-base * 2 !default;
 $h3-font-size: $font-size-base * 1.75 !default;
 $h4-font-size: $font-size-base * 1.5 !default;
 $h5-font-size: $font-size-base * 1.25 !default;
-$h6-font-size: $font-size-base !default;
+$h6-font-size: $font-size-base !default; */
+
+$h1-font-size: $font-size-base * 3.5;
+$h2-font-size: $font-size-base * 3;
+$h3-font-size: $font-size-base * 2.25;
+$h4-font-size: $font-size-base * 1.75;
+$h5-font-size: $font-size-base * 1.5;
+$h6-font-size: $font-size-base * 1.25;
 // scss-docs-end font-variables
 
 // scss-docs-start font-sizes
