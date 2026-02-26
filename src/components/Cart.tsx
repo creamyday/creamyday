@@ -2,7 +2,7 @@ import axios from "axios";
 import { Icon } from "@iconify/react";
 import { useSelector,useDispatch } from 'react-redux';
 import { useEffect } from "react";
-import { changeQty, initProduct, initFinalTotal, initTotal, removeProduct } from '../stores/carts';
+import { changeQty, initProduct, initFinalTotal, initTotal, removeProduct,changeShow } from '../stores/carts';
 import { pushToastAsync } from '../stores/toasts';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -201,7 +201,7 @@ export default function Cart() {
       </div>
 
       <div className="d-block d-lg-flex justify-content-lg-between btns">
-        <button type="button" className="d-flex justify-content-center btn btn-outline-primary rounded-1 w-100">
+        <button type="button" className="d-flex justify-content-center btn btn-outline-primary rounded-1 w-100" onClick={() => dispatch(changeShow(false))}>
           <h6 className="mb-0">繼續購買</h6>
           <Icon
             icon="pajamas:long-arrow"
