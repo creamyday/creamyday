@@ -152,6 +152,19 @@ export default function HeroCarousel() {
         </div>
       </section>
 
+      <section className="news-wrapper">
+        <div className="container">
+          <div className="d-flex align-items-center justify-content-center mb-32">
+            <img className="title-img" src="./recommend1.png" alt="左邊的圖" />
+            <div className="title-header d-flex flex-column align-items-center justify-content-center">
+              <h2 className="mb-2 title-text">Recommend</h2>
+              <p className="mb-0 subtitle-text">Creamyday 推薦口味</p>
+            </div>
+            <img className="title-img" src="./recommend2.png" alt="右邊的圖" />
+          </div>
+        </div>
+      </section>
+
       <section className="about-wrapper">
         <div className="container">
           <div className="d-flex align-items-center justify-content-center mb-32">
