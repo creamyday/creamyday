@@ -1,0 +1,87 @@
+
+.adminSidebar {
+  position: fixed;
+  background-color: $blue-50;
+  width: 250px;
+  height: 100vh;
+  padding: 20px;
+  top: 0;
+  left: 0;
+
+  .brand-zone {
+    padding: 10px 15px 30px;
+    border-bottom: 2px solid $blue-50;
+    margin-bottom: 20px;
+  }
+
+  .nav-link {
+    color: $gray-700;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
+  .nav-link:hover {
+    background-color: $blue-100;
+    color: $blue-700;
+  }
+  .nav-link.active {
+    background-color: $blue-700;
+    color: $blue-50;
+  }
+
+  
+}
+.mainContent {
+  margin-left: 250px;
+  padding: 20px;
+  flex: 1;
+}
+.header-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $blue-50;
+  padding: 15px 30px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(167, 137, 110, 0.05);
+
+  .searchBar {
+    background: $blue-200;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 15px;
+    width: 300px;
+  }
+  .notification-badge {
+    background-color: $primary;
+    font-size: 10px;
+  }
+}
+
+.dashboard{
+  .stat{
+    padding: 12px;
+    transition: 0.3s transform;
+    border: none;
+    color: $primary;
+  }
+  .stat:hover {
+    transform: translateY(-5px);
+  }
+  .statIcon{
+    background-color: $blue-200;
+  }
+}
+
+.productsManagement {
+  .tableTitle {
+    color: $blue-900;
+  }
+  .mainImg {
+    object-fit: cover;
+    height: 50px;
+  }
+}
