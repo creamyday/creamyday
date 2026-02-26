@@ -2,6 +2,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { NavLink, useParams, useNavigate } from "react-router";
 import { Link as ScrollLink, Element } from "react-scroll";
+import { useDispatch } from "react-redux";
+import { changeShow } from "../../stores/carts";
+import { pushToastAsync } from "../../stores/toasts";
+import type { AppDispatch } from "../../stores/allStores";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -70,6 +74,7 @@ type RouteParams = {
 
 export default function ProductDetail() {
   const { category, productId } = useParams<RouteParams>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,7 +84,6 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState<number>(1);
 
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [addToCartMsg, setAddToCartMsg] = useState<string | null>(null);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
 
   const navigate = useNavigate();
@@ -207,28 +211,10 @@ export default function ProductDetail() {
     setQuantity((prev) => (prev <= 1 ? 1 : prev - 1));
   };
 
+  // 加入購物車
   const handleAddToCart = async () => {
-    setAddToCartMsg(null);
-
-    if (!product) return;
-
-    if (isSoldOut) {
-      setAddToCartMsg("商品已售完");
-      return;
-    }
-
-    if (quantity < 1) {
-      setAddToCartMsg("數量至少為 1");
-      return;
-    }
-
-    if (quantity > maxQty) {
-      setAddToCartMsg(`數量不可超過庫存（最多 ${maxQty}）`);
-      return;
-    }
-
+    if (!product || isSoldOut || quantity < 1 || quantity > maxQty) return;
     setIsAddingToCart(true);
-
     try {
       const payload = {
         data: {
@@ -237,22 +223,47 @@ export default function ProductDetail() {
         },
       };
 
-      // console.log("add to cart payload:", {
-      //   product_id: product.id,
-      //   qty: quantity,
-      // });
-
       const res = await axios.post(
         `${API_URL}/v2/api/${API_PATH}/cart`,
         payload,
       );
-      setAddToCartMsg(res.data?.message ?? "已加入購物車");
+      dispatch(pushToastAsync({ success: true, message: res.data.message }));
+      dispatch(changeShow(true));
     } catch (error: unknown) {
+      let message = "加入購物車失敗";
       if (axios.isAxiosError(error)) {
-        setAddToCartMsg(error.response?.data?.message ?? "加入購物車失敗");
-      } else {
-        setAddToCartMsg("加入購物車失敗");
+        message = error.response?.data?.message || message;
       }
+      dispatch(pushToastAsync({ success: false, message }));
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
+  // 立即購買
+  const handleBuyNow = async () => {
+    if (!product || isSoldOut || quantity < 1 || quantity > maxQty) return;
+    setIsAddingToCart(true);
+    try {
+      const payload = {
+        data: {
+          product_id: product.id,
+          qty: quantity,
+        },
+      };
+      const res = await axios.post(
+        `${API_URL}/v2/api/${API_PATH}/cart`,
+        payload,
+      );
+      dispatch(pushToastAsync({ success: true, message: res.data.message }));
+      // 成功後直接導向結帳頁面
+      // navigate("/checkout");
+    } catch (error: unknown) {
+      let message = "立即購買失敗";
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || message;
+      }
+      dispatch(pushToastAsync({ success: false, message }));
     } finally {
       setIsAddingToCart(false);
     }
@@ -260,11 +271,8 @@ export default function ProductDetail() {
 
   const handleChangeUnit = (newUnit: string) => {
     if (!product) return;
-
     const targetProduct = sameGroupProducts.find((p) => p.unit === newUnit);
-
     if (!targetProduct) return;
-
     navigate(`/products/${category}/${targetProduct.id}`);
   };
 
@@ -442,15 +450,12 @@ export default function ProductDetail() {
                     <button
                       type="button"
                       className="product-main__btn product-main__btn--buy"
+                      onClick={handleBuyNow}
                       disabled={isAddingToCart}
                     >
                       立即購買
                     </button>
                   </div>
-
-                  {addToCartMsg && (
-                    <p className="product-main__hint">{addToCartMsg}</p>
-                  )}
                 </>
               )}
 
@@ -503,6 +508,8 @@ export default function ProductDetail() {
             </ul>
           </section>
         </div>
+
+        <div className="product-details-wave" aria-hidden="true" />
 
         <section className="product-details">
           <div className="detail-container">
