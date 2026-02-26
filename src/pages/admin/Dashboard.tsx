@@ -27,7 +27,11 @@ export default function Dashboard() {
         },
       },
     });
-  },[])
+
+    return () => {
+      chart.destroy();
+    };
+  }, []);
 
   return (
     <>
