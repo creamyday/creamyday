@@ -295,17 +295,6 @@ export default function Header() {
                   {user?.name}
                 </button>
 
-                <button
-                  type="button"
-                  className="btn border-0 p-0"
-                  onClick={() => dispatch(changeShow(!isShow))}
-                >
-                  <Icon icon="ph:shopping-cart-simple" width="24px" />
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {products && products.length > 0}
-                  </span>
-                </button>
-
                 <ul className="dropdown-menu dropdown-menu-end">
                   <li>
                     <button className="dropdown-item mb-12">個人資訊</button>
