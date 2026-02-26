@@ -423,6 +423,15 @@
     }
   }
 
+  &__soldout {
+    width: 100%;
+    margin-bottom: 20px;
+
+    @media (min-width: 992px) {
+      margin-bottom: 40px;
+    }
+  }
+
   &__btn {
     width: 100%;
     display: flex;
@@ -472,6 +481,37 @@
 
       &:hover {
         background-color: darken(#8b5e3c, 5%);
+      }
+    }
+
+    &--soldout {
+      width: 100%;
+      padding: 12px 28px;
+      font-family: "GenSenRounded2JP-R-Full";
+      font-size: 14px;
+      font-weight: 400;
+
+      background-color: $gray-400;
+      color: $white;
+      border: none;
+      border-radius: 4px;
+
+      cursor: not-allowed;
+
+      @media (min-width: 992px) {
+        padding: 20px 28px;
+        font-family: "GenSenRounded2JP-M-Full";
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      &:hover {
+        background-color: $gray-400;
+        color: $white;
+      }
+
+      &:disabled {
+        opacity: 1;
       }
     }
   }

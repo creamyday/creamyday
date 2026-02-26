@@ -37,7 +37,7 @@ function About() {
             <div className="about-opening__block about-opening__block--top">
               <div className="about-opening__leaf-col" aria-hidden="true">
                 <img
-                  src="/leaf.png"
+                  src="./leaf.png"
                   alt="葉子插圖"
                   className="about-opening__leaf"
                   aria-hidden="true"
@@ -58,7 +58,7 @@ function About() {
 
               <div className="about-opening__media">
                 <img
-                  src="/about-cake-1.png"
+                  src="./about-cake-1.png"
                   alt="CreamyDay甜點照片"
                   className="about-opening__img"
                 />
@@ -68,7 +68,7 @@ function About() {
             <div className="about-opening__block about-opening__block--bottom ">
               <div className="about-opening__media">
                 <img
-                  src="/about-cake-2.png"
+                  src="./about-cake-2.png"
                   alt="CreamyDay 甜點照片"
                   className="about-opening__img"
                 />
@@ -89,7 +89,7 @@ function About() {
 
               <div className="about-opening__leaf-col" aria-hidden="true">
                 <img
-                  src="/leaf-2.png"
+                  src="./leaf-2.png"
                   alt="葉子插圖"
                   className="about-opening__leaf"
                   aria-hidden="true"
