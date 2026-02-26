@@ -10,21 +10,21 @@ import { useRef } from "react";
 
 const slides = [
   {
-    image: "./public/hero1.png",
+    image: "./hero1.png",
     title: "CreamyDay",
     desc: "為平凡的日子, 添上一點甜",
     buttonText: "立即選購 →",
     link: "/products/hot",
   },
   {
-    image: "./public/hero2.png",
+    image: "./hero2.png",
     title: "CreamyDay",
     desc: "黑糖珍珠奶茶起司蛋糕",
     buttonText: "立即查看 →",
     link: "/products/new",
   },
   {
-    image: "./public/hero3.jpg",
+    image: "./hero3.jpg",
     title: "CreamyDay",
     desc: "聖誕限定！派對蛋糕限定登場",
     buttonText: "最新消息 →",
