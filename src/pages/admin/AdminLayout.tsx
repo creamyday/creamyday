@@ -22,8 +22,7 @@ export default function AdminLayout() {
     (async () => {
       try {
         const res = await axios.post(`${baseUrl}/v2/api/user/check`)
-        console.log(res);
-        setIsChecking(false);
+        if (res.data.success) setIsChecking(false);
       } catch (error:any) {
         console.warn(error.response);
         navigate('/adminLogin');

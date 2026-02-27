@@ -80,14 +80,12 @@ export default function ProductsManagement() {
   const getProducts = async (page = 1) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products?page=${page}`);
-      console.log(res);
       setProducts(res.data.products);
       setCurrentPage(res.data.pagination.current_page);
       setTotalPage(res.data.pagination.total_pages);
       setHasPre(res.data.pagination.has_pre);
       setHasNext(res.data.pagination.has_next);
-      setOpenCollapse([...Array(products.length)]);
-
+      
       const newData: any[] = [];
       const seed = new Set<string>();
       res.data.products.forEach((i: any) => {
@@ -97,11 +95,18 @@ export default function ProductsManagement() {
         }
       })
       setShowData(newData);
-
+      setOpenCollapse([...Array(newData.length)]);
     } catch (error: any ) {
       console.warn("錯誤：", error.response)
     }
   }
+
+  const tableExpand = (index: number, collapseId: string) => {
+    setOpenCollapse(prev => prev.map((o, i)=> (i === index ? (o ? "" : collapseId) : o )))
+  }
+  useEffect(() => {
+    
+  },[])
 
   useEffect(() => {
     manageModalInstance.current = new Modal(manageModalRef.current);
@@ -141,14 +146,8 @@ export default function ProductsManagement() {
                     <button
                       className="btn btn-sm btn-outline-primary"
                       type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#${collapseId}`}
-                      aria-expanded="false"
-                      aria-controls={collapseId}
                       onClick={()=>{
-                        setOpenCollapse(prev => prev.map((o, i)=> (i === index ? 
-                        (o ? "" : collapseId)
-                        : o )))
+                        tableExpand(index, collapseId);
                       }}
                     >
                       { openCollapse[index] ? "▼" : "▶"}
@@ -181,7 +180,7 @@ export default function ProductsManagement() {
                 </tr>
                 <tr>
                   <td colSpan={6} className="p-0 border-0">
-                    <div id={collapseId} className="collapse">
+                    <div id={collapseId} className={`collapse ${collapseId === openCollapse[index] ? "show" : ""}`}>
                       <div className="p-2 bg-white rounded-3">
                         <table className="table table-sm mb-0">
                           <thead>
