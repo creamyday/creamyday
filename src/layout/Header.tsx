@@ -206,7 +206,6 @@ export default function Header() {
             className="btn px-2 border-0 d-inline d-lg-none position-relative"
             onClick={() => dispatch(changeShow(!isShow))}
           >
-            <Cart />
             <Icon icon="ph:shopping-cart-simple" width="24px" />
             {products?.length > 0 && (
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -219,6 +218,9 @@ export default function Header() {
               </span>
             )}
           </button>
+          <span className="d-lg-none position-relative">
+            <Cart />
+          </span>
 
           <button
             className="navbar-toggler border-0 px-1"
@@ -356,10 +358,9 @@ export default function Header() {
             )}
             <button
               type="button"
-              className="btn border-0 p-0 position-relative"
+              className="btn border-0 p-0"
               onClick={() => dispatch(changeShow(!isShow))}
             >
-              <Cart />
               <Icon icon="ph:shopping-cart-simple" width="24px" />
 
               {products?.length > 0 && (
@@ -373,6 +374,9 @@ export default function Header() {
                 </span>
               )}
             </button>
+            <div className="position-relative">
+              <Cart />
+            </div>
 
           </div>
         </div>
