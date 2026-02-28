@@ -59,7 +59,7 @@ export default function Order() {
       <main className="order-container">
         <div className="container">
           <div className="row">
-            <div className="col col-left col-md-8 py-100">
+            <div className="col col-left col-lg-8 py-100">
               <h4>訂單成功</h4>
               <div className="d-flex justify-content-between align-items-center my-4 border-bottom border-primary">
                 <h6 className="mb-0">姓名</h6>
@@ -105,7 +105,7 @@ export default function Order() {
 
 
             </div>
-            <div className="col col-right col-md-4 py-100 d-none d-lg-block">
+            <div className="col col-right col-lg-4 py-100 d-none d-lg-block">
               <p>
                 感謝​您​的​支持！<br />
                 我​們​已​收​到​您​的​訂單，​將會​盡快​處理。<br />
@@ -125,7 +125,7 @@ export default function Order() {
       <div className="container">
         <div className="row">
 
-          <div className="col col-left col-md-8 py-100">
+          <div className="col col-left col-lg-8 py-100">
             <h4>訂單失敗</h4>
             <p>
               非常​抱歉，<br />
@@ -137,7 +137,7 @@ export default function Order() {
               感謝​您​的​支持​與體​諒！
             </p>
           </div>
-          <div className="col col-right col-md-4 py-100 d-none d-lg-block">
+          <div className="col col-right col-lg-4 py-100 d-none d-lg-block">
           </div>
         </div>
       </div>

@@ -301,7 +301,7 @@ export default function Checkout() {
         <div className="container">
           <div className="row">
 
-            <div className="col col-left col-md-8 py-100">
+            <div className="col col-left col-lg-8 py-100">
               <div className="d-flex justify-content-between align-items-center py-12 title">
                 <h5 className="text-primary mb-0">
                   <img src="./leaf-2.png" alt="標題裝飾" width="32" className="me-1" />
@@ -663,7 +663,7 @@ export default function Checkout() {
 
             </div>
             {/* 電腦版-訂單明細 */}
-            <div className="col col-right col-md-4 py-100 d-none d-lg-block">
+            <div className="col col-right col-lg-4 py-100 d-none d-lg-block">
               <h4>訂單明細</h4>
               {
                 products.map((item: any) => (
