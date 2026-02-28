@@ -1,17 +1,21 @@
 interface CartProps {
   isShow: boolean;
+  isAdd: boolean;
   products: Record<string, any>[];
   final_total:number;
   total:number;
+  coupon:number;
 }
 
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: CartProps = {
   isShow: false,
+  isAdd: false,
   products: [],
   final_total:0,
   total:0,
+  coupon:0,
 }
 
 export const cartStore = createSlice({
@@ -29,9 +33,13 @@ export const cartStore = createSlice({
       }
     },
     addProduct: function (state, action) {
-      console.log('addProduct state', current(state));
-      console.log('addProduct actions', action);
-      // state.products = [...state,...action.payload.temp]
+      const index = state.products.findIndex(item => item.product_id === action.payload.product_id);
+      if(index === -1){
+        state.products.push(action.payload);
+      }else{
+        state.products[index] = {id:state.products[index].id,...action.payload};
+      }
+      state.isAdd = true;
     },
     removeProduct: function (state, action) {
       const index = state.products.findIndex(item => item.id === action.payload.id);
@@ -49,9 +57,12 @@ export const cartStore = createSlice({
     initTotal: function (state, action) {
       state.total = action.payload;
     },
+    initCoupon: function (state, action) {
+      state.coupon = action.payload;
+    },
   }
 });
 
-export const { changeShow,changeQty, addProduct, removeProduct, initProduct, initFinalTotal, initTotal } = cartStore.actions;
+export const { changeShow, changeQty, addProduct, removeProduct, initProduct, initFinalTotal, initTotal, initCoupon } = cartStore.actions;
 
 export default cartStore.reducer;

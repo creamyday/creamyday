@@ -17,6 +17,9 @@ import Products from "./pages/customer/Products";
 import ProductDetail from "./pages/customer/ProductDetail";
 import Faqs from "./pages/customer/Faqs";
 import ForgetPassword from "./pages/customer/ForgetPassword";
+import Carts from "./pages/customer/Carts";
+import Checkout from "./pages/customer/Checkout";
+import Order from "./pages/customer/Order";
 
 
 const createRoutes = createHashRouter([
@@ -51,6 +54,18 @@ const createRoutes = createHashRouter([
       {
         path: "faq",
         Component: Faqs,
+      },
+      {
+        path: "/carts",
+        Component: Carts,
+      },
+      {
+        path: "/checkout",
+        Component: Checkout,
+      },
+      {
+        path: "/order",
+        Component: Order,
       },
       {
         path: "*",

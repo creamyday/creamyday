@@ -1,38 +1,16 @@
 import axios from "axios";
 import { Icon } from "@iconify/react";
 import { useSelector,useDispatch } from 'react-redux';
-import { useEffect } from "react";
-import { changeQty, initProduct, initFinalTotal, initTotal, removeProduct,changeShow } from '../stores/carts';
+import { Link } from 'react-router';
+import { changeQty, removeProduct, changeShow } from '../stores/carts';
 import { pushToastAsync } from '../stores/toasts';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function Cart() {
-  const dispatch = useDispatch();
-  const dispatch1 = useDispatch() as any;
-  const { isShow,products, final_total, total } = useSelector((state: any) => state.carts);
-
-  const initCart =async()=>{
-    try {
-      const res = await axios.get(
-        `${API_URL}/v2/api/${API_PATH}/cart`,
-      );
-      dispatch(initProduct(res.data.data.carts));
-      dispatch(initFinalTotal(res.data.data.final_total));
-      dispatch(initTotal(res.data.data.total));
-    } catch (error) {
-      dispatch(initProduct(products));
-      dispatch(initFinalTotal(final_total));
-      dispatch(initTotal(total));
-    }
-  }
-  
-  useEffect(()=>{
-    if (isShow){
-      initCart();
-    }
-  }, [isShow]);
+  const dispatch = useDispatch() as any;
+  const { isShow, products } = useSelector((state: any) => state.carts);
 
   const updateQty = async (id: string, num: number) => {
     dispatch(changeQty({ qty: num, id: id }));
@@ -46,9 +24,9 @@ export default function Cart() {
           }
         }
       );
-      dispatch1(pushToastAsync({ success: res.data.success, message: res.data.message }));
+      dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
     } catch (error:any) {
-      dispatch1(pushToastAsync({ success: error.success, message: error.message }));
+      dispatch(pushToastAsync({ success: error.success, message: error.message }));
     }
   };
 
@@ -57,9 +35,9 @@ export default function Cart() {
     try {
       const res = await axios.delete(
         `${API_URL}/v2/api/${API_PATH}/cart/${id}`);
-      dispatch1(pushToastAsync({ success: res.data.success, message: res.data.message }));
+      dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
     } catch (error: any) {
-      dispatch1(pushToastAsync({ success: error.success, message: error.message }));
+      dispatch(pushToastAsync({ success: error.success, message: error.message }));
     }
   }
 
@@ -208,13 +186,13 @@ export default function Cart() {
             width="24px"
           />
         </button>
-        <button type="button" className="d-flex justify-content-center btn btn-primary rounded-1 w-100">
+        <Link to="/carts" className="d-flex justify-content-center btn btn-primary rounded-1 w-100">
           <h6 className="mb-0">立即結帳</h6>
           <Icon
             icon="pajamas:long-arrow"
             width="24px"
           />
-        </button>
+        </Link>
       </div>
     </div>
   )

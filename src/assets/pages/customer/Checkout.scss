@@ -1,0 +1,101 @@
+.order-container {
+  overflow: hidden;
+
+  .col-left {
+    padding-right: 60px;
+
+    @media (max-width: 992px) {
+      padding-right: 24px;
+    }
+
+    .order-write-content {
+      border: 1px solid $primary;
+      padding: 28px;
+
+      @media (max-width: 992px) {
+        padding: 16px 20px;
+      }
+    }
+
+    .input-bg {
+      padding: 16px 20px;
+
+      @media (max-width: 992px) {
+        padding: 12px 20px;
+      }
+    }
+  }
+
+  .col-right {
+    position: relative;
+    padding-left: 60px;
+
+    @media (max-width: 1200px) {
+      padding-left: 24px;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: -100vw;
+      background-color: $body-bg2;
+      z-index: -1;
+      display: block;
+    }
+  }
+
+  .write-wrapper>div {
+    margin-top: 8px;
+  }
+
+  .title:not(:first-of-type) {
+    margin-top: 40px;
+
+    @media (max-width: 992px) {
+      padding-left: 12px;
+    }
+  }
+}
+
+
+.offcanvas-order {
+  margin-bottom: 75px;
+  padding: 20px 24px;
+  height: 70vh !important;
+
+}
+
+.offcanvas-order-btn {
+  background-color: $body-bg !important;
+  z-index: 9999;
+  height: 75px;
+}
+
+body[cz-shortcut-listen="true"]:has(.offcanvas-order.show) {
+  margin-bottom: 75px !important;
+}
+
+.pb-24 {
+  padding-bottom: 24px;
+}
+
+.offcanvas-order-svg-up {
+  transform: rotate(90deg);
+}
+
+.offcanvas-order-svg-down {
+  transform: rotate(-90deg);
+}
+
+.py-100 {
+  padding-top: 100px;
+  padding-bottom: 100px;
+
+  @media (max-width: 992px) {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+}

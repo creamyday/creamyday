@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { NavLink, useParams, useNavigate } from "react-router";
 import { Link as ScrollLink, Element } from "react-scroll";
 import { useDispatch } from "react-redux";
-import { changeShow } from "../../stores/carts";
+import { addProduct } from "../../stores/carts";
 import { pushToastAsync } from "../../stores/toasts";
 import type { AppDispatch } from "../../stores/allStores";
 
@@ -228,7 +228,7 @@ export default function ProductDetail() {
         payload,
       );
       dispatch(pushToastAsync({ success: true, message: res.data.message }));
-      dispatch(changeShow(true));
+      dispatch(addProduct(res.data.data));
     } catch (error: unknown) {
       let message = "加入購物車失敗";
       if (axios.isAxiosError(error)) {
@@ -257,7 +257,8 @@ export default function ProductDetail() {
       );
       dispatch(pushToastAsync({ success: true, message: res.data.message }));
       // 成功後直接導向結帳頁面
-      // navigate("/checkout");
+      dispatch(addProduct(res.data.data));
+      navigate("/carts");
     } catch (error: unknown) {
       let message = "立即購買失敗";
       if (axios.isAxiosError(error)) {

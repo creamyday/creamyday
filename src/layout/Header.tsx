@@ -3,10 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { changeShow } from "../stores/carts.ts";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { changeShow, initProduct, initFinalTotal, initTotal } from "../stores/carts.ts";
+import 'bootstrap';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_PATH = import.meta.env.VITE_API_PATH;
 
 const getToken = () => {
   return document.cookie
@@ -122,7 +123,7 @@ export default function Header() {
     name: string;
   }
   const dispatch = useDispatch();
-  const { isShow, products } = useSelector((state: any) => state.carts);
+  const { isShow, products, final_total, total } = useSelector((state: any) => state.carts);
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
   const navigate = useNavigate();
@@ -157,6 +158,10 @@ export default function Header() {
     checkLogin();
     dispatch(changeShow(false));
   }, [location.pathname]);
+  
+  useEffect(()=>{
+    initCart();
+  }, [])
 
   const logout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -165,6 +170,20 @@ export default function Header() {
     setUser(null);
     navigate("/");
   };
+  const initCart = async () => {
+    try {
+      const res = await axios.get(
+        `${API_URL}/v2/api/${API_PATH}/cart`,
+      );
+      dispatch(initProduct(res.data.data.carts));
+      dispatch(initFinalTotal(res.data.data.final_total));
+      dispatch(initTotal(res.data.data.total));
+    } catch (error) {
+      dispatch(initProduct(products));
+      dispatch(initFinalTotal(final_total));
+      dispatch(initTotal(total));
+    }
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white">
@@ -187,9 +206,16 @@ export default function Header() {
             onClick={() => dispatch(changeShow(!isShow))}
           >
             <Icon icon="ph:shopping-cart-simple" width="24px" />
-            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {products && products.length > 0}
-            </span>
+            {products?.length > 0 && (
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {
+                  products.reduce((a: any, b: any) => {
+                    a += b.qty;
+                    return a;
+                  }, 0)
+                }
+              </span>
+            )}
           </button>
 
           <button
@@ -197,6 +223,7 @@ export default function Header() {
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#mobileMenu"
+            onClick={() => dispatch(changeShow(!isShow))}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -334,7 +361,12 @@ export default function Header() {
 
               {products?.length > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  {products.length}
+                  {
+                    products.reduce((a: any, b: any) => {
+                      a+=b.qty;
+                      return a;
+                    },0)
+                  }
                 </span>
               )}
             </button>
