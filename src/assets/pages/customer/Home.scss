@@ -1,19 +1,18 @@
-
 /* Medium  */
 @font-face {
   font-family: "GenSenRounded";
   src: url("/fonts/GenSenRounded2JPM.ttf") format("truetype");
-  font-weight: 500;   
+  font-weight: 500;
   font-style: normal;
 }
 
 .GSR-Medium {
   font-family: "GenSenRounded", sans-serif;
-  font-weight: 500;   
+  font-weight: 500;
 }
 
 body {
-  background-color: #FFF7EB;
+  background-color: #fff7eb;
   line-height: 1.5;
   letter-spacing: 0.04em;
 }
@@ -106,7 +105,7 @@ body {
 
 .carousel-caption {
   .caption-text {
-    color: #FAFAFA;
+    color: #fafafa;
     text-align: left;
   }
 
@@ -140,10 +139,10 @@ body {
   justify-content: center;
 
   padding: 20px 28px;
-  border: 1px solid #FAFAFA;
+  border: 1px solid #fafafa;
   border-radius: 5px;
 
-  color: #FAFAFA;
+  color: #fafafa;
   text-decoration: none;
   font-size: 20px;
 
@@ -165,15 +164,14 @@ body {
   }
 
   &:visited {
-    color: #FAFAFA;
+    color: #fafafa;
   }
 }
 
 /* 防止 Bootstrap / Link 預設覆蓋 */
 .carousel-caption .hero-btn {
-  color: #FAFAFA;
+  color: #fafafa;
 }
-
 
 @media (max-width: 991.98px) {
   .hero-wrapper {
@@ -235,13 +233,21 @@ body {
 
 /* 通用樣式 */
 .title-header {
-  padding: 0 32px;
+  margin: 0 32px;
+  width: 400px;
 }
+
 @media (max-width: 575.98px) {
   .title-header {
-    padding: 0 12px;
+    margin: 0 12px;
+    max-width: 230px;
   }
 }
+
+
+
+
+
 
 .mb-32 {
   margin-bottom: 32px;
@@ -268,7 +274,7 @@ body {
   border-bottom: 2px solid #815630;
 }
 
-@media (max-width: 991.98px) { 
+@media (max-width: 991.98px) {
   .title-text {
     font-size: 21px;
   }
@@ -279,7 +285,7 @@ body {
   width: auto;
   object-fit: contain;
 }
-@media (max-width: 991.98px) { 
+@media (max-width: 991.98px) {
   .title-img {
     height: 60px !important;
   }
@@ -291,7 +297,7 @@ body {
   font-weight: 500;
   line-height: 1.2;
 }
-@media (max-width: 991.98px) { 
+@media (max-width: 991.98px) {
   .subtitle-text {
     font-size: 18px;
   }
@@ -299,10 +305,296 @@ body {
 
 /* Recommed 區塊 */
 .recommed-wrapper {
-  padding: 60px 0px;
+  padding: 60px 0;
+
+  @media (max-width: 991.98px) {
+    padding: 28px 0;
+  }
+
+  .mb-40 {
+  margin-bottom: 40px;
+  
+  @media (max-width: 575.98px) {
+    margin-bottom: 36px;
+  }
 }
 
+  .recommend-card {
+    .img-box {
+      width: 306px;
+      height: 306px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 12px;
 
+      @media (max-width: 991.98px) {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        margin-bottom: 8px;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    &:hover .img-box img {
+      transform: scale(1.1);
+    }
+
+    .product-tag {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: #d26e35;
+      color: #fafafa;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 16px;
+
+      @media (max-width: 991.98px) {
+        font-size: 12px;
+        padding: 7px 12px;
+      }
+    }
+
+    /* 右下白色圓形 + */
+    .add-btn {
+      padding: 0;
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: #fafafa;
+      font-size: 30px;
+      color: #815630;
+      font-weight: 700;
+      line-height: 40px;
+      display: flex; // ⭐ 置中更準確
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+      color:#fafafa;
+      background-color: #815630;
+      transform: scale(1.1);
+    }
+
+       @media (max-width: 991.98px) {
+          width: 32px;
+      height: 32px;
+      font-size: 24px;
+        }
+    }
+
+    .card-body {
+      .card-body-title {
+        font-size: 24px;
+        line-height: 1.2;
+        margin-bottom: 4px;
+
+        @media (max-width: 991.98px) {
+          font-size: 14px;
+          line-height: 1.5;
+          font-weight: 400;
+        }
+      }
+
+      .card-body-price {
+        font-size: 20px;
+        margin-bottom: 0;
+
+        @media (max-width: 991.98px) {
+          font-size: 12px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+.recommed-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.view-all-btn {
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid #815630;
+  color: #815630;
+  padding: 20px 28px;
+  border-radius: 6px;
+  font-size: 20px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  transition: all 0.3s ease;
+
+  @media (max-width: 991.98px) {
+  font-size: 14px;
+  padding: 12px 20px;
+  }
+
+  .arrow {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background: #815630;
+    color: #fafafa;
+  }
+
+  &:hover .arrow {
+    transform: translateX(6px);
+  }
+}
+
+/* News 區塊*/
+.news-wrapper {
+  padding: 60px 0;
+
+  @media (max-width: 992px) {
+    padding: 28px 0;
+  }
+
+  /* ===== 上波浪 ===== */
+  .news-wave-top {
+    height: 41px;
+    background-image: url("/pattern.png");
+    background-repeat: repeat-x;
+    background-size: 100% 41px;
+    background-position: top center;
+
+    @media (min-width: 992px) {
+      height: 100px;
+      background-size: 100% 100px;
+    }
+  }
+
+  /* ===== 背景區 ===== */
+  .news-bg {
+    background-color: #f6e9d7;
+  }
+
+  .container-news {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    @media (max-width: 992px) {
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+  /* ===== 內容區 ===== */
+  .news-list {
+    max-width: 100%;
+
+    .news-card {
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 28px 35.75px 28px 40px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+
+      @media (max-width: 992px) {
+        padding: 16px 20px;
+        margin-bottom: 16px;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .news-meta {
+        width: 320px;
+        flex-shrink: 0;
+
+        @media (max-width: 992px) {
+          width: 100%;
+          margin-bottom: 12px;
+        }
+      }
+
+      .news-cake {
+        width: 36px;
+        height: auto;
+
+        @media (max-width: 992px) {
+          width: 26px;
+          height: auto;
+        }
+      }
+
+      .news-badge {
+        background-color: #d26e36;
+        color: #fafafa;
+        font-size: 18px;
+        padding: 6px 16px;
+        font-weight: 400;
+
+        @media (max-width: 992px) {
+          font-size: 14px;
+        }
+      }
+
+      .news-date {
+        color: #292929;
+        font-size: 18px;
+
+        @media (max-width: 992px) {
+          font-size: 14px;
+        }
+      }
+
+      .news-text {
+        font-size: 20px;
+        color: #292929;
+
+        @media (max-width: 992px) {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  /* ===== 下波浪 ===== */
+  .news-wave-bottom {
+    height: 41px;
+    background-image: url("/pattern.png");
+    background-repeat: repeat-x;
+    background-size: 100% 41px;
+    background-position: bottom center;
+    transform: rotate(180deg);
+
+    @media (min-width: 992px) {
+      height: 100px;
+      background-size: 100% 100px;
+    }
+  }
+}
 
 /* about區塊 */
 .about-wrapper {
@@ -310,7 +602,7 @@ body {
 
   .about-row {
     display: flex;
-    align-items: center;      
+    align-items: center;
     justify-content: center;
     margin: 32px 0;
 
@@ -318,9 +610,9 @@ body {
       width: 526px;
       font-size: 22px;
       line-height: 1.7;
-      margin: 0 24px;         
+      margin: 0 24px;
       text-align: center;
-      color:#292929;
+      color: #292929;
     }
 
     .cake-img {
@@ -328,48 +620,41 @@ body {
       flex-shrink: 0;
     }
 
-    .leaf-img{
-    align-self: flex-end;
-    width: 86px;
-    height: 76px;
-    } 
+    .leaf-img {
+      align-self: flex-end;
+      width: 86px;
+      height: 76px;
+    }
   }
-
 }
 @media (max-width: 992px) {
-
   .about-wrapper {
     padding: 28px 0px;
 
     .about-row {
       flex-direction: column;
       width: 100%;
-    
 
       .about-text {
-      width: 100%;
-      font-size: 16px;
-      line-height: 1.5;
-      margin: 0 0 32px 0;
-    }
-    
+        width: 100%;
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 0 0 32px 0;
+      }
 
-    .cake-img {
-      max-width: 256px;
-      height: auto;
+      .cake-img {
+        max-width: 256px;
+        height: auto;
+      }
+
+      .leaf-img {
+        align-self: flex-end;
+        width: 70px;
+        height: 61px;
+      }
     }
-    
-    .leaf-img{
-    align-self: flex-end;
-    width: 70px;
-    height: 61px;
-    } 
   }
 }
-}
-
-
-
 
 /* Moment 區塊 */
 .moment-wrapper {
@@ -393,7 +678,6 @@ body {
     position: relative;
     max-width: 1136px;
     margin: 0 auto;
-    
 
     .swiper {
       max-width: 100%;
@@ -423,7 +707,7 @@ body {
       height: 212px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       flex-shrink: 0;
-      border: 1px solid #D3B997;
+      border: 1px solid #d3b997;
 
       .moment-header {
         display: flex;
@@ -446,7 +730,7 @@ body {
       .moment-date {
         margin-left: auto;
         font-size: 16px;
-        color: #8E6745;
+        color: #8e6745;
       }
 
       .moment-content {
@@ -482,16 +766,19 @@ body {
       z-index: 10;
       cursor: pointer;
 
-      &--prev { left: -60px; }
-      &--next { right: -60px; }
+      &--prev {
+        left: -60px;
+      }
+      &--next {
+        right: -60px;
+      }
     }
   }
 }
 
-
 @media (max-width: 991.98px) {
   .moment-wrapper {
-     padding: 0 0;
+    padding: 0 0;
     .moment-bg {
       border-radius: 0;
     }

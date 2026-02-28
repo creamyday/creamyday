@@ -1,18 +1,47 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "swiper/css";
-
 import "../../assets/pages/customer/Home.scss";
-
+import { useRef } from "react";
 import { Link } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import { useRef } from "react";
+
+const recommendProducts = [
+  {
+    id: "1",
+    title: "草莓奶油蛋糕",
+    price: 160,
+    imageUrl: "./recommend-cake1.png",
+    tag: "新品上市",
+  },
+  {
+    id: "2",
+    title: "杜拜巧克力棉花糖麻糬",
+    price: 140,
+    imageUrl: "./recommend-cake2.png",
+    tag: "店長推薦",
+  },
+  {
+    id: "3",
+    title: "開心果覆盆子生乳酪蛋糕",
+    price: 170,
+    imageUrl: "./recommend-cake3.png",
+    tag: "暢銷口味",
+  },
+  {
+    id: "4",
+    title: "經典原味巴斯克乳酪蛋糕",
+    price: 160,
+    imageUrl: "./recommend-cake4.png",
+    tag: "暢銷熱賣",
+  },
+];
 
 const slides = [
   {
     image: "./hero1.png",
     title: "CreamyDay",
-    desc: "為平凡的日子, 添上一點甜",
+    desc: "為平凡的日子,添上一點甜",
     buttonText: "立即選購 →",
     link: "/products/hot",
   },
@@ -80,6 +109,24 @@ const moment = [
   },
 ];
 
+const news = [
+  {
+    date: "2025.12.25",
+    tag: "聖誕限定",
+    text: "繽紛聖誕派對蛋糕限量登場！",
+  },
+  {
+    date: "2026.01.01",
+    tag: "跨年夜",
+    text: "不論你是要看跨年煙火，還是日出，我們都準備給你適合的驚喜！",
+  },
+  {
+    date: "2026.02.01",
+    tag: "春節喜洋洋",
+    text: "快來預定有滿滿過節氣氛春節禮盒！",
+  },
+];
+
 export default function HeroCarousel() {
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -141,28 +188,93 @@ export default function HeroCarousel() {
 
       <section className="recommed-wrapper">
         <div className="container">
-          <div className="d-flex align-items-center justify-content-center mb-32">
+          <div className="d-flex align-items-center justify-content-center mb-40">
             <img className="title-img" src="./recommend1.png" alt="左邊的圖" />
             <div className="title-header d-flex flex-column align-items-center justify-content-center">
               <h2 className="mb-2 title-text">Recommend</h2>
               <p className="mb-0 subtitle-text">Creamyday 推薦口味</p>
             </div>
             <img className="title-img" src="./recommend2.png" alt="右邊的圖" />
+          </div>
+
+          <div className="row g-4 justify-content-center mb-40">
+            {recommendProducts.map((product) => (
+              <div key={product.id} className="col-6 col-lg-auto">
+                <div className="recommend-card">
+                  <div className="img-box">
+                    <img src={product.imageUrl} alt={product.title} />
+                    <span className="product-tag">{product.tag}</span>
+                    <button className="add-btn">+</button>
+                  </div>
+
+                  <div className="card-body">
+                    <h5 className="card-body-title GSR-Medium">
+                      {product.title}
+                    </h5>
+                    <p className="card-body-price GSR-Medium">
+                      NT$ {product.price}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="recommed-btn-wrapper">
+            <Link to="./products/hot" className="view-all-btn">
+              查看所有商品
+              <span className="arrow">→</span>
+            </Link>
           </div>
         </div>
       </section>
 
       <section className="news-wrapper">
-        <div className="container">
-          <div className="d-flex align-items-center justify-content-center mb-32">
-            <img className="title-img" src="./recommend1.png" alt="左邊的圖" />
-            <div className="title-header d-flex flex-column align-items-center justify-content-center">
-              <h2 className="mb-2 title-text">Recommend</h2>
-              <p className="mb-0 subtitle-text">Creamyday 推薦口味</p>
+        <div className="news-wave-top" aria-hidden="true" />
+        <div className="news-bg">
+          <div className="container container-news">
+            <div className="d-flex align-items-center justify-content-center mb-32">
+              <img className="title-img" src="./news1.png" alt="左邊的圖" />
+              <div className="title-header d-flex flex-column align-items-center justify-content-center">
+                <h2 className="mb-2 title-text">News</h2>
+                <p className="mb-0 subtitle-text">Creamyday 最新消息</p>
+              </div>
+              <img className="title-img" src="./news2.png" alt="右邊的圖" />
             </div>
-            <img className="title-img" src="./recommend2.png" alt="右邊的圖" />
+
+            <div className="news-list">
+              {news.map((item, index) => (
+                <div
+                  key={index}
+                  className="news-card d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between"
+                >
+                  <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+                    <div className="d-flex align-items-center gap-3 news-meta">
+                      <img
+                        className="news-cake"
+                        src="/news-cake.png"
+                        alt="cake"
+                      />
+                      <span className="news-date">{item.date}</span>
+                      <span className="badge rounded-pill news-badge">
+                        {item.tag}
+                      </span>
+                    </div>
+
+                    <div className="mb-2 mb-lg-0">
+                      <span className="news-text GSR-Medium">{item.text}</span>
+                    </div>
+                  </div>
+
+                  <span className="news-arrow align-self-end align-self-lg-center mt-2 mt-lg-0">
+                    →
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+        <div className="news-wave-bottom" aria-hidden="true" />
       </section>
 
       <section className="about-wrapper">
@@ -205,19 +317,17 @@ export default function HeroCarousel() {
             />
           </div>
 
-
-
           <div className="about-row mb-0">
-         <p className="about-text d-lg-none">
-            無論是一塊蛋糕、一杯奶香濃郁的布丁，
-            <br />
-            或是為自己準備的小獎賞，
-            <br />
-            都能在這裡找到屬於你的溫度與慰藉
-            <br />讓 CreamyDay 陪你，把日常過成期待的模樣。
-          </p>
-          
-          <img
+            <p className="about-text d-lg-none">
+              無論是一塊蛋糕、一杯奶香濃郁的布丁，
+              <br />
+              或是為自己準備的小獎賞，
+              <br />
+              都能在這裡找到屬於你的溫度與慰藉
+              <br />讓 CreamyDay 陪你，把日常過成期待的模樣。
+            </p>
+
+            <img
               className="cake-img"
               src="./about-cake-2.png"
               alt="左邊的蛋糕"
@@ -233,13 +343,8 @@ export default function HeroCarousel() {
               <br />讓 CreamyDay 陪你，把日常過成期待的模樣。
             </p>
 
-            <img
-              className="leaf-img"
-              src="./about4.png"
-              alt="右邊葉子的圖"
-            />
+            <img className="leaf-img" src="./about4.png" alt="右邊葉子的圖" />
           </div>
-
         </div>
       </section>
 
