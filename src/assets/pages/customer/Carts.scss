@@ -1,0 +1,226 @@
+.check-wrapper {
+  padding-top: 100px;
+  padding-bottom: 100px;
+
+  @media (max-width: 992px) {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+.table-grid {
+  display: grid;
+  padding-left: 40px;
+  padding-right: 40px;
+  grid-template-columns: minmax(min-content, 160px) minmax(auto, 360px) minmax(min-content, 81px) minmax(min-content, 140px) minmax(min-content, 81px) minmax(min-content, 75px);
+  gap: 8px;
+  justify-content: space-between;
+
+  @media (max-width: 1200px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.table-grid-title {
+  background-color: $body-bg2;
+  padding-top: 13.5px;
+  padding-bottom: 13.5px;
+
+  @media (max-width: 992px) {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+.table-grid-content {
+  border: 1px solid $blue-300;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+
+  @media (max-width: 992px) {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-radius: 4px;
+    margin-top: 12px;
+  }
+
+  img {
+    max-width: 160px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .input-group-wrapper {
+
+    @media (max-width: 992px) {
+      margin-top: 12px;
+    }
+
+    .input-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .form-control {
+      width: 3em;
+      text-align: center;
+    }
+  }
+}
+
+.addon-wrapper {
+  overflow-x: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+
+  @media (max-width: 992px) {
+    gap: 16px;
+  }
+
+  .addon-item {
+    width: 306px;
+    padding: 20px;
+
+    @media (max-width: 992px) {
+      width: 257px;
+      padding: 16px;
+    }
+
+    img {
+      max-width: 100px;
+      border-radius: 12px;
+
+      @media (max-width: 992px) {
+        border-radius: 8px;
+      }
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+  }
+}
+
+.guess-title {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+
+  @media (max-width: 992px) {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+}
+
+.guess-title {
+  padding: 20px;
+
+  @media (max-width: 992px) {
+    padding: 12px 0;
+  }
+}
+
+.guess-wapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $body-bg2;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 12px 20px 28px 20px;
+
+  @media (max-width: 992px) {
+    padding: 0px 12px 28px 12px;
+    padding-top: 0;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .guess-btn {
+    box-sizing: border-box;
+    border: 1px solid $primary;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:first-of-type {
+      transform: rotate(180deg);
+    }
+  }
+
+  .guess-item {
+    img {
+      display: block;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.input-bg {
+  background-color: $body-bg2;
+  border-color: $primary;
+}
+
+.col-total-left {
+  @media (max-width: 992px) {
+    margin-top: 20px;
+  }
+}
+
+.col-total-right {
+  @media (max-width: 992px) {
+    margin-top: 60px;
+  }
+}
+
+.mb-lg-12 {
+  @media (max-width: 992px) {
+    margin-bottom: 12px;
+  }
+}
+
+.px-12 {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+
+  @media (max-width: 992px) {
+    margin-top: 12px;
+  }
+}
+
+.mt-20 {
+  margin-top: 20px;
+
+  @media (max-width: 992px) {
+    margin-top: 12px;
+  }
+}
+
+.mb-80 {
+  margin-bottom: 80px;
+
+  @media (max-width: 992px) {
+    margin-bottom: 40px;
+  }
+}
+
+.my-12 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}

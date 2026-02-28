@@ -1,0 +1,1244 @@
+[
+      {
+            "CityName": "臺北市",
+            "AreaList": [
+                  {
+                        "AreaName": "中正區"
+                  },
+                  {
+                        "AreaName": "大同區"
+                  },
+                  {
+                        "AreaName": "中山區"
+                  },
+                  {
+                        "AreaName": "松山區"
+                  },
+                  {
+                        "AreaName": "大安區"
+                  },
+                  {
+                        "AreaName": "萬華區"
+                  },
+                  {
+                        "AreaName": "信義區"
+                  },
+                  {
+                        "AreaName": "士林區"
+                  },
+                  {
+                        "AreaName": "北投區"
+                  },
+                  {
+                        "AreaName": "內湖區"
+                  },
+                  {
+                        "AreaName": "南港區"
+                  },
+                  {
+                        "AreaName": "文山區"
+                  }
+            ]
+      },
+      {
+            "CityName": "基隆市",
+            "AreaList": [
+                  {
+                        "AreaName": "仁愛區"
+                  },
+                  {
+                        "AreaName": "信義區"
+                  },
+                  {
+                        "AreaName": "中正區"
+                  },
+                  {
+                        "AreaName": "中山區"
+                  },
+                  {
+                        "AreaName": "安樂區"
+                  },
+                  {
+                        "AreaName": "暖暖區"
+                  },
+                  {
+                        "AreaName": "七堵區"
+                  }
+            ]
+      },
+      {
+            "CityName": "新北市",
+            "AreaList": [
+                  {
+                        "AreaName": "萬里區"
+                  },
+                  {
+                        "AreaName": "金山區"
+                  },
+                  {
+                        "AreaName": "板橋區"
+                  },
+                  {
+                        "AreaName": "汐止區"
+                  },
+                  {
+                        "AreaName": "深坑區"
+                  },
+                  {
+                        "AreaName": "石碇區"
+                  },
+                  {
+                        "AreaName": "瑞芳區"
+                  },
+                  {
+                        "AreaName": "平溪區"
+                  },
+                  {
+                        "AreaName": "雙溪區"
+                  },
+                  {
+                        "AreaName": "貢寮區"
+                  },
+                  {
+                        "AreaName": "新店區"
+                  },
+                  {
+                        "AreaName": "坪林區"
+                  },
+                  {
+                        "AreaName": "烏來區"
+                  },
+                  {
+                        "AreaName": "永和區"
+                  },
+                  {
+                        "AreaName": "中和區"
+                  },
+                  {
+                        "AreaName": "土城區"
+                  },
+                  {
+                        "AreaName": "三峽區"
+                  },
+                  {
+                        "AreaName": "樹林區"
+                  },
+                  {
+                        "AreaName": "鶯歌區"
+                  },
+                  {
+                        "AreaName": "三重區"
+                  },
+                  {
+                        "AreaName": "新莊區"
+                  },
+                  {
+                        "AreaName": "泰山區"
+                  },
+                  {
+                        "AreaName": "林口區"
+                  },
+                  {
+                        "AreaName": "蘆洲區"
+                  },
+                  {
+                        "AreaName": "五股區"
+                  },
+                  {
+                        "AreaName": "八里區"
+                  },
+                  {
+                        "AreaName": "淡水區"
+                  },
+                  {
+                        "AreaName": "三芝區"
+                  },
+                  {
+                        "AreaName": "石門區"
+                  }
+            ]
+      },
+      {
+            "CityName": "連江縣",
+            "AreaList": [
+                  {
+                        "AreaName": "南竿鄉"
+                  },
+                  {
+                        "AreaName": "北竿鄉"
+                  },
+                  {
+                        "AreaName": "莒光鄉"
+                  },
+                  {
+                        "AreaName": "東引鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "宜蘭縣",
+            "AreaList": [
+                  {
+                        "AreaName": "宜蘭市"
+                  },
+                  {
+                        "AreaName": "壯圍鄉"
+                  },
+                  {
+                        "AreaName": "頭城鎮"
+                  },
+                  {
+                        "AreaName": "礁溪鄉"
+                  },
+                  {
+                        "AreaName": "員山鄉"
+                  },
+                  {
+                        "AreaName": "羅東鎮"
+                  },
+                  {
+                        "AreaName": "三星鄉"
+                  },
+                  {
+                        "AreaName": "大同鄉"
+                  },
+                  {
+                        "AreaName": "五結鄉"
+                  },
+                  {
+                        "AreaName": "冬山鄉"
+                  },
+                  {
+                        "AreaName": "蘇澳鎮"
+                  },
+                  {
+                        "AreaName": "南澳鄉"
+                  },
+                  {
+                        "AreaName": "釣魚臺"
+                  }
+            ]
+      },
+      {
+            "CityName": "釣魚臺",
+            "AreaList": [
+                  {
+                        "AreaName": "釣魚臺"
+                  }
+            ]
+      },
+      {
+            "CityName": "新竹市",
+            "AreaList": [
+                  {
+                        "AreaName": "東區"
+                  },
+                  {
+                        "AreaName": "北區"
+                  },
+                  {
+                        "AreaName": "香山區"
+                  }
+            ]
+      },
+      {
+            "CityName": "新竹縣",
+            "AreaList": [
+                  {
+                        "AreaName": "寶山鄉"
+                  },
+                  {
+                        "AreaName": "竹北市"
+                  },
+                  {
+                        "AreaName": "湖口鄉"
+                  },
+                  {
+                        "AreaName": "新豐鄉"
+                  },
+                  {
+                        "AreaName": "新埔鎮"
+                  },
+                  {
+                        "AreaName": "關西鎮"
+                  },
+                  {
+                        "AreaName": "芎林鄉"
+                  },
+                  {
+                        "AreaName": "竹東鎮"
+                  },
+                  {
+                        "AreaName": "五峰鄉"
+                  },
+                  {
+                        "AreaName": "橫山鄉"
+                  },
+                  {
+                        "AreaName": "尖石鄉"
+                  },
+                  {
+                        "AreaName": "北埔鄉"
+                  },
+                  {
+                        "AreaName": "峨眉鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "桃園市",
+            "AreaList": [
+                  {
+                        "AreaName": "中壢區"
+                  },
+                  {
+                        "AreaName": "平鎮區"
+                  },
+                  {
+                        "AreaName": "龍潭區"
+                  },
+                  {
+                        "AreaName": "楊梅區"
+                  },
+                  {
+                        "AreaName": "新屋區"
+                  },
+                  {
+                        "AreaName": "觀音區"
+                  },
+                  {
+                        "AreaName": "桃園區"
+                  },
+                  {
+                        "AreaName": "龜山區"
+                  },
+                  {
+                        "AreaName": "八德區"
+                  },
+                  {
+                        "AreaName": "大溪區"
+                  },
+                  {
+                        "AreaName": "復興區"
+                  },
+                  {
+                        "AreaName": "大園區"
+                  },
+                  {
+                        "AreaName": "蘆竹區"
+                  }
+            ]
+      },
+      {
+            "CityName": "苗栗縣",
+            "AreaList": [
+                  {
+                        "AreaName": "竹南鎮"
+                  },
+                  {
+                        "AreaName": "頭份市"
+                  },
+                  {
+                        "AreaName": "三灣鄉"
+                  },
+                  {
+                        "AreaName": "南庄鄉"
+                  },
+                  {
+                        "AreaName": "獅潭鄉"
+                  },
+                  {
+                        "AreaName": "後龍鎮"
+                  },
+                  {
+                        "AreaName": "通霄鎮"
+                  },
+                  {
+                        "AreaName": "苑裡鎮"
+                  },
+                  {
+                        "AreaName": "苗栗市"
+                  },
+                  {
+                        "AreaName": "造橋鄉"
+                  },
+                  {
+                        "AreaName": "頭屋鄉"
+                  },
+                  {
+                        "AreaName": "公館鄉"
+                  },
+                  {
+                        "AreaName": "大湖鄉"
+                  },
+                  {
+                        "AreaName": "泰安鄉"
+                  },
+                  {
+                        "AreaName": "銅鑼鄉"
+                  },
+                  {
+                        "AreaName": "三義鄉"
+                  },
+                  {
+                        "AreaName": "西湖鄉"
+                  },
+                  {
+                        "AreaName": "卓蘭鎮"
+                  }
+            ]
+      },
+      {
+            "CityName": "臺中市",
+            "AreaList": [
+                  {
+                        "AreaName": "中區"
+                  },
+                  {
+                        "AreaName": "東區"
+                  },
+                  {
+                        "AreaName": "南區"
+                  },
+                  {
+                        "AreaName": "西區"
+                  },
+                  {
+                        "AreaName": "北區"
+                  },
+                  {
+                        "AreaName": "北屯區"
+                  },
+                  {
+                        "AreaName": "西屯區"
+                  },
+                  {
+                        "AreaName": "南屯區"
+                  },
+                  {
+                        "AreaName": "太平區"
+                  },
+                  {
+                        "AreaName": "大里區"
+                  },
+                  {
+                        "AreaName": "霧峰區"
+                  },
+                  {
+                        "AreaName": "烏日區"
+                  },
+                  {
+                        "AreaName": "豐原區"
+                  },
+                  {
+                        "AreaName": "后里區"
+                  },
+                  {
+                        "AreaName": "石岡區"
+                  },
+                  {
+                        "AreaName": "東勢區"
+                  },
+                  {
+                        "AreaName": "和平區"
+                  },
+                  {
+                        "AreaName": "新社區"
+                  },
+                  {
+                        "AreaName": "潭子區"
+                  },
+                  {
+                        "AreaName": "大雅區"
+                  },
+                  {
+                        "AreaName": "神岡區"
+                  },
+                  {
+                        "AreaName": "大肚區"
+                  },
+                  {
+                        "AreaName": "沙鹿區"
+                  },
+                  {
+                        "AreaName": "龍井區"
+                  },
+                  {
+                        "AreaName": "梧棲區"
+                  },
+                  {
+                        "AreaName": "清水區"
+                  },
+                  {
+                        "AreaName": "大甲區"
+                  },
+                  {
+                        "AreaName": "外埔區"
+                  },
+                  {
+                        "AreaName": "大安區"
+                  }
+            ]
+      },
+      {
+            "CityName": "彰化縣",
+            "AreaList": [
+                  {
+                        "AreaName": "彰化市"
+                  },
+                  {
+                        "AreaName": "芬園鄉"
+                  },
+                  {
+                        "AreaName": "花壇鄉"
+                  },
+                  {
+                        "AreaName": "秀水鄉"
+                  },
+                  {
+                        "AreaName": "鹿港鎮"
+                  },
+                  {
+                        "AreaName": "福興鄉"
+                  },
+                  {
+                        "AreaName": "線西鄉"
+                  },
+                  {
+                        "AreaName": "和美鎮"
+                  },
+                  {
+                        "AreaName": "伸港鄉"
+                  },
+                  {
+                        "AreaName": "員林市"
+                  },
+                  {
+                        "AreaName": "社頭鄉"
+                  },
+                  {
+                        "AreaName": "永靖鄉"
+                  },
+                  {
+                        "AreaName": "埔心鄉"
+                  },
+                  {
+                        "AreaName": "溪湖鎮"
+                  },
+                  {
+                        "AreaName": "大村鄉"
+                  },
+                  {
+                        "AreaName": "埔鹽鄉"
+                  },
+                  {
+                        "AreaName": "田中鎮"
+                  },
+                  {
+                        "AreaName": "北斗鎮"
+                  },
+                  {
+                        "AreaName": "田尾鄉"
+                  },
+                  {
+                        "AreaName": "埤頭鄉"
+                  },
+                  {
+                        "AreaName": "溪州鄉"
+                  },
+                  {
+                        "AreaName": "竹塘鄉"
+                  },
+                  {
+                        "AreaName": "二林鎮"
+                  },
+                  {
+                        "AreaName": "大城鄉"
+                  },
+                  {
+                        "AreaName": "芳苑鄉"
+                  },
+                  {
+                        "AreaName": "二水鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "南投縣",
+            "AreaList": [
+                  {
+                        "AreaName": "南投市"
+                  },
+                  {
+                        "AreaName": "中寮鄉"
+                  },
+                  {
+                        "AreaName": "草屯鎮"
+                  },
+                  {
+                        "AreaName": "國姓鄉"
+                  },
+                  {
+                        "AreaName": "埔里鎮"
+                  },
+                  {
+                        "AreaName": "仁愛鄉"
+                  },
+                  {
+                        "AreaName": "名間鄉"
+                  },
+                  {
+                        "AreaName": "集集鎮"
+                  },
+                  {
+                        "AreaName": "水里鄉"
+                  },
+                  {
+                        "AreaName": "魚池鄉"
+                  },
+                  {
+                        "AreaName": "信義鄉"
+                  },
+                  {
+                        "AreaName": "竹山鎮"
+                  },
+                  {
+                        "AreaName": "鹿谷鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "嘉義市",
+            "AreaList": [
+                  {
+                        "AreaName": "西區"
+                  },
+                  {
+                        "AreaName": "東區"
+                  }
+            ]
+      },
+      {
+            "CityName": "嘉義縣",
+            "AreaList": [
+                  {
+                        "AreaName": "番路鄉"
+                  },
+                  {
+                        "AreaName": "梅山鄉"
+                  },
+                  {
+                        "AreaName": "竹崎鄉"
+                  },
+                  {
+                        "AreaName": "阿里山鄉"
+                  },
+                  {
+                        "AreaName": "中埔鄉"
+                  },
+                  {
+                        "AreaName": "大埔鄉"
+                  },
+                  {
+                        "AreaName": "水上鄉"
+                  },
+                  {
+                        "AreaName": "鹿草鄉"
+                  },
+                  {
+                        "AreaName": "太保市"
+                  },
+                  {
+                        "AreaName": "朴子市"
+                  },
+                  {
+                        "AreaName": "東石鄉"
+                  },
+                  {
+                        "AreaName": "六腳鄉"
+                  },
+                  {
+                        "AreaName": "新港鄉"
+                  },
+                  {
+                        "AreaName": "民雄鄉"
+                  },
+                  {
+                        "AreaName": "大林鎮"
+                  },
+                  {
+                        "AreaName": "溪口鄉"
+                  },
+                  {
+                        "AreaName": "義竹鄉"
+                  },
+                  {
+                        "AreaName": "布袋鎮"
+                  }
+            ]
+      },
+      {
+            "CityName": "雲林縣",
+            "AreaList": [
+                  {
+                        "AreaName": "斗南鎮"
+                  },
+                  {
+                        "AreaName": "大埤鄉"
+                  },
+                  {
+                        "AreaName": "虎尾鎮"
+                  },
+                  {
+                        "AreaName": "土庫鎮"
+                  },
+                  {
+                        "AreaName": "褒忠鄉"
+                  },
+                  {
+                        "AreaName": "東勢鄉"
+                  },
+                  {
+                        "AreaName": "臺西鄉"
+                  },
+                  {
+                        "AreaName": "崙背鄉"
+                  },
+                  {
+                        "AreaName": "麥寮鄉"
+                  },
+                  {
+                        "AreaName": "斗六市"
+                  },
+                  {
+                        "AreaName": "林內鄉"
+                  },
+                  {
+                        "AreaName": "古坑鄉"
+                  },
+                  {
+                        "AreaName": "莿桐鄉"
+                  },
+                  {
+                        "AreaName": "西螺鎮"
+                  },
+                  {
+                        "AreaName": "二崙鄉"
+                  },
+                  {
+                        "AreaName": "北港鎮"
+                  },
+                  {
+                        "AreaName": "水林鄉"
+                  },
+                  {
+                        "AreaName": "口湖鄉"
+                  },
+                  {
+                        "AreaName": "四湖鄉"
+                  },
+                  {
+                        "AreaName": "元長鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "臺南市",
+            "AreaList": [
+                  {
+                        "AreaName": "中西區"
+                  },
+                  {
+                        "AreaName": "東區"
+                  },
+                  {
+                        "AreaName": "南區"
+                  },
+                  {
+                        "AreaName": "北區"
+                  },
+                  {
+                        "AreaName": "安平區"
+                  },
+                  {
+                        "AreaName": "安南區"
+                  },
+                  {
+                        "AreaName": "永康區"
+                  },
+                  {
+                        "AreaName": "歸仁區"
+                  },
+                  {
+                        "AreaName": "新化區"
+                  },
+                  {
+                        "AreaName": "左鎮區"
+                  },
+                  {
+                        "AreaName": "玉井區"
+                  },
+                  {
+                        "AreaName": "楠西區"
+                  },
+                  {
+                        "AreaName": "南化區"
+                  },
+                  {
+                        "AreaName": "仁德區"
+                  },
+                  {
+                        "AreaName": "關廟區"
+                  },
+                  {
+                        "AreaName": "龍崎區"
+                  },
+                  {
+                        "AreaName": "官田區"
+                  },
+                  {
+                        "AreaName": "麻豆區"
+                  },
+                  {
+                        "AreaName": "佳里區"
+                  },
+                  {
+                        "AreaName": "西港區"
+                  },
+                  {
+                        "AreaName": "七股區"
+                  },
+                  {
+                        "AreaName": "將軍區"
+                  },
+                  {
+                        "AreaName": "學甲區"
+                  },
+                  {
+                        "AreaName": "北門區"
+                  },
+                  {
+                        "AreaName": "新營區"
+                  },
+                  {
+                        "AreaName": "後壁區"
+                  },
+                  {
+                        "AreaName": "白河區"
+                  },
+                  {
+                        "AreaName": "東山區"
+                  },
+                  {
+                        "AreaName": "六甲區"
+                  },
+                  {
+                        "AreaName": "下營區"
+                  },
+                  {
+                        "AreaName": "柳營區"
+                  },
+                  {
+                        "AreaName": "鹽水區"
+                  },
+                  {
+                        "AreaName": "善化區"
+                  },
+                  {
+                        "AreaName": "新市區"
+                  },
+                  {
+                        "AreaName": "大內區"
+                  },
+                  {
+                        "AreaName": "山上區"
+                  },
+                  {
+                        "AreaName": "安定區"
+                  }
+            ]
+      },
+      {
+            "CityName": "高雄市",
+            "AreaList": [
+                  {
+                        "AreaName": "新興區"
+                  },
+                  {
+                        "AreaName": "前金區"
+                  },
+                  {
+                        "AreaName": "苓雅區"
+                  },
+                  {
+                        "AreaName": "鹽埕區"
+                  },
+                  {
+                        "AreaName": "鼓山區"
+                  },
+                  {
+                        "AreaName": "旗津區"
+                  },
+                  {
+                        "AreaName": "前鎮區"
+                  },
+                  {
+                        "AreaName": "三民區"
+                  },
+                  {
+                        "AreaName": "楠梓區"
+                  },
+                  {
+                        "AreaName": "小港區"
+                  },
+                  {
+                        "AreaName": "左營區"
+                  },
+                  {
+                        "AreaName": "仁武區"
+                  },
+                  {
+                        "AreaName": "大社區"
+                  },
+                  {
+                        "AreaName": "東沙群島"
+                  },
+                  {
+                        "AreaName": "南沙群島"
+                  },
+                  {
+                        "AreaName": "岡山區"
+                  },
+                  {
+                        "AreaName": "路竹區"
+                  },
+                  {
+                        "AreaName": "阿蓮區"
+                  },
+                  {
+                        "AreaName": "田寮區"
+                  },
+                  {
+                        "AreaName": "燕巢區"
+                  },
+                  {
+                        "AreaName": "橋頭區"
+                  },
+                  {
+                        "AreaName": "梓官區"
+                  },
+                  {
+                        "AreaName": "彌陀區"
+                  },
+                  {
+                        "AreaName": "永安區"
+                  },
+                  {
+                        "AreaName": "湖內區"
+                  },
+                  {
+                        "AreaName": "鳳山區"
+                  },
+                  {
+                        "AreaName": "大寮區"
+                  },
+                  {
+                        "AreaName": "林園區"
+                  },
+                  {
+                        "AreaName": "鳥松區"
+                  },
+                  {
+                        "AreaName": "大樹區"
+                  },
+                  {
+                        "AreaName": "旗山區"
+                  },
+                  {
+                        "AreaName": "美濃區"
+                  },
+                  {
+                        "AreaName": "六龜區"
+                  },
+                  {
+                        "AreaName": "內門區"
+                  },
+                  {
+                        "AreaName": "杉林區"
+                  },
+                  {
+                        "AreaName": "甲仙區"
+                  },
+                  {
+                        "AreaName": "桃源區"
+                  },
+                  {
+                        "AreaName": "那瑪夏區"
+                  },
+                  {
+                        "AreaName": "茂林區"
+                  },
+                  {
+                        "AreaName": "茄萣區"
+                  }
+            ]
+      },
+      {
+            "CityName": "南海島",
+            "AreaList": [
+                  {
+                        "AreaName": "東沙群島"
+                  },
+                  {
+                        "AreaName": "南沙群島"
+                  }
+            ]
+      },
+      {
+            "CityName": "澎湖縣",
+            "AreaList": [
+                  {
+                        "AreaName": "馬公市"
+                  },
+                  {
+                        "AreaName": "西嶼鄉"
+                  },
+                  {
+                        "AreaName": "望安鄉"
+                  },
+                  {
+                        "AreaName": "七美鄉"
+                  },
+                  {
+                        "AreaName": "白沙鄉"
+                  },
+                  {
+                        "AreaName": "湖西鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "金門縣",
+            "AreaList": [
+                  {
+                        "AreaName": "金沙鎮"
+                  },
+                  {
+                        "AreaName": "金湖鎮"
+                  },
+                  {
+                        "AreaName": "金寧鄉"
+                  },
+                  {
+                        "AreaName": "金城鎮"
+                  },
+                  {
+                        "AreaName": "烈嶼鄉"
+                  },
+                  {
+                        "AreaName": "烏坵鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "屏東縣",
+            "AreaList": [
+                  {
+                        "AreaName": "屏東市"
+                  },
+                  {
+                        "AreaName": "三地門鄉"
+                  },
+                  {
+                        "AreaName": "霧臺鄉"
+                  },
+                  {
+                        "AreaName": "瑪家鄉"
+                  },
+                  {
+                        "AreaName": "九如鄉"
+                  },
+                  {
+                        "AreaName": "里港鄉"
+                  },
+                  {
+                        "AreaName": "高樹鄉"
+                  },
+                  {
+                        "AreaName": "鹽埔鄉"
+                  },
+                  {
+                        "AreaName": "長治鄉"
+                  },
+                  {
+                        "AreaName": "麟洛鄉"
+                  },
+                  {
+                        "AreaName": "竹田鄉"
+                  },
+                  {
+                        "AreaName": "內埔鄉"
+                  },
+                  {
+                        "AreaName": "萬丹鄉"
+                  },
+                  {
+                        "AreaName": "潮州鎮"
+                  },
+                  {
+                        "AreaName": "泰武鄉"
+                  },
+                  {
+                        "AreaName": "來義鄉"
+                  },
+                  {
+                        "AreaName": "萬巒鄉"
+                  },
+                  {
+                        "AreaName": "崁頂鄉"
+                  },
+                  {
+                        "AreaName": "新埤鄉"
+                  },
+                  {
+                        "AreaName": "南州鄉"
+                  },
+                  {
+                        "AreaName": "林邊鄉"
+                  },
+                  {
+                        "AreaName": "東港鎮"
+                  },
+                  {
+                        "AreaName": "琉球鄉"
+                  },
+                  {
+                        "AreaName": "佳冬鄉"
+                  },
+                  {
+                        "AreaName": "新園鄉"
+                  },
+                  {
+                        "AreaName": "枋寮鄉"
+                  },
+                  {
+                        "AreaName": "枋山鄉"
+                  },
+                  {
+                        "AreaName": "春日鄉"
+                  },
+                  {
+                        "AreaName": "獅子鄉"
+                  },
+                  {
+                        "AreaName": "車城鄉"
+                  },
+                  {
+                        "AreaName": "牡丹鄉"
+                  },
+                  {
+                        "AreaName": "恆春鎮"
+                  },
+                  {
+                        "AreaName": "滿州鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "臺東縣",
+            "AreaList": [
+                  {
+                        "AreaName": "臺東市"
+                  },
+                  {
+                        "AreaName": "綠島鄉"
+                  },
+                  {
+                        "AreaName": "蘭嶼鄉"
+                  },
+                  {
+                        "AreaName": "延平鄉"
+                  },
+                  {
+                        "AreaName": "卑南鄉"
+                  },
+                  {
+                        "AreaName": "鹿野鄉"
+                  },
+                  {
+                        "AreaName": "關山鎮"
+                  },
+                  {
+                        "AreaName": "海端鄉"
+                  },
+                  {
+                        "AreaName": "池上鄉"
+                  },
+                  {
+                        "AreaName": "東河鄉"
+                  },
+                  {
+                        "AreaName": "成功鎮"
+                  },
+                  {
+                        "AreaName": "長濱鄉"
+                  },
+                  {
+                        "AreaName": "太麻里鄉"
+                  },
+                  {
+                        "AreaName": "金峰鄉"
+                  },
+                  {
+                        "AreaName": "大武鄉"
+                  },
+                  {
+                        "AreaName": "達仁鄉"
+                  }
+            ]
+      },
+      {
+            "CityName": "花蓮縣",
+            "AreaList": [
+                  {
+                        "AreaName": "花蓮市"
+                  },
+                  {
+                        "AreaName": "新城鄉"
+                  },
+                  {
+                        "AreaName": "秀林鄉"
+                  },
+                  {
+                        "AreaName": "吉安鄉"
+                  },
+                  {
+                        "AreaName": "壽豐鄉"
+                  },
+                  {
+                        "AreaName": "鳳林鎮"
+                  },
+                  {
+                        "AreaName": "光復鄉"
+                  },
+                  {
+                        "AreaName": "豐濱鄉"
+                  },
+                  {
+                        "AreaName": "瑞穗鄉"
+                  },
+                  {
+                        "AreaName": "萬榮鄉"
+                  },
+                  {
+                        "AreaName": "玉里鎮"
+                  },
+                  {
+                        "AreaName": "卓溪鄉"
+                  },
+                  {
+                        "AreaName": "富里鄉"
+                  }
+            ]
+      }
+]
