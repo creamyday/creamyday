@@ -12,9 +12,9 @@ interface Order {
   deliveryMethod: number,
   storeMethod: number,
   paymentMethod: number,
-  credit1: string,
-  credit2: string,
-  credit3: string,
+  creditNumber: string,
+  creditSafeCode: string,
+  creditExpired: string,
   isLinePay: boolean,
   ATM: string,
   billMethod: number,
@@ -33,21 +33,25 @@ interface AddressOptions {
 interface DeliveryOptions {
   id: number,
   value: string,
+  keys: string[],
 }
 
 interface PaymentOptions {
   id: number,
   value: string,
+  keys: string[],
 }
 
 interface StoreOptions {
   id: number,
   value: string,
+  keys: string[],
 }
 
 interface BillOptions {
   id: number,
   value: string,
+  keys:string[],
 }
 
 import axios from "axios";
@@ -66,14 +70,17 @@ const deliveryOptions: DeliveryOptions[] = [
   {
     id: 0,
     value: '宅配',
+    keys: ['address'],
   },
   {
     id: 1,
     value: '店取',
+    keys: ['address'],
   },
   {
     id: 2,
     value: '自取',
+    keys: ['address'],
   },
 ];
 
@@ -81,14 +88,17 @@ const paymentOptions: PaymentOptions[] = [
   {
     id: 0,
     value: '信用卡',
+    keys: ['creditNumber', 'creditSafeCode','creditExpired'],
   },
   {
     id: 1,
     value: 'Line ​Pay',
+    keys: ['isLinePay'],
   },
   {
     id: 2,
     value: 'AT​M匯款',
+    keys: ['ATM'],
   },
 ];
 
@@ -96,10 +106,12 @@ const storeOptions: StoreOptions[] = [
   {
     id: 0,
     value: '7-11',
+    keys: ['address'],
   },
   {
     id: 1,
     value: '全家',
+    keys: ['address'],
   },
 ];
 
@@ -107,14 +119,16 @@ const billOptions: BillOptions[] = [
   {
     id: 0,
     value: '二聯式發票',
+    keys: ['bill'],
   },
   {
     id: 1,
     value: '三聯式發票',
+    keys: [],
   },
 ];
 
-export default function Check2() {
+export default function Checkout() {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
   const { products, final_total, total, coupon } = useSelector((state: any) => state.carts);
@@ -145,9 +159,9 @@ export default function Check2() {
       storeMethod: 0,
       address: "", //配送地址
       paymentMethod: 0,
-      credit1: '',
-      credit2: '',
-      credit3: '',
+      creditNumber: '',
+      creditSafeCode: '',
+      creditExpired: '',
       isLinePay: false,
       ATM: '',
       billMethod: 0,
@@ -225,12 +239,12 @@ export default function Check2() {
     setOffcanvasShow(prev => !prev);
   }
 
-  const pay = async(id:string)=>{
+  const pay = async (id: string, request:any)=>{
     try {
       const res = await axios.post(`${API_URL}/v2/api/${API_PATH}/pay/${id}`);
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
       if (res.data.success){
-        navigate('/order', { state: { id, success: res.data.success } });
+        navigate('/order', { state: { id, success: res.data.success, request } });
         dispatch(initProduct([]))
         dispatch(initFinalTotal(0))
         dispatch(initTotal(0))
@@ -244,7 +258,7 @@ export default function Check2() {
     try {
       const res = await axios.post(`${API_URL}/v2/api/${API_PATH}/order`, request);
       if (!res.data.success) return dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
-      pay(res.data.orderId);
+      pay(res.data.orderId, request.data);
     } catch (error: any) {
       dispatch(pushToastAsync({ success: error.success, message: error.message }));
     }
@@ -265,9 +279,9 @@ export default function Check2() {
         storeMethod:data.storeMethod,
         paymentMethod: data.paymentMethod,
         address: data.address,
-        credit1:data.credit1 ,
-        credit2:data.credit2,
-        credit3:data.credit3,
+        creditNumber:data.creditNumber ,
+        creditSafeCode:data.creditSafeCode,
+        creditExpired:data.creditExpired,
         isLinePay:data.isLinePay,
         ATM:data.ATM,
         billMethod:data.billMethod,
@@ -523,9 +537,9 @@ export default function Check2() {
                       {...register('paymentMethod', {
                         valueAsNumber: true,
                         onChange: () => {
-                          setValue("credit1", '')
-                          setValue("credit2", '')
-                          setValue("credit3", '')
+                          setValue("creditNumber", '')
+                          setValue("creditSafeCode", '')
+                          setValue("creditExpired", '')
                           setValue("isLinePay", false)
                           setValue("ATM", '')
                         }
@@ -542,9 +556,9 @@ export default function Check2() {
                       <div className="col-12">
                         <input
                           type="text"
-                          className={`form-control input-bg mt-1 ${errors["credit1"] && 'is-invalid'}`}
+                          className={`form-control input-bg mt-1 ${errors["creditNumber"] && 'is-invalid'}`}
                           placeholder="請填寫信用卡號"
-                          {...register('credit1', {
+                          {...register('creditNumber', {
                             required: {
                               value: paymentMethod === 0,
                               message: '信用卡號為必填'
@@ -554,9 +568,9 @@ export default function Check2() {
                       <div className="col-6">
                         <input
                           type="text"
-                          className={`form-control input-bg mt-1 ${errors["credit2"] && 'is-invalid'}`}
+                          className={`form-control input-bg mt-1 ${errors["creditSafeCode"] && 'is-invalid'}`}
                           placeholder="請填寫安全碼"
-                          {...register('credit2', {
+                          {...register('creditSafeCode', {
                             required: {
                               value: paymentMethod === 0,
                               message: '安全碼為必填'
@@ -566,9 +580,9 @@ export default function Check2() {
                       <div className="col-6">
                         <input
                           type="text"
-                          className={`form-control input-bg mt-1 ${errors["credit3"] && 'is-invalid'}`}
+                          className={`form-control input-bg mt-1 ${errors["creditExpired"] && 'is-invalid'}`}
                           placeholder="請填寫到期日"
-                          {...register('credit3', {
+                          {...register('creditExpired', {
                             required: {
                               value: paymentMethod === 0,
                               message: '到期日為必填'
