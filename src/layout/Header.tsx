@@ -202,7 +202,7 @@ export default function Header() {
         <div>
           <button
             type="button"
-            className="btn border-0 p-0 d-inline d-lg-none position-relative"
+            className="btn px-2 border-0 d-inline d-lg-none position-relative"
             onClick={() => dispatch(changeShow(!isShow))}
           >
             <Icon icon="ph:shopping-cart-simple" width="24px" />
@@ -219,11 +219,11 @@ export default function Header() {
           </button>
 
           <button
-            className="navbar-toggler border-0 "
+            className="navbar-toggler border-0 px-1"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#mobileMenu"
-            onClick={() => dispatch(changeShow(!isShow))}
+            onClick={() => dispatch(changeShow(false))}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
