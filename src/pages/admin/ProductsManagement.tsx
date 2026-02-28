@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Fragment, useEffect, useRef, useState } from "react";
 import ManageModal from "./components/ManageModal";
+import DeleteModal from "./components/DeleteModal";
 import { Modal } from "bootstrap";
 
 const baseUrl = import.meta.env.VITE_API_URL;
@@ -18,8 +19,10 @@ const getData = async () => {
 
 export default function ProductsManagement() {
 
+  const [loading, setLoading] = useState(false);
   const [groupKey, setGroupKey] = useState<string>("");
-  const [products, setProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  // const [products, setProducts] = useState<any[]>([]);
   const [showData, setShowData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -29,6 +32,8 @@ export default function ProductsManagement() {
   const [openCollapse, setOpenCollapse] = useState<string[]>([...Array(10)]);
   const manageModalRef: any = useRef(null);
   const manageModalInstance: any = useRef(null);
+  const deleteModalRef: any = useRef(null);
+  const deleteModalInstance: any = useRef(null);
   
   const [product, setProduct] = useState({
     title: "",
@@ -77,10 +82,22 @@ export default function ProductsManagement() {
     ]
   });
 
+  const getAllProducts = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
+      console.log("getAllProducts response:", response);
+      setAllProducts(Object.values(response.data.products));
+    } catch (error: any) {
+      console.warn('取得商品列表失敗', error.response ?? error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const getProducts = async (page = 1) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products?page=${page}`);
-      setProducts(res.data.products);
+      // setProducts(res.data.products);
       setCurrentPage(res.data.pagination.current_page);
       setTotalPage(res.data.pagination.total_pages);
       setHasPre(res.data.pagination.has_pre);
@@ -104,12 +121,10 @@ export default function ProductsManagement() {
   const tableExpand = (index: number, collapseId: string) => {
     setOpenCollapse(prev => prev.map((o, i)=> (i === index ? (o ? "" : collapseId) : o )))
   }
-  useEffect(() => {
-    
-  },[])
 
   useEffect(() => {
     manageModalInstance.current = new Modal(manageModalRef.current);
+    deleteModalInstance.current = new Modal(deleteModalRef.current);
     getProducts();
   },[]);
 
@@ -167,14 +182,23 @@ export default function ProductsManagement() {
                     <div className="btn-group">
                       <button className="btn btn-sm btn-outline-primary"
                       onClick={() => {
-                        manageModalInstance.current.show();
                         setModalStateIsNew(false);
                         const newItem = {...item};
-                        setProduct(newItem);
                         setGroupKey(item.groupKey);
+                        setProduct(newItem);
+                        manageModalInstance.current.show();
                       }}
                       >編輯</button>
-                      <button className="btn btn-sm btn-outline-danger">刪除</button>
+                      <button className="btn btn-sm btn-outline-danger"
+                        onClick={() => {
+                          setLoading(true);
+                          getAllProducts();
+                          const newItem = {...item};
+                          setGroupKey(item.groupKey);
+                          setProduct(newItem);
+                          deleteModalInstance.current.show();
+                        }}
+                      >刪除</button>
                     </div>
                   </td>
                 </tr>
@@ -255,7 +279,12 @@ export default function ProductsManagement() {
         </div>
       </div>
       <ManageModal manageModalRef={manageModalRef} manageModalInstance={manageModalInstance}
-        modalStateIsNew={modalStateIsNew} product={product} setProduct={setProduct} groupKey={groupKey} getProducts={getProducts} />
+        modalStateIsNew={modalStateIsNew} product={product} setProduct={setProduct} groupKey={groupKey} 
+        getProducts={getProducts} 
+        loading={loading} setLoading={setLoading}/>
+      <DeleteModal deleteModalRef={deleteModalRef} deleteModalInstance={deleteModalInstance} groupKey={groupKey}
+        product={product} allProducts={allProducts} getProducts={getProducts} 
+        loading={loading} setLoading={setLoading}/>
       <button type="button" className="btn btn-primary"
         onClick={() => {
           getData();

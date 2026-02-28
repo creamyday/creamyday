@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { BeatLoader } from "react-spinners";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 const api_path = import.meta.env.VITE_API_PATH;
@@ -70,12 +71,11 @@ const emptyOption: Option = {
 };
 
 
-export default function ManageModal({manageModalRef, manageModalInstance, modalStateIsNew, product, groupKey, getProducts}: any) {
+export default function ManageModal({manageModalRef, manageModalInstance, modalStateIsNew, product, groupKey, getProducts, loading, setLoading}: any) {
 
   const getSortData: any = async (sortId: string) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
-      console.log(res);
       return Object.values(res.data.products).filter((p: any) => p.groupKey === sortId);
     } catch (error: any) {
       console.warn("錯誤：", error.response);
@@ -85,15 +85,15 @@ export default function ManageModal({manageModalRef, manageModalInstance, modalS
   const addSubmit = async (data: object) => {
     try {
       const res = await axios.post(`${baseUrl}/v2/api/${api_path}/admin/product`, {data: data});
-      console.log(res);
+      return res.data;
     } catch (error: any) {
       console.warn(error.response);
     }
   };
 
   const toSubmit = async (data: any) => {
+    setLoading(true);
     data.groupKey = groupKey;
-    console.log(data);
     if(modalStateIsNew) {
       // 送出新增商品的 API 請求
       await Promise.all(data.options.map((o: any) => {
@@ -106,12 +106,10 @@ export default function ManageModal({manageModalRef, manageModalInstance, modalS
           freebie_note: o.freebie_note,
           content: data.content
         }
-        console.log(tempOption);
         return addSubmit(tempOption);
       }));
 
       const groupData = await getSortData(groupKey);
-      console.log("groupData ids:", groupData.map((p:any)=>({ id:p.id, _id:p._id, unit:p.unit })));
       const groupOptions = groupData.map((p: any) => (
         {
           optionId: p.id,
@@ -134,7 +132,9 @@ export default function ManageModal({manageModalRef, manageModalInstance, modalS
           )
         )
       );
-
+      await getProducts();
+      manageModalInstance.current.hide();
+      setLoading(false);
     } else {
       // 送出編輯商品的 API 請求
     }
@@ -359,12 +359,15 @@ export default function ManageModal({manageModalRef, manageModalInstance, modalS
                     manageModalInstance.current.hide();
                   }}
                   >取消</button>
-                <button type="submit" className="btn btn-primary"
-                  onClick={() => {
-                    manageModalInstance.current.hide();
-                    getProducts();
-                  }}
-                >送出</button>
+                {loading ? 
+                  <button type="button" className="btn btn-primary" disabled>
+                    <BeatLoader size={8} color="#fff" />
+                  </button>
+                  : 
+                  <button type="submit" className="btn btn-primary"
+                  >送出</button>
+                }
+                
               </div>
             </div>
           </form>
