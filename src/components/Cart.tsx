@@ -54,6 +54,7 @@ export default function Cart() {
   return (
     <div className={`bg-white cart-wrapper ${isShow ?'d-block':'d-none'}`}>
       <h4 className="text-center mb-40">購物車商品</h4>
+      <div className="body">
       {
         products.map((item:any)=>(
           <div className="mb-40" key={item.id}>
@@ -168,7 +169,7 @@ export default function Cart() {
           </div>
         ))
       }
-
+      </div>
       <hr className="mt-0 mb-40" />
       <div className="d-flex justify-content-between mb-40">
         <h5 className="mb-0">總金額</h5>
