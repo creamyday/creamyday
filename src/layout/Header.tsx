@@ -5,6 +5,7 @@ import { Link, NavLink, useNavigate, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { changeShow, initProduct, initFinalTotal, initTotal } from "../stores/carts.ts";
 import 'bootstrap';
+import Cart from "../components/Cart.tsx";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -205,6 +206,7 @@ export default function Header() {
             className="btn px-2 border-0 d-inline d-lg-none position-relative"
             onClick={() => dispatch(changeShow(!isShow))}
           >
+            <Cart />
             <Icon icon="ph:shopping-cart-simple" width="24px" />
             {products?.length > 0 && (
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -357,6 +359,7 @@ export default function Header() {
               className="btn border-0 p-0 position-relative"
               onClick={() => dispatch(changeShow(!isShow))}
             >
+              <Cart />
               <Icon icon="ph:shopping-cart-simple" width="24px" />
 
               {products?.length > 0 && (
@@ -370,6 +373,7 @@ export default function Header() {
                 </span>
               )}
             </button>
+
           </div>
         </div>
       </div>
