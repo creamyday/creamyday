@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import CustomerSidebar from "./CustomerSidebar";
+import CustomerSidebar from "./CustomerSideBar";
 
 interface ProfileForm {
   name: string;

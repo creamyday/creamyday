@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import CustomerSidebar from "./CustomerSidebar";
+import CustomerSidebar from "./CustomerSideBar";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
