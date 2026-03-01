@@ -328,16 +328,24 @@ export default function Header() {
 
                 <ul className="dropdown-menu dropdown-menu-end">
                   <li>
-                    <button className="dropdown-item mb-12">個人資訊</button>
+                    <Link className="dropdown-item mb-12" to="/profile">
+                      個人資訊
+                    </Link>
                   </li>
                   <li>
-                    <button className="dropdown-item mb-12">我的收藏</button>
+                    <Link className="dropdown-item mb-12" to="/favorite">
+                      我的收藏
+                    </Link>
                   </li>
                   <li>
-                    <button className="dropdown-item mb-12">訂單管理</button>
+                    <Link className="dropdown-item mb-12" to="/orders">
+                      訂單管理
+                    </Link>
                   </li>
                   <li>
-                    <button className="dropdown-item mb-12">密碼變更</button>
+                    <Link className="dropdown-item mb-12" to="/password">
+                      密碼變更
+                    </Link>
                   </li>
 
                   <li>
