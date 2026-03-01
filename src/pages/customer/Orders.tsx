@@ -25,8 +25,6 @@ export default function Orders() {
 
   const [openOrderId, setOpenOrderId] = useState<string | null>(null);
   const [reviewOrder, setReviewOrder] = useState<Order | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   /* 
  const orders: Order[] = [
@@ -61,9 +59,6 @@ export default function Orders() {
 
   useEffect(() => {
     const getOrders = async () => {
-      setLoading(true);
-      setErrorMsg(null);
-
       try {
         const response = await axios.get(
           `${API_URL}/v2/api/${API_PATH}/admin/orders`,
@@ -71,16 +66,7 @@ export default function Orders() {
         console.log("取得訂單成功：", response.data.orders);
         setOrders(response.data.orders);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          // console.log(error.response);
-          // console.log(error.response?.data);
-          setErrorMsg(error.response?.data?.message ?? "取得訂單失敗");
-        } else {
-          // console.log(error);
-          setErrorMsg("取得訂單失敗");
-        }
-      } finally {
-        setLoading(false);
+        console.log(error);
       }
     };
     getOrders();

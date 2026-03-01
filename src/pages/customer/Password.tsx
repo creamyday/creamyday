@@ -1,4 +1,5 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 import CustomerSidebar from "./CustomerSideBar";
 
 export default function ChangePassword() {

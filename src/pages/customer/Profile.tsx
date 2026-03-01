@@ -1,4 +1,5 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 import CustomerSidebar from "./CustomerSideBar";
 
 interface ProfileForm {
@@ -11,7 +12,7 @@ interface ProfileForm {
 }
 
 /* ===== 台灣縣市 + 區域 (示範版，可自行擴充) ===== */
-export const taiwanDistricts: Record<string, string[]> = {
+const taiwanDistricts: Record<string, string[]> = {
   臺北市: [
     "中正區",
     "大同區",
@@ -410,9 +411,6 @@ export default function Profile() {
     address: "",
   });
 
-  // 左側 hover 控制右上方標題
-  const [hoverTitle, setHoverTitle] = useState("會員中心 / 個人資訊");
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -428,12 +426,9 @@ export default function Profile() {
 
   return (
     <main className="container py-5">
-      {/* 右上方標題 */}
-      <h2 className="fw-bold mb-4">{hoverTitle}</h2>
-
       <div className="row">
         {/* ================= Sidebar ================= */}
-        <CustomerSidebar setHoverTitle={setHoverTitle} />
+        <CustomerSidebar />
 
         {/* ================= 右側內容 ================= */}
         <div className="col-12 col-md-9">
