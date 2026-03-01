@@ -22,7 +22,7 @@ import Checkout from "./pages/customer/Checkout";
 import Order from "./pages/customer/Order";
 
 import Profile from "./pages/customer/Profile";
-import Favorite from "./pages/customer/favorite";
+import Favorite from "./pages/customer/Favorite";
 import Password from "./pages/customer/Password";
 import Orders from "./pages/customer/Orders";
 
