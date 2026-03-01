@@ -426,6 +426,7 @@ export default function Profile() {
 
   return (
     <main className="container py-5">
+      <h2 className="fw-bold mb-4">會員中心 / 個人資訊</h2>
       <div className="row">
         {/* ================= Sidebar ================= */}
         <CustomerSidebar />

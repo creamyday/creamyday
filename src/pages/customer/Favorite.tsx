@@ -181,7 +181,7 @@ export default function Favorite() {
                   padding: "10px 28px",
                   borderRadius: "30px",
                 }}
-                onClick={() => navigate("./products/new")}
+                onClick={() => navigate("/products/new")}
               >
                 去逛逛
               </button>
