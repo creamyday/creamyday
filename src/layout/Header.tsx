@@ -263,6 +263,7 @@ export default function Header() {
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                onClick={() => dispatch(changeShow(false))}
               >
                 商品介紹
               </Link>
@@ -358,7 +359,7 @@ export default function Header() {
             )}
             <button
               type="button"
-              className="btn border-0 p-0"
+              className="btn border-0 p-0 position-relative"
               onClick={() => dispatch(changeShow(!isShow))}
             >
               <Icon icon="ph:shopping-cart-simple" width="24px" />
