@@ -22,7 +22,6 @@ export default function ProductsManagement() {
   const [loading, setLoading] = useState(false);
   const [groupKey, setGroupKey] = useState<string>("");
   const [allProducts, setAllProducts] = useState<any[]>([]);
-  // const [products, setProducts] = useState<any[]>([]);
   const [showData, setShowData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -97,7 +96,6 @@ export default function ProductsManagement() {
   const getProducts = async (page = 1) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products?page=${page}`);
-      // setProducts(res.data.products);
       setCurrentPage(res.data.pagination.current_page);
       setTotalPage(res.data.pagination.total_pages);
       setHasPre(res.data.pagination.has_pre);
@@ -148,7 +146,6 @@ export default function ProductsManagement() {
               <th scope="col">圖片</th>
               <th scope="col">商品名稱</th> 
               <th scope="col">分類</th>
-              <th scope="col">上架狀態</th>
               <th scope="col">操作</th>
             </tr>
           </thead>
@@ -173,11 +170,6 @@ export default function ProductsManagement() {
                   </td>
                   <td>{item.title}</td>
                   <td>{item.category}</td>
-                  <td>
-                    <div className="form-check form-switch">
-                      <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked={item.is_enabled} />
-                    </div>
-                  </td>
                   <td>
                     <div className="btn-group">
                       <button className="btn btn-sm btn-outline-primary"
@@ -213,7 +205,6 @@ export default function ProductsManagement() {
                               <th>原價</th>
                               <th>售價</th>
                               <th>附贈</th>
-                              <th>操作</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -225,9 +216,6 @@ export default function ProductsManagement() {
                                       <td>{option.origin_price}</td>
                                       <td>{option.price}</td>
                                       <td>{option.freebie_note}</td>
-                                      <td>
-                                        <button className="btn btn-sm btn-outline-danger">刪除</button>
-                                      </td>
                                     </tr>
                                 )
                               })) : 
