@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Fragment, useEffect, useRef, useState } from "react";
 import ManageModal from "./components/ManageModal";
+import DeleteModal from "./components/DeleteModal";
 import { Modal } from "bootstrap";
 
 const baseUrl = import.meta.env.VITE_API_URL;
@@ -18,8 +19,9 @@ const getData = async () => {
 
 export default function ProductsManagement() {
 
+  const [loading, setLoading] = useState(false);
   const [groupKey, setGroupKey] = useState<string>("");
-  const [products, setProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
   const [showData, setShowData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -29,6 +31,8 @@ export default function ProductsManagement() {
   const [openCollapse, setOpenCollapse] = useState<string[]>([...Array(10)]);
   const manageModalRef: any = useRef(null);
   const manageModalInstance: any = useRef(null);
+  const deleteModalRef: any = useRef(null);
+  const deleteModalInstance: any = useRef(null);
   
   const [product, setProduct] = useState({
     title: "",
@@ -77,17 +81,26 @@ export default function ProductsManagement() {
     ]
   });
 
+  const getAllProducts = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
+      console.log("getAllProducts response:", response);
+      setAllProducts(Object.values(response.data.products));
+    } catch (error: any) {
+      console.warn('取得商品列表失敗', error.response ?? error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const getProducts = async (page = 1) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products?page=${page}`);
-      console.log(res);
-      setProducts(res.data.products);
       setCurrentPage(res.data.pagination.current_page);
       setTotalPage(res.data.pagination.total_pages);
       setHasPre(res.data.pagination.has_pre);
       setHasNext(res.data.pagination.has_next);
-      setOpenCollapse([...Array(products.length)]);
-
+      
       const newData: any[] = [];
       const seed = new Set<string>();
       res.data.products.forEach((i: any) => {
@@ -97,14 +110,19 @@ export default function ProductsManagement() {
         }
       })
       setShowData(newData);
-
+      setOpenCollapse([...Array(newData.length)]);
     } catch (error: any ) {
       console.warn("錯誤：", error.response)
     }
   }
 
+  const tableExpand = (index: number, collapseId: string) => {
+    setOpenCollapse(prev => prev.map((o, i)=> (i === index ? (o ? "" : collapseId) : o )))
+  }
+
   useEffect(() => {
     manageModalInstance.current = new Modal(manageModalRef.current);
+    deleteModalInstance.current = new Modal(deleteModalRef.current);
     getProducts();
   },[]);
 
@@ -128,7 +146,6 @@ export default function ProductsManagement() {
               <th scope="col">圖片</th>
               <th scope="col">商品名稱</th> 
               <th scope="col">分類</th>
-              <th scope="col">上架狀態</th>
               <th scope="col">操作</th>
             </tr>
           </thead>
@@ -141,14 +158,8 @@ export default function ProductsManagement() {
                     <button
                       className="btn btn-sm btn-outline-primary"
                       type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#${collapseId}`}
-                      aria-expanded="false"
-                      aria-controls={collapseId}
                       onClick={()=>{
-                        setOpenCollapse(prev => prev.map((o, i)=> (i === index ? 
-                        (o ? "" : collapseId)
-                        : o )))
+                        tableExpand(index, collapseId);
                       }}
                     >
                       { openCollapse[index] ? "▼" : "▶"}
@@ -160,28 +171,32 @@ export default function ProductsManagement() {
                   <td>{item.title}</td>
                   <td>{item.category}</td>
                   <td>
-                    <div className="form-check form-switch">
-                      <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked={item.is_enabled} />
-                    </div>
-                  </td>
-                  <td>
                     <div className="btn-group">
                       <button className="btn btn-sm btn-outline-primary"
                       onClick={() => {
-                        manageModalInstance.current.show();
                         setModalStateIsNew(false);
                         const newItem = {...item};
-                        setProduct(newItem);
                         setGroupKey(item.groupKey);
+                        setProduct(newItem);
+                        manageModalInstance.current.show();
                       }}
                       >編輯</button>
-                      <button className="btn btn-sm btn-outline-danger">刪除</button>
+                      <button className="btn btn-sm btn-outline-danger"
+                        onClick={() => {
+                          setLoading(true);
+                          getAllProducts();
+                          const newItem = {...item};
+                          setGroupKey(item.groupKey);
+                          setProduct(newItem);
+                          deleteModalInstance.current.show();
+                        }}
+                      >刪除</button>
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <td colSpan={6} className="p-0 border-0">
-                    <div id={collapseId} className="collapse">
+                    <div id={collapseId} className={`collapse ${collapseId === openCollapse[index] ? "show" : ""}`}>
                       <div className="p-2 bg-white rounded-3">
                         <table className="table table-sm mb-0">
                           <thead>
@@ -190,7 +205,6 @@ export default function ProductsManagement() {
                               <th>原價</th>
                               <th>售價</th>
                               <th>附贈</th>
-                              <th>操作</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -202,9 +216,6 @@ export default function ProductsManagement() {
                                       <td>{option.origin_price}</td>
                                       <td>{option.price}</td>
                                       <td>{option.freebie_note}</td>
-                                      <td>
-                                        <button className="btn btn-sm btn-outline-danger">刪除</button>
-                                      </td>
                                     </tr>
                                 )
                               })) : 
@@ -256,7 +267,12 @@ export default function ProductsManagement() {
         </div>
       </div>
       <ManageModal manageModalRef={manageModalRef} manageModalInstance={manageModalInstance}
-        modalStateIsNew={modalStateIsNew} product={product} setProduct={setProduct} groupKey={groupKey} getProducts={getProducts} />
+        modalStateIsNew={modalStateIsNew} product={product} setProduct={setProduct} groupKey={groupKey} 
+        getProducts={getProducts} 
+        loading={loading} setLoading={setLoading}/>
+      <DeleteModal deleteModalRef={deleteModalRef} deleteModalInstance={deleteModalInstance} groupKey={groupKey}
+        product={product} allProducts={allProducts} getProducts={getProducts} 
+        loading={loading} setLoading={setLoading}/>
       <button type="button" className="btn btn-primary"
         onClick={() => {
           getData();
