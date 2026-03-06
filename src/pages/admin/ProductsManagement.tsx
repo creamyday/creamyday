@@ -2,6 +2,7 @@ import axios from "axios";
 import { Fragment, useEffect, useRef, useState } from "react";
 import ManageModal from "./components/ManageModal";
 import DeleteModal from "./components/DeleteModal";
+import Pagination from "./components/Pagination";
 import { Modal } from "bootstrap";
 
 const baseUrl = import.meta.env.VITE_API_URL;
@@ -130,7 +131,7 @@ export default function ProductsManagement() {
     <>
       <div className="container productsManagement bg-white p-4 rounded-3">
         <div className="d-flex justify-content-between">
-          <h5 className="h5 tableTitle">商品管理列表({showData.length})</h5>
+          <h5 className="h5 tableTitle">商品管理列表</h5>
           <button type="button" className="btn btn-primary addProductBtn"
           onClick={() => {
             setGroupKey(crypto.randomUUID());
@@ -139,7 +140,7 @@ export default function ProductsManagement() {
           }}
           >新增商品</button>
         </div>
-        <table className="table mt-2">
+        <table className="table table-hover mt-2">
           <thead>
             <tr>
               <th scope="col">展開</th>
@@ -198,7 +199,7 @@ export default function ProductsManagement() {
                   <td colSpan={6} className="p-0 border-0">
                     <div id={collapseId} className={`collapse ${collapseId === openCollapse[index] ? "show" : ""}`}>
                       <div className="p-2 bg-white rounded-3">
-                        <table className="table table-sm mb-0">
+                        <table className="table table-hover table-sm mb-0">
                           <thead>
                             <tr>
                               <th>規格</th>
@@ -234,36 +235,8 @@ export default function ProductsManagement() {
           </tbody>
         </table>
         <div className="d-flex justify-content-center">
-          <nav aria-label="Page navigation">
-            <ul className="pagination">
-              <li className="page-item"><a className={`page-link ${hasPre? "" : "disabled"}`} href="#"
-                onClick={(e)=>{
-                  e.preventDefault();
-                  if(!hasPre) return
-                  getProducts(currentPage - 1);
-                }}
-              >Previous</a></li>
-              {
-                [...Array(totalPage)].map((_, p) => {
-                  return (
-                    <li className="page-item"  key={`page-${p}`}><a className={`page-link ${currentPage === p+1 ? "active" : ""}`} href="#"
-                      onClick={(e)=>{
-                        e.preventDefault();
-                        getProducts(p+1);
-                      }}
-                    >{p+1}</a></li>
-                  )
-                })
-              }
-              <li className={`page-item ${hasNext? "" : "disabled"}`}><a className="page-link" href="#"
-                onClick={(e)=>{
-                  e.preventDefault();
-                  if(!hasNext) return
-                  getProducts(currentPage + 1);
-                }}
-              >Next</a></li>
-            </ul>
-          </nav>
+          <Pagination hasPre={hasPre} hasNext={hasNext} 
+            currentPage={currentPage} totalPage={totalPage} getProducts={getProducts}/>
         </div>
       </div>
       <ManageModal manageModalRef={manageModalRef} manageModalInstance={manageModalInstance}
