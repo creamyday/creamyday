@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import Products from "./pages/customer/Products";
 import ProductDetail from "./pages/customer/ProductDetail";
 import Faqs from "./pages/customer/Faqs";
+import Register from "./pages/customer/Register";
 import ForgetPassword from "./pages/customer/ForgetPassword";
 import Carts from "./pages/customer/Carts";
 import Checkout from "./pages/customer/Checkout";
@@ -38,6 +39,10 @@ const createRoutes = createHashRouter([
       {
         path: "/login",
         Component: Login,
+      },
+      {
+        path: "/register",
+        Component: Register,
       },
       {
         path: "/forgetPassword",

@@ -107,7 +107,7 @@ function MobileMenu({
 
       {/* 登入登出按鈕 */}
       {!isAuth ? (
-        <NavLink to="/Login" className="mobile-login-btn">
+        <NavLink to="/login" className="mobile-login-btn"  data-bs-dismiss="offcanvas">
           登入 / 註冊
         </NavLink>
       ) : (
