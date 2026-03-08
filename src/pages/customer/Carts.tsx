@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import { changeQty, removeProduct, initCoupon, initProduct, initFinalTotal, initTotal } from '../../stores/carts';
+import { changeQty, removeProduct, initCoupon, initProduct, initFinalTotal, initTotal, addProduct } from '../../stores/carts';
 import { pushToastAsync } from '../../stores/toasts';
 
 interface AddonProducts {
@@ -19,7 +19,7 @@ interface AddonProducts {
 
 interface LoveProducts {
   id: string,
-  img: string,
+  imageUrl: string,
   title: string,
   price: number,
   isSelect: boolean,
@@ -35,77 +35,37 @@ const addonProducts: AddonProducts[] = [
     price: 80,
     img: "./addon-cakeutensil-candle-set.jpeg",
     isSelect: false,
-    qty:1,
+    qty: 1,
   },
-  { id: "a2", name: "刀盤", price: 30, img: "./addon-cakeutensil.jpeg", isSelect: false,qty:1 },
-  { id: "a3", name: "蠟燭", price: 10, img: "./addon-candles.jpeg", isSelect: false,qty:1 },
-  { id: "a4", name: "保冷袋", price: 100, img: "./addon-coolerbag.jpeg", isSelect: false,qty:1 },
-];
-
-const loveProducts: LoveProducts[] = [
-  {
-    id: '1',
-    img: './bear.png',
-    title: '黑糖珍珠奶茶起司蛋糕',
-    price: 1020,
-    isSelect: false,
-  },
-  {
-    id: '2',
-    img: './bear.png',
-    title: '黑糖珍珠奶茶起司蛋糕',
-    price: 1020,
-    isSelect: false,
-  },
-  {
-    id: '3',
-    img: './bear.png',
-    title: '黑糖珍珠奶茶起司蛋糕',
-    price: 1020,
-    isSelect: false,
-  },
-  {
-    id: '4',
-    img: './bear.png',
-    title: '黑糖珍珠奶茶起司蛋糕',
-    price: 1020,
-    isSelect: false,
-  },
-  {
-    id: '5',
-    img: './bear.png',
-    title: '黑糖珍珠奶茶起司蛋糕',
-    price: 1020,
-    isSelect: false,
-  },
-  {
-    id: '6',
-    img: './misslee.png',
-    title: '黑糖珍珠奶茶起司蛋糕',
-    price: 1020,
-    isSelect: false,
-  },
+  { id: "a2", name: "刀盤", price: 30, img: "./addon-cakeutensil.jpeg", isSelect: false, qty: 1 },
+  { id: "a3", name: "蠟燭", price: 10, img: "./addon-candles.jpeg", isSelect: false, qty: 1 },
+  { id: "a4", name: "保冷袋", price: 100, img: "./addon-coolerbag.jpeg", isSelect: false, qty: 1 },
 ];
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { products, final_total, total, coupon, isAdd } = useSelector((state: any) => state.carts);
+  const { products, final_total, total, coupon, isAdd, keyword } = useSelector((state: any) => state.carts);
   const dispatch = useDispatch() as any;
   const [isToken,setIsToken]= useState(false);
   const [addonList, setAddonList] = useState(addonProducts);
-  const [loveList, setLoveList] = useState(loveProducts);
+  const [loveList, setLoveList] = useState<LoveProducts[]>([]);
   const swiperRef = useRef<SwiperType | null>(null);
   const [couponId,setCouponId] = useState('');
-  
-  
+
+
   useEffect(()=>{
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
       "$1",
     );
-    
+
     setIsToken(Boolean(token));
   }, []);
+
+  useEffect(() => {
+    if (keyword.length === 0) return;
+    initLove();
+  }, [keyword])
 
   const initCart = async () => {
     try {
@@ -148,7 +108,8 @@ export default function Checkout() {
   const removeCart = async (id: string) => {
     const length = products.length;
     dispatch(removeProduct({ id: id }));
-    
+    initLove();
+
     try {
       const res = await axios.delete(`${API_URL}/v2/api/${API_PATH}/cart/${id}`);
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
@@ -165,15 +126,57 @@ export default function Checkout() {
     try {
       const res = await axios.post(`${API_URL}/v2/api/${API_PATH}/coupon`, {
         data: {
-            code: couponId
+          code: couponId
         }
       });
-      if (!res.data.success)return;
-      dispatch(initCoupon(total-res.data.data.final_total));
+      if (!res.data.success) return;
+      dispatch(initCoupon(total - res.data.data.final_total));
     } catch (error: any) {
       dispatch(pushToastAsync({ success: error.success, message: error.message }));
     }
   }
+
+  const initLove = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/v2/api/${API_PATH}/products/all`);
+      const filteredList = res?.data?.products.filter((item: any) => {
+        const isSame = products.some((item1: any) => item1.product.title === item.title);
+        return keyword.includes(item.category) && !isSame
+      }).reduce((a: any, b: any) => {
+        const item = {
+          ...b,
+          isSelect: false,
+        };
+
+        const filterItem = a.findIndex((s: any) => s.title === item.title);
+        if (filterItem === -1) {
+          a.push(item);
+        }
+        return a;
+      }, []);
+
+      setLoveList(filteredList);
+    } catch (error: any) {
+    }
+  }
+
+  const addLove = async (id:string) => {
+    try {
+      const res = await axios.post(
+        `${API_URL}/v2/api/${API_PATH}/cart`,
+        {
+          data: {
+            product_id: id,
+            qty: 1,
+          },
+        },
+      );
+      dispatch(addProduct(res.data.data));
+      dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
+    } catch (error: any) {
+      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    }
+  };
 
   return (
     <main className="container check-wrapper">
@@ -385,7 +388,7 @@ export default function Checkout() {
           }
         </div>
       </div>
-      
+
       <h6 className="text-end GenSenRounded2JP-M-Full mt-20 mb-80">小計：NT$ {total}</h6>
 
       {/* 商品加購區 */}
@@ -424,7 +427,7 @@ export default function Checkout() {
 
                         setAddonList(prev =>
                           prev.map(product =>
-                            product.id === id ? { ...product, qty: num-1 } : product
+                            product.id === id ? { ...product, qty: num - 1 } : product
                           )
                         );
                       }}>
@@ -458,7 +461,7 @@ export default function Checkout() {
 
                         setAddonList(prev =>
                           prev.map(product =>
-                            product.id === id ? { ...product, qty: num+1 } : product
+                            product.id === id ? { ...product, qty: num + 1 } : product
                           )
                         );;
                       }}>
@@ -486,63 +489,70 @@ export default function Checkout() {
       </div>
 
       {/* 猜你喜歡 */}
-      <div className="table-grid-title guess-title">
-        <div className="text-center">猜你喜歡</div>
-      </div>
-      <div className="guess-wapper mb-80">
-        <svg width="40" height="40" className="guess-btn" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => swiperRef.current?.slidePrev()}>
-          <path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" />
-          <path d="M24.2785 19.1588C24.6969 19.6825 24.6674 20.4546 24.1892 20.9427L17.6583 27.6095C17.1482 28.1302 16.3213 28.1302 15.8112 27.6095C15.3012 27.0888 15.3012 26.2447 15.8112 25.724L21.4186 20L15.8112 14.276C15.3012 13.7553 15.3012 12.9112 15.8112 12.3905C16.3213 11.8698 17.1482 11.8698 17.6583 12.3905L24.1892 19.0573L24.2785 19.1588Z" fill="#815630" />
-        </svg>
+      {
+        loveList.length > 0 && <>
+          <div className="table-grid-title guess-title">
+            <div className="text-center">猜你喜歡</div>
+          </div>
+          <div className="guess-wapper mb-80">
+            <svg width="40" height="40" className="guess-btn" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => swiperRef.current?.slidePrev()}>
+              <path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" />
+              <path d="M24.2785 19.1588C24.6969 19.6825 24.6674 20.4546 24.1892 20.9427L17.6583 27.6095C17.1482 28.1302 16.3213 28.1302 15.8112 27.6095C15.3012 27.0888 15.3012 26.2447 15.8112 25.724L21.4186 20L15.8112 14.276C15.3012 13.7553 15.3012 12.9112 15.8112 12.3905C16.3213 11.8698 17.1482 11.8698 17.6583 12.3905L24.1892 19.0573L24.2785 19.1588Z" fill="#815630" />
+            </svg>
 
-        <Swiper
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
-          }}
-          spaceBetween={16}
-          slidesPerView={2}
-          breakpoints={{
-            992: {
-              slidesPerView: 3,
-              spaceBetween: 24,
-            },
-            1200: {
-              slidesPerView: 5,
-              spaceBetween: 24,
-            },
-          }}
-        >
-          {
-            loveList.map((item) => (
-              <SwiperSlide>
-                <div className="guess-item d-flex flex-column justify-content-between" key={item.id}>
-                  <img
-                    src={item.img}
-                    className="img-fluid rounded-1"
-                    alt="猜你喜歡"
-                  />
-                  <p className="mb-1 mt-1">{item.title}</p>
-                  <p className="mb-2">NT${item.price}</p>
-                  <button
-                    type="button"
-                    className="btn btn-outline-primary w-100"
-                    onClick={() => setLoveList(prev =>
-                      prev.map(product =>
-                        product.id === item.id ? { ...product, isSelect: !item.isSelect } : product
-                      )
-                    )}>
-                    {item.isSelect ? '已加購' : '加購'}
-                  </button>
-                </div>
-              </SwiperSlide>
-            ))
-          }
-        </Swiper>
-        <svg width="40" height="40" className="guess-btn" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => swiperRef.current?.slideNext()}>
-          <path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" />
-          <path d="M24.2785 19.1588C24.6969 19.6825 24.6674 20.4546 24.1892 20.9427L17.6583 27.6095C17.1482 28.1302 16.3213 28.1302 15.8112 27.6095C15.3012 27.0888 15.3012 26.2447 15.8112 25.724L21.4186 20L15.8112 14.276C15.3012 13.7553 15.3012 12.9112 15.8112 12.3905C16.3213 11.8698 17.1482 11.8698 17.6583 12.3905L24.1892 19.0573L24.2785 19.1588Z" fill="#815630" />
-        </svg>
-      </div>
+            <Swiper
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              spaceBetween={16}
+              slidesPerView={2}
+              breakpoints={{
+                992: {
+                  slidesPerView: 3,
+                  spaceBetween: 24,
+                },
+                1200: {
+                  slidesPerView: 5,
+                  spaceBetween: 24,
+                },
+              }}
+            >
+              {
+                loveList.map((item) => (
+                  <SwiperSlide>
+                    <div className="guess-item d-flex flex-column justify-content-between" key={item.id}>
+                      <img
+                        src={item.imageUrl}
+                        className="img-fluid rounded-1"
+                        alt="猜你喜歡"
+                      />
+                      <p className="mb-1 mt-1">{item.title}</p>
+                      <p className="mb-2">NT${item.price}</p>
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary w-100"
+                        onClick={() => {
+                          setLoveList(prev =>
+                            prev.map(product =>
+                              product.id === item.id ? { ...product, isSelect: !item.isSelect } : product
+                            )
+                          )
+                          addLove(item.id)
+                        }}>
+                        {item.isSelect ? '已加購' : '加購'}
+                      </button>
+                    </div>
+                  </SwiperSlide>
+                ))
+              }
+            </Swiper>
+            <svg width="40" height="40" className="guess-btn" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => swiperRef.current?.slideNext()}>
+              <path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" />
+              <path d="M24.2785 19.1588C24.6969 19.6825 24.6674 20.4546 24.1892 20.9427L17.6583 27.6095C17.1482 28.1302 16.3213 28.1302 15.8112 27.6095C15.3012 27.0888 15.3012 26.2447 15.8112 25.724L21.4186 20L15.8112 14.276C15.3012 13.7553 15.3012 12.9112 15.8112 12.3905C16.3213 11.8698 17.1482 11.8698 17.6583 12.3905L24.1892 19.0573L24.2785 19.1588Z" fill="#815630" />
+            </svg>
+          </div>
+        </>
+      }
 
       {/* 折扣碼+金額 */}
       <div className="row row-cols-1 row-cols-lg-2">
@@ -568,7 +578,7 @@ export default function Checkout() {
           </div>
           <div className="d-flex justify-content-between">
             <p>折扣碼</p>
-            <p>{coupon <=0 ? `NT$${coupon}` : `-NT$ ${coupon}`}</p>
+            <p>{coupon <= 0 ? `NT$${coupon}` : `-NT$ ${coupon}`}</p>
           </div>
           <hr />
           <div className="d-flex justify-content-between">
@@ -582,7 +592,7 @@ export default function Checkout() {
                   <p className="text-center mb-1 text-primary">您尚未登入會員</p>
                   <Link className="btn btn-outline-primary w-100" to="/login">立即登入</Link>
                 </>
-              ) :<Link className = "btn btn-primary w-100" to = "/checkout">前往結帳</Link>
+              ) : <Link className="btn btn-primary w-100" to="/checkout">前往結帳</Link>
             }
           </div>
         </div>

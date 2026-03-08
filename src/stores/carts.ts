@@ -2,6 +2,7 @@ interface CartProps {
   isShow: boolean;
   isAdd: boolean;
   products: Record<string, any>[];
+  keyword: string[];
   final_total:number;
   total:number;
   coupon:number;
@@ -13,6 +14,7 @@ const initialState: CartProps = {
   isShow: false,
   isAdd: false,
   products: [],
+  keyword:[],
   final_total:0,
   total:0,
   coupon:0,
@@ -37,7 +39,11 @@ export const cartStore = createSlice({
       if(index === -1){
         state.products.push(action.payload);
       }else{
-        state.products[index] = {id:state.products[index].id,...action.payload};
+        state.products[index] = { id: state.products[index].id, ...action.payload };
+      }
+
+      if (!state.keyword.includes(action.payload.product.category)) {
+        state.keyword.push(action.payload.product.category)
       }
       state.isAdd = true;
     },
@@ -50,6 +56,12 @@ export const cartStore = createSlice({
     },
     initProduct: function (state, action) {
       state.products = action.payload;
+      state.keyword = state.products.reduce((a: any, b: any) => {
+        if (!a.includes(b.product.category)) {
+          a.push(b.product.category)
+        }
+        return a
+      }, []);
     },
     initFinalTotal: function (state, action) {
       state.final_total = action.payload;

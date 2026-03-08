@@ -21,6 +21,10 @@ import Carts from "./pages/customer/Carts";
 import Checkout from "./pages/customer/Checkout";
 import Order from "./pages/customer/Order";
 
+import Profile from "./pages/customer/Profile";
+import Favorite from "./pages/customer/Favorite";
+import Password from "./pages/customer/Password";
+import Orders from "./pages/customer/Orders";
 
 const createRoutes = createHashRouter([
   {
@@ -36,7 +40,7 @@ const createRoutes = createHashRouter([
         Component: Login,
       },
       {
-        path: '/forgetPassword',
+        path: "/forgetPassword",
         Component: ForgetPassword,
       },
       {
@@ -68,6 +72,22 @@ const createRoutes = createHashRouter([
         Component: Order,
       },
       {
+        path: "/profile",
+        Component: Profile,
+      },
+      {
+        path: "/favorite",
+        Component: Favorite,
+      },
+      {
+        path: "/orders",
+        Component: Orders,
+      },
+      {
+        path: "/password",
+        Component: Password,
+      },
+      {
         path: "*",
         Component: NotFound,
       },
@@ -82,12 +102,10 @@ const createRoutes = createHashRouter([
     Component: Signin,
   },
   {
-    path: '/admin',
+    path: "/admin",
     Component: AdminLayout,
     children: [
-      { index: true, 
-        element: <Navigate to="dashboard" replace /> 
-      },
+      { index: true, element: <Navigate to="dashboard" replace /> },
       {
         path: "dashboard",
         Component: Dashboard,
@@ -105,7 +123,7 @@ const createRoutes = createHashRouter([
         Component: CouponsManagement,
       },
     ],
-  }
+  },
 ]);
 
 export default createRoutes;

@@ -14,15 +14,15 @@ export default function AdminSidebar() {
           <NavLink className="nav-link" to="/admin/products"><i className="bi bi-box-seam me-2"></i> 商品管理</NavLink>
           <NavLink className="nav-link" to="/admin/orders"><i className="bi bi-receipt me-2"></i> 訂單管理</NavLink>
           <NavLink className="nav-link" to="/admin/coupons"><i className="bi bi-ticket-perforated me-2"></i> 折扣碼管理</NavLink>
-          <NavLink className="nav-link" to="/admin/banners">
+          {/* <NavLink className="nav-link" to="/admin/banners">
             <i className="bi bi-image me-2"></i> 
-            Banner管理</NavLink>
-          <NavLink className="nav-link" to="/admin/store-info">
+            Banner管理</NavLink> */}
+          {/* <NavLink className="nav-link" to="/admin/store-info">
             <i className="bi bi-shop me-2"></i> 
-            營業資訊管理</NavLink>
-          <NavLink className="nav-link" to="/admin/reviews">
+            營業資訊管理</NavLink> */}
+          {/* <NavLink className="nav-link" to="/admin/reviews">
             <i className="bi bi-chat-heart me-2"></i> 
-            評論管理</NavLink>
+            評論管理</NavLink> */}
         </nav>
         </div>
     </>

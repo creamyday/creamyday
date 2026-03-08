@@ -81,7 +81,13 @@ export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [favoriteSet, setFavoriteSet] = useState<Set<string>>(new Set());
+  // const [favoriteSet, setFavoriteSet] = useState<Set<string>>(new Set());
+  const [favoriteSet, setFavoriteSet] = useState<Set<string>>(() => {
+    const stored = localStorage.getItem("favorites");
+    if (!stored) return new Set();
+    return new Set(JSON.parse(stored));
+  });
+
   const [sortKey, setSortKey] = useState<SortKey>("default");
 
   const displayProducts = Object.values(
@@ -117,6 +123,10 @@ export default function Products() {
       return next;
     });
   };
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(Array.from(favoriteSet)));
+  }, [favoriteSet]);
 
   useEffect(() => {
     const getProducts = async () => {
