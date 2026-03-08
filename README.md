@@ -4,17 +4,27 @@ https://creamyday.github.io/creamyday/
 ## 技術
 1.SCSS
 
-2.Bootstrap
+2.Bootstrap + Bootstrap-icons
 
 3.TypeScript
 
-4.React+ React Router
+4.React + React Router
 
 5.Vite
 
 6.axios
 
 7.C3.js
+
+8.react-spinners
+
+9.swiper
+
+10.react-redux
+
+11.react-hook-form
+
+12.date-fns
 
 ## 開始撰寫專案
 git clone > npm install > npm run dev
