@@ -252,7 +252,7 @@ export default function HeroCarousel() {
                     <div className="d-flex align-items-center gap-3 news-meta">
                       <img
                         className="news-cake"
-                        src="/news-cake.png"
+                        src="./news-cake.png"
                         alt="cake"
                       />
                       <span className="news-date">{item.date}</span>
