@@ -517,13 +517,13 @@
   }
 
   // 【按鈕】加入追蹤清單
-  &__wishlist {
+  &__favorite {
     width: 100%;
     display: flex;
     justify-content: center;
   }
 
-  &__wishlist-btn {
+  &__favorite-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -542,7 +542,7 @@
       font-size: 20px;
     }
 
-    .product-main__wishlist-icon {
+    .product-main__favorite-icon {
       width: 32px;
       height: 32px;
       box-shadow: 0 0 0 1px $blue-300;
@@ -557,8 +557,15 @@
       }
     }
 
-    &:hover .product-main__wishlist-icon {
+    &:hover .product-main__favorite-icon {
       box-shadow: 0 0 0 1px $blue-800;
+    }
+
+    &.active {
+      .product-main__favorite-icon {
+        box-shadow: 0 0 0 1px $blue;
+      }
+      color: $blue;
     }
   }
 }
@@ -778,7 +785,13 @@
     }
 
     &:hover {
-      background-color: #8b5e3c;
+      background-color: $blue-800;
+      border: none;
+      color: $white;
+    }
+
+    &.active {
+      background-color: $blue;
       color: $white;
     }
   }
