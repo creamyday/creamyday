@@ -1,4 +1,13 @@
-export default function Pagination({hasPre, hasNext, currentPage, totalPage, getProducts}: any) {
+
+type PaginationProps = {
+  hasPre: boolean, 
+  hasNext:boolean, 
+  currentPage: number, 
+  totalPage: number, 
+  getProducts: (page: number) => Promise<void> | void,
+}
+
+export default function Pagination({hasPre, hasNext, currentPage, totalPage, getProducts}: PaginationProps) {
   return (
     <nav aria-label="Page navigation">
       <ul className="pagination">

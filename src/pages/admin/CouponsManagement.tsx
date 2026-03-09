@@ -16,7 +16,7 @@ type couponForm = {
   percent: number;
   due_date: number;
   is_enabled: number;
-  id?: string;
+  id: string;
 }
 const emptyCoupon = {
   title: "",
@@ -33,7 +33,7 @@ export default function CouponsManagement() {
   const {errors} = formState;
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const [adding, setAdding] = useState<boolean>(false);
-  const [coupons, setCoupons] = useState<any[]>([]);
+  const [coupons, setCoupons] = useState<couponForm[]>([]);
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -44,11 +44,11 @@ export default function CouponsManagement() {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/coupons`);
       setCoupons(res.data.coupons);
-    } catch (error: any) {
-      console.warn(error.response);
+    } catch (error: unknown) {
+      console.warn(error);
     }
   }
-  const addCoupon = async (data: any) =>{
+  const addCoupon = async (data: couponForm) =>{
     const newData = {
       ...data,
       percent: Number(data.percent),
@@ -63,13 +63,13 @@ export default function CouponsManagement() {
       reset();
       setAdding(false);
       setIsAdded(false);
-    } catch (errors: any) {
-      console.warn(errors.response);
+    } catch (errors: unknown) {
+      console.warn(errors);
     } finally {
       setAdding(false);
     }
   }
-  const toEnable = async (coupon: any) => {
+  const toEnable = async (coupon: couponForm) => {
     const newCoupon = {
       ...coupon,
       is_enabled: coupon.is_enabled ? 0 : 1,
@@ -77,8 +77,8 @@ export default function CouponsManagement() {
     try {
       await axios.put(`${baseUrl}/v2/api/${api_path}/admin/coupon/${coupon.id}`, {data: newCoupon});
       await getCoupons();
-    } catch (error: any) {
-      console.log(error.response);
+    } catch (error: unknown) {
+      console.log(error);
     } finally {
       setLoadingId(null);
     }
@@ -87,18 +87,18 @@ export default function CouponsManagement() {
     try {
       await axios.delete(`${baseUrl}/v2/api/${api_path}/admin/coupon/${id}`);
       await getCoupons();
-    } catch (error: any) {
-      console.warn(error.response);
+    } catch (error: unknown) {
+      console.warn(error);
     } finally {
       setDeleteId(null);
     }
   }
-  const editCoupon = async (coupon: any) => {
+  const editCoupon = async (coupon: couponForm) => {
     try {
       await axios.put(`${baseUrl}/v2/api/${api_path}/admin/coupon/${coupon.id}`, {data: coupon});
       await getCoupons();
-    } catch (error: any) {
-      console.warn(error.response);
+    } catch (error: unknown) {
+      console.warn(error);
     } finally {
       setEditItem(emptyCoupon);
       setEditingId(null);
@@ -119,16 +119,16 @@ export default function CouponsManagement() {
               <th>序</th>
               <th>優惠碼</th>
               <th>優惠券標題</th>
-              <th style={{width: "120px"}}>折扣</th>
+              <th>折扣</th>
               <th>啟用</th>
-              <th style={{width: "50px"}}>到期日</th>
+              <th>到期日</th>
               <th>操作</th>
             </tr>
           </thead>
           <tbody>
             {
               // 編輯優惠券
-              coupons.map((coupon: any, index: number) => {
+              coupons.map((coupon: couponForm, index: number) => {
                 return ( (editItem?.id === coupon.id)?
                   <tr key={coupon.id}>
                     <td>{index+1}</td>
@@ -277,7 +277,7 @@ export default function CouponsManagement() {
                     {errors.title && (<p className="text-danger text-sm">{errors.title.message}</p>)}
                   </td>
                   <td>
-                    <input type="number" className="form-control" placeholder="例：8折請輸入20" min={0}
+                    <input type="number" className="form-control" placeholder="例：8折請輸入80" min={0}
                       {...register("percent", {
                         required: "請輸入折扣數",
                       })}

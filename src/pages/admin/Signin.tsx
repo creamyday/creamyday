@@ -10,7 +10,7 @@ export default function Signin() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   
-  async function handleSubmit(email:any, password:any) {
+  async function handleSubmit(email: string, password: string) {
   try {
     const res = await axios.post(`${API_BASE_URL}/v2/admin/signin`, {
       username: email,

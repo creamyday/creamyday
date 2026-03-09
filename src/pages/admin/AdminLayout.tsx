@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 const baseUrl = import.meta.env.VITE_API_URL;
 
 const getToken = () => 
-  document.cookie.replace(/(?:(?:^|.*;\s*)creamydayToken\s*\=\s*([^;]*).*$)|^.*$/,
-    "$1");
+  document.cookie.replace(/(?:(?:^|.*;\s*)creamydayToken\s*=\s*([^;]*).*$)|^.*$/, "$1");
 
 export default function AdminLayout() {
   
@@ -23,12 +22,12 @@ export default function AdminLayout() {
       try {
         const res = await axios.post(`${baseUrl}/v2/api/user/check`)
         if (res.data.success) setIsChecking(false);
-      } catch (error:any) {
-        console.warn(error.response);
+      } catch (error: unknown) {
+        console.warn(error);
         navigate('/adminLogin');
       }
     })()
-  },[])
+  }, [navigate])
 
   return (
     <>

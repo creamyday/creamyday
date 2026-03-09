@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import c3 from 'c3';
 import 'c3/c3.css';
 import axios from 'axios';
 import { endOfDay, endOfMonth, format, isWithinInterval, startOfDay, startOfMonth, subMonths } from 'date-fns';
+import type { Order } from './types/Product';
 
 const baseUrl = import.meta.env.VITE_API_URL;
 const api_path = import.meta.env.VITE_API_PATH;
@@ -13,35 +14,37 @@ export default function Dashboard() {
   const [todayTotal, setTodayTotal] = useState<number>(0);
   const [todayOrderCount, setTodayOrderCount] = useState<number>(0);
   const [thisMonthTotal, setThisMonthTotal] = useState<number>(0);
-  const [allOrder, setAllOrder] = useState<any>([]);
+  const [allOrder, setAllOrder] = useState<Order[]>([]);
 
-  const getOrders = async (page = 1) => {
+  const getOrders = (page = 1) => {
     try {
-      return await axios.get(`${baseUrl}/v2/api/${api_path}/admin/orders?page=${page}`);
-    } catch (error: any) {
-      console.warn(error.response);
+      return axios.get(`${baseUrl}/v2/api/${api_path}/admin/orders?page=${page}`);
+    } catch (error: unknown) {
+      console.warn(error);
     }
   }
-  const getAllOrderPages = async () => {
+  const getAllOrderPages = useCallback(async () => {
     try {
       // 取得所有訂單資料
       const first = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/orders`);
       const totalPages = first.data.pagination.total_pages;
       let allOrders = [...first.data.orders];
       const result = await Promise.all([...Array(totalPages-1)].map((_, index: number) => getOrders(index + 2)));
-      result.forEach((page: any) => {
+      result.forEach((page) => {
+        console.log("page", page)
+        if(!page) return
         allOrders = [...allOrders, ...page.data.orders];
       });
       setAllOrder(allOrders);
       // 取得當日訂單資料
-      const todayOrder = allOrders.filter((order: any) => 
+      const todayOrder = allOrders.filter((order: Order) => 
         isWithinInterval(new Date(order.create_at * 1000), {
           start: startOfDay(new Date()),
           end: endOfDay(new Date()),
         })
       )
       // 取得當月訂單資料
-      const thisMonthOrder = allOrders.filter((order: any) => 
+      const thisMonthOrder = allOrders.filter((order: Order) => 
         isWithinInterval(new Date(order.create_at * 1000), {
           start: startOfMonth(new Date()),
           end: endOfMonth(new Date()),
@@ -49,26 +52,29 @@ export default function Dashboard() {
       )
       console.log(allOrders);
       // 取得當日營收數據
-      setTodayTotal(todayOrder.reduce((sum: number, b: any) =>  sum + b.total, 0));
+      setTodayTotal(todayOrder.reduce((sum: number, b: Order) =>  sum + b.total, 0));
       // 取得當日訂單數
       setTodayOrderCount(todayOrder.length);
       // 取得未付款訂單數
-      setWaitToPay(allOrders.filter((order: any) => !order.is_paid).length);
+      setWaitToPay(allOrders.filter((order: Order) => !order.is_paid).length);
       // 取得當月營收數據
-      setThisMonthTotal(thisMonthOrder.reduce((sum: number, b: any) => sum + b.total, 0));
-    } catch (error: any) 
+      setThisMonthTotal(thisMonthOrder.reduce((sum: number, b: Order) => sum + b.total, 0));
+    } catch (error: unknown) 
     {
-      console.warn(error.response);
+      console.warn(error);
     }
-  }
+  }, [])
+  
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getAllOrderPages();
-  },[])
+  },[getAllOrderPages])
+
   useEffect(() => {
     const monthKeys = [...Array(6)].map((_, index: number) => `${format(subMonths(new Date(), (5 - index)), "yyyy-MM")}-01`);
     const total: Record<string, number> = {};
-    monthKeys.map((month: string, _) => total[month] = 0);
-    allOrder.forEach((order: any) => {
+    monthKeys.forEach((month: string) => total[month] = 0);
+    allOrder.forEach((order: Order) => {
       const key: string = `${format(new Date(order.create_at * 1000), "yyyy-MM")}-01`;
       if(key in total) total[key] += order.total;
     })
@@ -86,7 +92,9 @@ export default function Dashboard() {
           ['x', ...monthKeys],
           ['營收', ...(Object.values(total))]
         ],
+        type: "area-spline",
       },
+      color: {pattern:["#815631"]},
       axis: {
         x: {
           type: 'timeseries',

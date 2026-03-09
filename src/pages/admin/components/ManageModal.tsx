@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Modal } from "bootstrap";
 import { useEffect, useRef } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { BeatLoader } from "react-spinners";
@@ -6,8 +7,19 @@ import { BeatLoader } from "react-spinners";
 const baseUrl = import.meta.env.VITE_API_URL;
 const api_path = import.meta.env.VITE_API_PATH;
 
+type ManageModalProps = {
+  modalStateIsNew: boolean, 
+  product: ProductForm, 
+  groupKey: string, 
+  getProducts: () => Promise<void> | void, 
+  loading: boolean, 
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  manageModalRef: React.RefObject<HTMLDivElement | null>, 
+  manageModalInstance: React.RefObject<Modal | null>,
+}
+
 type Option = {
-  optionId?: string;
+  optionId: string;
   name: string;
   origin_price: number;
   price: number;
@@ -22,6 +34,7 @@ type Content = {
 };
 
 type ProductForm = {
+  id: "";
   is_enabled: boolean;
   isPopular: boolean;
   isNew: boolean;
@@ -37,6 +50,7 @@ type ProductForm = {
   price: number;
   stock: number;
   options: Option[];
+  freebie_note: string;
 };
 
 const emptyContents: Content[] = [
@@ -47,6 +61,7 @@ const emptyContents: Content[] = [
 ];
 
 const emptyForm: ProductForm = {
+  id: "",
   is_enabled: false,
   isPopular: false,
   isNew: false,
@@ -61,7 +76,8 @@ const emptyForm: ProductForm = {
   origin_price: 0,
   price: 0,
   stock: 10,
-  options: [{name:"", origin_price: 0, price: 0, freebie_note: "", stock: 0}],
+  freebie_note: "",
+  options: [{optionId: "", name:"", origin_price: 0, price: 0, freebie_note: "", stock: 0}],
 };
 
 const emptyOption: Option = {
@@ -74,7 +90,7 @@ const emptyOption: Option = {
 };
 
 
-export default function ManageModal({modalStateIsNew, product, groupKey, getProducts, loading, setLoading, manageModalRef, manageModalInstance}: any) {
+export default function ManageModal({modalStateIsNew, product, groupKey, getProducts, loading, setLoading, manageModalRef, manageModalInstance}: ManageModalProps) {
 
 
   const { register, handleSubmit, control, reset, formState, watch, setValue } = useForm<ProductForm>({
@@ -90,12 +106,13 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
   });
 
   // 取得特定 groupKey 的商品資料（用於新增後重新整理該組資料）
-  const getSortData: any = async (sortId: string) => {
+  const getSortData = async (sortId: string) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
-      return Object.values(res.data.products).filter((p: any) => p.groupKey === sortId);
-    } catch (error: any) {
-      console.warn("錯誤：", error.response);
+      return (Object.values(res.data.products) as ProductForm[])
+      .filter((p: ProductForm) => p.groupKey === sortId);
+    } catch (error: unknown) {
+      console.warn("錯誤：", error);
     };
   };
 
@@ -104,18 +121,18 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
     try {
       const res = await axios.post(`${baseUrl}/v2/api/${api_path}/admin/product`, {data: data});
       return res.data;
-    } catch (error: any) {
-      console.warn(error.response);
+    } catch (error: unknown) {
+      console.warn(error);
     }
   };
 
   // 同步options
-  const optionsSync = async (data: any) => {
+  const optionsSync = async (data: ProductForm) => {
     // 重新取得該 groupKey 的商品資料，更新畫面
     const groupData = await getSortData(groupKey);
     if (!Array.isArray(groupData)) return;
     // 將所有相同groupKey的商品的id、unit、origin_price、price、stock、freebie_note組成新的options陣列
-    const groupOptions = groupData.map((p: any) => (
+    const groupOptions = groupData.map((p: ProductForm) => (
       {
         optionId: p.id,
         name: p.unit,
@@ -126,7 +143,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
       }
     ));
     // 將上面組成的options陣列送出編輯商品的 API 請求，更新該組資料的options
-    await Promise.all(groupData.map((p: any) =>
+    await Promise.all(groupData.map((p: ProductForm) =>
         axios.put(
           `${baseUrl}/v2/api/${api_path}/admin/product/${p.id}`,
           {
@@ -145,12 +162,12 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
     );
   }
 
-  const toSubmit = async (data: any) => {
+  const toSubmit = async (data: ProductForm) => {
     setLoading(true);
     data.groupKey = groupKey;
     if(modalStateIsNew) {
       // 送出新增商品的 API 請求
-      await Promise.all(data.options.map((o: any) => {
+      await Promise.all(data.options.map((o: Option) => {
         const tempOption = {
           ...data,
           unit: o.name,
@@ -164,12 +181,12 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
       }));
       await optionsSync(data);
       await getProducts();
-      manageModalInstance.current.hide();
+      if(manageModalInstance.current) manageModalInstance.current.hide();
       setLoading(false);
     } else {
-      const existingOptions = data.options.filter((o: any) => o.optionId); // 有 id 的都是既有規格
+      const existingOptions = data.options.filter((o: Option) => o.optionId); // 有 id 的都是既有規格
       await Promise.all(
-        existingOptions.map((o: any) =>
+        existingOptions.map((o: Option) =>
           axios.put(`${baseUrl}/v2/api/${api_path}/admin/product/${o.optionId}`, {
             data: {
               ...data,
@@ -182,14 +199,14 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
           })
         )
       );
-      const currentId = data.options.map((o: any) => o.optionId).filter(Boolean) as string[];
+      const currentId = data.options.map((o: Option) => o.optionId).filter(Boolean) as string[];
       const optionIdsToBeDeleted = originalIds.current.filter((id: string) => !currentId.includes(id));
-      const optionsToBeAdded = data.options.filter((o: any) => o.optionId === "");
-      if(data.options.filter((o: any) => !originalIds.current.includes(o.optionId)).length === 0 &&
+      const optionsToBeAdded = data.options.filter((o: Option) => o.optionId === "");
+      if(data.options.filter((o: Option) => !originalIds.current.includes(o.optionId)).length === 0 &&
         optionIdsToBeDeleted.length === 0
       ) {
         // 若資料規格無新增也無刪除，僅編輯欄位資訊
-        const groupOptions = data.options.map((p: any) => (
+        const groupOptions = data.options.map((p: Option) => (
           {
             optionId: p.optionId,
             name: p.name,
@@ -199,7 +216,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
             freebie_note: p.freebie_note ?? "",
           }
         ));
-        await Promise.all(data.options.map((o: any) => {
+        await Promise.all(data.options.map((o: Option) => {
           return axios.put(`${baseUrl}/v2/api/${api_path}/admin/product/${o.optionId}`, {
             data: {
               ...data,
@@ -215,7 +232,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
         }))
       } else {
         if(optionsToBeAdded.length !== 0) {
-          await Promise.all(optionsToBeAdded.map((o: any) => {
+          await Promise.all(optionsToBeAdded.map((o: Option) => {
             const newData = {
               ...data,
               unit: o.name,
@@ -235,7 +252,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
         await optionsSync(data);
       }
       await getProducts();
-      manageModalInstance.current.hide();
+      if(manageModalInstance.current) manageModalInstance.current.hide();
       setLoading(false);
     }
   };
@@ -243,7 +260,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
   useEffect(() => {
     if(modalStateIsNew) reset(emptyForm)
     else {
-      originalIds.current = product.options.map((o: any) => o.optionId).filter(Boolean);
+      originalIds.current = product.options.map((o: Option) => o.optionId).filter(Boolean);
       reset({
         groupKey: product.groupKey ?? "",
         is_enabled: product.is_enabled ?? false,
@@ -285,7 +302,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
                 </h5>
                 <button type="button" className="btn-close" aria-label="Close"
                   onClick={() => {
-                    manageModalInstance.current.hide();
+                    if(manageModalInstance.current) manageModalInstance.current.hide();
                   }}
                 ></button>
               </div>
@@ -602,7 +619,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary"
                   onClick={() => {
-                    manageModalInstance.current.hide();
+                    if(manageModalInstance.current) manageModalInstance.current.hide();
                   }}
                 >取消</button>
                 <button type="submit" className="btn btn-primary"
