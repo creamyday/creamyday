@@ -45,6 +45,8 @@ type AddonProduct = {
   name: string;
   price: number;
   img: string;
+  qty: number;
+  isSelect: boolean;
 };
 
 const addonProducts: AddonProduct[] = [
@@ -53,10 +55,33 @@ const addonProducts: AddonProduct[] = [
     name: "刀盤蠟燭",
     price: 80,
     img: "./addon-cakeutensil-candle-set.jpeg",
+    qty: 1,
+    isSelect: false,
   },
-  { id: "a2", name: "刀盤", price: 30, img: "./addon-cakeutensil.jpeg" },
-  { id: "a3", name: "蠟燭", price: 10, img: "./addon-candles.jpeg" },
-  { id: "a4", name: "保冷袋", price: 100, img: "./addon-coolerbag.jpeg" },
+  {
+    id: "a2",
+    name: "刀盤",
+    price: 30,
+    img: "./addon-cakeutensil.jpeg",
+    qty: 1,
+    isSelect: false,
+  },
+  {
+    id: "a3",
+    name: "蠟燭",
+    price: 10,
+    img: "./addon-candles.jpeg",
+    qty: 1,
+    isSelect: false,
+  },
+  {
+    id: "a4",
+    name: "保冷袋",
+    price: 100,
+    img: "./addon-coolerbag.jpeg",
+    qty: 1,
+    isSelect: false,
+  },
 ];
 
 const ICON = {
@@ -85,6 +110,13 @@ export default function ProductDetail() {
 
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+  const [favoriteSet, setFavoriteSet] = useState<Set<string>>(() => {
+    const stored = localStorage.getItem("favorites");
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  });
+
+  const [addonList, setAddonList] = useState(addonProducts);
 
   const navigate = useNavigate();
 
@@ -153,6 +185,10 @@ export default function ProductDetail() {
     getProduct();
   }, [productId, allProducts]);
 
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(Array.from(favoriteSet)));
+  }, [favoriteSet]);
+
   if (loading) {
     return (
       <main className="product-detail">
@@ -210,6 +246,25 @@ export default function ProductDetail() {
     if (isSoldOut) return;
     setQuantity((prev) => (prev <= 1 ? 1 : prev - 1));
   };
+
+  // 加入追蹤清單
+  const toggleFavorite = (id: string) => {
+    setFavoriteSet((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+        dispatch(
+          pushToastAsync({ success: true, message: "已從追蹤清單移除" }),
+        );
+      } else {
+        next.add(id);
+        dispatch(pushToastAsync({ success: true, message: "已加入追蹤清單" }));
+      }
+      return next;
+    });
+  };
+
+  const isFav = favoriteSet.has(product.id);
 
   // 加入購物車
   const handleAddToCart = async () => {
@@ -275,6 +330,22 @@ export default function ProductDetail() {
     const targetProduct = sameGroupProducts.find((p) => p.unit === newUnit);
     if (!targetProduct) return;
     navigate(`/products/${category}/${targetProduct.id}`);
+  };
+
+  // 加購商品
+  const updateAddonQty = (id: string, num: number) => {
+    if (num < 1) return;
+    setAddonList((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, qty: num } : item)),
+    );
+  };
+
+  const toggleAddonSelect = (id: string) => {
+    setAddonList((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, isSelect: !item.isSelect } : item,
+      ),
+    );
   };
 
   return (
@@ -460,14 +531,19 @@ export default function ProductDetail() {
                 </>
               )}
 
-              <div className="product-main__wishlist">
-                <button type="button" className="product-main__wishlist-btn">
+              <div className="product-main__favorite">
+                <button
+                  type="button"
+                  className={`product-main__favorite-btn ${isFav ? "active" : ""}`}
+                  onClick={() => toggleFavorite(product.id)}
+                >
                   <img
-                    src={ICON.heart}
-                    alt="wishlist"
-                    className="product-main__wishlist-icon"
+                    src={isFav ? "./icon-heart-liked.svg" : "./icon-heart.svg"}
+                    className="product-main__favorite-icon"
+                    alt="heart icon"
                   />
-                  加入追蹤清單
+
+                  <span>{isFav ? "已加入追蹤清單" : "加入追蹤清單"}</span>
                 </button>
               </div>
             </div>
@@ -476,7 +552,7 @@ export default function ProductDetail() {
           <section className="product-addon">
             <h3 className="product-addon__title">加購商品</h3>
             <ul className="product-addon__list">
-              {addonProducts.map((item) => (
+              {addonList.map((item) => (
                 <li key={item.id} className="product-addon__item">
                   <div className="product-addon__header-info">
                     <div className="product-addon__img">
@@ -492,16 +568,32 @@ export default function ProductDetail() {
 
                   <div className="product-addon__control">
                     <div className="product-addon__qty">
-                      <button type="button" className="product-addon__qty-btn">
+                      <button
+                        type="button"
+                        className="product-addon__qty-btn"
+                        onClick={() => updateAddonQty(item.id, item.qty - 1)}
+                        disabled={item.qty <= 1}
+                      >
                         <img src={ICON.minus} alt="減少" />
                       </button>
-                      <span className="product-addon__qty-num">1</span>
-                      <button type="button" className="product-addon__qty-btn">
+
+                      <span className="product-addon__qty-num">{item.qty}</span>
+
+                      <button
+                        type="button"
+                        className="product-addon__qty-btn"
+                        onClick={() => updateAddonQty(item.id, item.qty + 1)}
+                      >
                         <img src={ICON.plus} alt="增加" />
                       </button>
                     </div>
-                    <button type="button" className="product-addon__add-btn">
-                      加購
+
+                    <button
+                      type="button"
+                      className={`product-addon__add-btn ${item.isSelect ? "active" : ""}`}
+                      onClick={() => toggleAddonSelect(item.id)}
+                    >
+                      {item.isSelect ? "已加購" : "加購"}
                     </button>
                   </div>
                 </li>
