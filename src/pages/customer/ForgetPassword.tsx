@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
+import { useForm,useWatch } from "react-hook-form";
 
 interface FormForgetPassword {
   email: string,
@@ -24,8 +24,9 @@ export default function ForgetPassword(){
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<FormForgetPassword>({
     mode: 'onTouched',
@@ -36,7 +37,7 @@ export default function ForgetPassword(){
       again_password: ""
     }
   });
-  const isEmailVerified = watch("isEmailTo");
+  const isEmailVerified = useWatch({ control, name: 'isEmailTo' });
 
   const onSubmit = () => {
     navigate('/login');
@@ -54,7 +55,7 @@ export default function ForgetPassword(){
     <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
-          <h2 className="text-center">忘記​密碼​了​嗎 ​?</h2>
+          <h2 className="text-center">忘記密碼了嗎 ?</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-2 input-group border rounded">
               <input
@@ -128,7 +129,7 @@ export default function ForgetPassword(){
                       value: true,
                       message: '密碼為必填'
                     }, 
-                    validate: (value) => value === watch('password') || "兩次密碼不一致"
+                    validate: (value) => value === getValues('password') || "兩次密碼不一致"
                   }
                 )}
               />

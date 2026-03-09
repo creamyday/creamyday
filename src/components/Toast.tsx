@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux';
+import type { RootState } from '../stores/allStores';
 
 export default function Toast() {
-  const { toasts } = useSelector((state: any) => state.toasts);
+  const { toasts } = useSelector((state: RootState) => state.toasts);
 
   return (
     <div className="toast-container position-fixed top-0 end-0 p-3">
       {
-        toasts.map((item:any) => {
+        toasts.map((item) => {
           return (
             <div className="toast show bg-light" key={item.id}>
               <div className={`toast-header bg-${item.color}`}>
