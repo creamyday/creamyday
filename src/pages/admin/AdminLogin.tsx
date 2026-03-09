@@ -7,7 +7,7 @@ const baseUrl = import.meta.env.VITE_API_URL;
 
 
 const getToken = () => 
-  document.cookie.replace(/(?:(?:^|.*;\s*)creamydayToken\s*\=\s*([^;]*).*$)|^.*$/,
+  document.cookie.replace(/(?:(?:^|.*;\s*)creamydayToken\s*=\s*([^;]*).*$)|^.*$/,
     "$1");
 
 
@@ -22,7 +22,7 @@ export default function AdminLogin() {
         const res = await axios.post(`${baseUrl}/v2/admin/signin`,data)
         document.cookie = `creamydayToken=${res.data.token}; expires=${new Date(res.data.expired)}`;
         navigate('/admin');
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.warn(error);
       }
     })();
@@ -37,11 +37,11 @@ export default function AdminLogin() {
         const res = await axios.post(`${baseUrl}/v2/api/user/check`)
         console.log(res);
         navigate('/admin/dashboard');
-      } catch (error:any) {
-        console.warn(error.response);
+      } catch (error: unknown) {
+        console.warn(error);
       }
     })()
-  },[])
+  },[navigate])
 
   return (
     <>

@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { Modal } from "bootstrap";
+import type { Order } from "../types/Product";
+import type { ProductOfOrder } from "../types/Product";
 
-export default function OrderModal({orderModalRef, orderModalInstance, singleOrder}: any) {
+type OrderModalProps = {
+  orderModalRef: React.RefObject<HTMLDivElement | null>,
+  orderModalInstance: React.RefObject<Modal | null>,
+  singleOrder: Order,
+}
 
-  const [products, setProducts] = useState<any>([]);
+export default function OrderModal({orderModalRef, orderModalInstance, singleOrder}: OrderModalProps) {
 
-  useEffect(() => {
-    if(!singleOrder.products) return;
-    setProducts(Object.values(singleOrder.products));
-  },[singleOrder])
+  const products = Object.values(singleOrder.products);
 
   return (
     <div className="modal fade" ref={orderModalRef} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -19,7 +22,7 @@ export default function OrderModal({orderModalRef, orderModalInstance, singleOrd
             </h5>
             <button type="button" className="btn-close" aria-label="Close"
               onClick={() => {
-                orderModalInstance.current.hide();
+                if(orderModalInstance.current) orderModalInstance.current.hide();
               }}
             ></button>
           </div>
@@ -38,7 +41,8 @@ export default function OrderModal({orderModalRef, orderModalInstance, singleOrd
               </thead>
               <tbody>
                 {
-                  products.map((product: any, index: number) => {
+                  products.map((product: ProductOfOrder, index: number) => {
+                    console.log("檢查",singleOrder);
                     return (
                       <tr key={index}>
                         <td>{index+1}</td>
@@ -67,7 +71,7 @@ export default function OrderModal({orderModalRef, orderModalInstance, singleOrd
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary"
               onClick={() => {
-                orderModalInstance.current.hide();
+                if(orderModalInstance.current) orderModalInstance.current.hide();
               }}
             >關閉</button>
           </div>

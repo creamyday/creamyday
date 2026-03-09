@@ -4,6 +4,8 @@ import ManageModal from "./components/ManageModal";
 import DeleteModal from "./components/DeleteModal";
 import Pagination from "./components/Pagination";
 import { Modal } from "bootstrap";
+import type { Option } from "./types/Product";
+import type { Product } from "./types/Product";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 const api_path = import.meta.env.VITE_API_PATH;
@@ -12,8 +14,8 @@ const getData = async () => {
   try {
     const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
     console.log(res);
-  } catch (error: any) {
-    console.warn("錯誤：", error.response)
+  } catch (error: unknown) {
+    console.warn("錯誤：", error)
   }
 }
 
@@ -22,20 +24,23 @@ export default function ProductsManagement() {
 
   const [loading, setLoading] = useState(false);
   const [groupKey, setGroupKey] = useState<string>("");
-  const [allProducts, setAllProducts] = useState<any[]>([]);
-  const [showData, setShowData] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [showData, setShowData] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [hasPre, setHasPre] = useState<boolean>(false);
   const [hasNext, setHasNext] = useState<boolean>(false);
   const [modalStateIsNew, setModalStateIsNew] = useState<boolean>(true);
   const [openCollapse, setOpenCollapse] = useState<string[]>([...Array(10)]);
-  const manageModalRef: any = useRef(null);
-  const manageModalInstance: any = useRef(null);
-  const deleteModalRef: any = useRef(null);
-  const deleteModalInstance: any = useRef(null);
   
-  const [product, setProduct] = useState({
+  const manageModalRef = useRef<HTMLDivElement | null>(null);
+  const manageModalInstance = useRef<Modal | null>(null);
+  const deleteModalRef = useRef<HTMLDivElement | null>(null);
+  const deleteModalInstance = useRef<Modal | null>(null);
+  
+  const [product, setProduct] = useState<Product>({
+    id: "",
+    groupKey: "",
     title: "",
     category: "disabled",
     origin_price: 0,
@@ -47,13 +52,13 @@ export default function ProductsManagement() {
     is_enabled: true,
     isPopular: true,
     isNew: true,
-    options: [{ size: "", originPrice: "", price: "" }],
+    options: [{ name: "", origin_price: 0, price: 0, id: "", freebie_note: "" }],
     content: [
       {
-      key: "intro",
-      title: "商品介紹",
-      text:
-        "",
+        key: "intro",
+        title: "商品介紹",
+        text:
+          "",
       },
       {
         key: "spec",
@@ -87,8 +92,8 @@ export default function ProductsManagement() {
       const response = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
       console.log("getAllProducts response:", response);
       setAllProducts(Object.values(response.data.products));
-    } catch (error: any) {
-      console.warn('取得商品列表失敗', error.response ?? error);
+    } catch (error: unknown) {
+      console.warn('取得商品列表失敗', error);
     } finally {
       setLoading(false);
     }
@@ -102,9 +107,9 @@ export default function ProductsManagement() {
       setHasPre(res.data.pagination.has_pre);
       setHasNext(res.data.pagination.has_next);
       
-      const newData: any[] = [];
+      const newData: Product[] = [];
       const seed = new Set<string>();
-      res.data.products.forEach((i: any) => {
+      res.data.products.forEach((i: Product) => {
         if(!seed.has(i.groupKey)) {
           seed.add(i.groupKey);
           newData.push(i);
@@ -112,8 +117,8 @@ export default function ProductsManagement() {
       })
       setShowData(newData);
       setOpenCollapse([...Array(newData.length)]);
-    } catch (error: any ) {
-      console.warn("錯誤：", error.response)
+    } catch (error: unknown) {
+      console.warn("錯誤：", error)
     }
   }
 
@@ -122,8 +127,8 @@ export default function ProductsManagement() {
   }
 
   useEffect(() => {
-    manageModalInstance.current = new Modal(manageModalRef.current);
-    deleteModalInstance.current = new Modal(deleteModalRef.current);
+    if(manageModalRef.current) manageModalInstance.current = new Modal(manageModalRef.current);
+    if(deleteModalRef.current) deleteModalInstance.current = new Modal(deleteModalRef.current);
     getProducts();
   },[]);
 
@@ -135,7 +140,7 @@ export default function ProductsManagement() {
           <button type="button" className="btn btn-primary addProductBtn"
           onClick={() => {
             setGroupKey(crypto.randomUUID());
-            manageModalInstance.current.show();
+            if(manageModalInstance.current) manageModalInstance.current.show();
             setModalStateIsNew(true);
           }}
           >新增商品</button>
@@ -151,7 +156,7 @@ export default function ProductsManagement() {
             </tr>
           </thead>
           <tbody key={currentPage}>
-            {showData.map((item: any, index:number) => {
+            {showData.map((item: Product, index:number) => {
               const collapseId = `coll-${item.id}`;
               return <Fragment key={item.id}>
                 <tr>
@@ -179,7 +184,7 @@ export default function ProductsManagement() {
                         const newItem = {...item};
                         setGroupKey(item.groupKey);
                         setProduct(newItem);
-                        manageModalInstance.current.show();
+                        if(manageModalInstance.current) manageModalInstance.current.show();
                       }}
                       >編輯</button>
                       <button className="btn btn-sm btn-outline-danger"
@@ -189,7 +194,7 @@ export default function ProductsManagement() {
                           const newItem = {...item};
                           setGroupKey(item.groupKey);
                           setProduct(newItem);
-                          deleteModalInstance.current.show();
+                          if(deleteModalInstance.current) deleteModalInstance.current.show();
                         }}
                       >刪除</button>
                     </div>
@@ -210,7 +215,7 @@ export default function ProductsManagement() {
                           </thead>
                           <tbody>
                             { item.options?.length ?
-                              (item.options.map((option: any, i: number) => {
+                              (item.options.map((option: Option, i: number) => {
                                 return (
                                     <tr key={`${option.id}-${i}`}>
                                       <td>{option.name}</td>

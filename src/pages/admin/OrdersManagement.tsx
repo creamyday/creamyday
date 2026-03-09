@@ -1,40 +1,59 @@
 import axios from "axios"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Modal } from "bootstrap";
 import Pagination from "./components/Pagination";
 import OrderModal from "./components/OrderModal";
+import type { Order } from "./types/Product";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 const api_path = import.meta.env.VITE_API_PATH;
 
+const initOrder = {
+  products: {},
+  create_at: 0,
+  id: "",
+  is_paid: false,
+  message: "",
+  total: 0,
+  user: {
+    name: "",
+    tel: "",
+    address: ""
+  }
+}
+
 export default function OrdersManagement() {
 
-  const [orders, setOrders] = useState<any[]>([]);
-  const [singleOrder, setSingleOrder] = useState<any>({});
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [singleOrder, setSingleOrder] = useState<Order>(initOrder);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [hasPre, setHasPre] = useState<boolean>(false);
   const [hasNext, setHasNext] = useState<boolean>(false);
-  const orderModalRef: any = useRef(null);
-  const orderModalInstance: any = useRef(null);
+  // const orderModalRef = useRef(null);
+  // const orderModalInstance = useRef(null);
+  const orderModalRef = useRef<HTMLDivElement | null>(null);
+  const orderModalInstance = useRef<Modal | null>(null);
 
-  const getOrders = async (page = 1) => {
+  const getOrders = useCallback(async (page = 1) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/orders?page=${page}`);
+      console.log(res.data);
       setOrders(res.data.orders);
       setCurrentPage(res.data.pagination.current_page);
       setTotalPage(res.data.pagination.total_pages);
       setHasPre(res.data.pagination.has_pre);
       setHasNext(res.data.pagination.has_next);
-    } catch (error: any) {
-      console.warn(error.response);
+    } catch (error: unknown) {
+      console.warn(error);
     }
-  }
+  }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getOrders();
-    orderModalInstance.current = new Modal(orderModalRef.current);
-  },[])
+    if(orderModalRef.current)  orderModalInstance.current = new Modal(orderModalRef.current);
+  }, [getOrders])
 
   return (
     <>
@@ -55,10 +74,10 @@ export default function OrdersManagement() {
           </thead>
           <tbody>
             {
-              orders.map((order: any, index: number) => {
+              orders.map((order: Order, index: number) => {
                 const date = (new Date(order.create_at * 1000))
                 return (
-                  <tr key={index}>
+                  <tr key={order.id}>
                     <td>{index+1}</td>
                     <td>{order.user.name}</td>
                     <td className={order.is_paid? "text-success" : "text-danger"}>
@@ -71,7 +90,7 @@ export default function OrdersManagement() {
                       <button className="btn btn-sm btn-outline-primary"
                         onClick={() => {
                           setSingleOrder(order);
-                          orderModalInstance.current.show();
+                          if(orderModalInstance.current) orderModalInstance.current.show();
                         }}
                       >查看</button>
                     </td>
