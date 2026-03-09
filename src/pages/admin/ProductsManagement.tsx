@@ -19,7 +19,6 @@ const getData = async () => {
   }
 }
 
-
 export default function ProductsManagement() {
 
   const [loading, setLoading] = useState(false);
@@ -52,7 +51,9 @@ export default function ProductsManagement() {
     is_enabled: true,
     isPopular: true,
     isNew: true,
-    options: [{ name: "", origin_price: 0, price: 0, id: "", freebie_note: "" }],
+    stock: 0,
+    freebie_note: "",
+    options: [{ name: "", origin_price: 0, price: 0, optionId: "", freebie_note: "", stock:0}],
     content: [
       {
         key: "intro",
@@ -217,7 +218,7 @@ export default function ProductsManagement() {
                             { item.options?.length ?
                               (item.options.map((option: Option, i: number) => {
                                 return (
-                                    <tr key={`${option.id}-${i}`}>
+                                    <tr key={`${option.optionId}-${i}`}>
                                       <td>{option.name}</td>
                                       <td>{option.origin_price}</td>
                                       <td>{option.price}</td>
@@ -245,7 +246,7 @@ export default function ProductsManagement() {
         </div>
       </div>
       <ManageModal manageModalRef={manageModalRef} manageModalInstance={manageModalInstance}
-        modalStateIsNew={modalStateIsNew} product={product} setProduct={setProduct} groupKey={groupKey} 
+        modalStateIsNew={modalStateIsNew} product={product} groupKey={groupKey} 
         getProducts={getProducts} 
         loading={loading} setLoading={setLoading}/>
       <DeleteModal deleteModalRef={deleteModalRef} deleteModalInstance={deleteModalInstance} groupKey={groupKey}
