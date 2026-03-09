@@ -104,7 +104,7 @@ export default function Checkout() {
         }
       });
       if (!res.data.success) return;
-      dispatch(addCoupon(totalRef.current - res.data.data.final_total));
+      dispatch(addCoupon(Math.round(totalRef.current - res.data.data.final_total)));
     } catch (error) {
       const err = error as ToastMsg;
       dispatch(pushToastAsync({ success: err.success, message: err.message }));
