@@ -1,9 +1,10 @@
 export type Option = {
+  optionId: string,
   name: string,
-  id: string,
   price: number,
   origin_price: number,
   freebie_note: string,
+  stock: number,
 }
 export type Content = {
   key: string,
@@ -50,5 +51,7 @@ export type Product = {
   description: string,
   content: Content[],
   options: Option[],
+  stock: number,
+  freebie_note: "",
   unit: string,
 }

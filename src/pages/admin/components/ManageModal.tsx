@@ -3,13 +3,15 @@ import { Modal } from "bootstrap";
 import { useEffect, useRef } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { BeatLoader } from "react-spinners";
+import type { Product } from "../types/Product";
+import type { Option } from "../types/Product";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 const api_path = import.meta.env.VITE_API_PATH;
 
 type ManageModalProps = {
   modalStateIsNew: boolean, 
-  product: ProductForm, 
+  product: Product, 
   groupKey: string, 
   getProducts: () => Promise<void> | void, 
   loading: boolean, 
@@ -18,14 +20,14 @@ type ManageModalProps = {
   manageModalInstance: React.RefObject<Modal | null>,
 }
 
-type Option = {
-  optionId: string;
-  name: string;
-  origin_price: number;
-  price: number;
-  stock: number;
-  freebie_note: string;
-};
+// type Option = {
+//   optionId: string;
+//   name: string;
+//   origin_price: number;
+//   price: number;
+//   stock: number;
+//   freebie_note: string;
+// };
 
 type Content = {
   key: string;
@@ -33,25 +35,25 @@ type Content = {
   text: string;
 };
 
-type ProductForm = {
-  id: "";
-  is_enabled: boolean;
-  isPopular: boolean;
-  isNew: boolean;
-  groupKey: string;
-  title: string;
-  description: string;
-  content: Content[];
-  category: string;
-  imageUrl: string;
-  imagesUrl: string[];
-  unit: string;
-  origin_price: number;
-  price: number;
-  stock: number;
-  options: Option[];
-  freebie_note: string;
-};
+// type ProductForm = {
+//   id: "";
+//   is_enabled: boolean;
+//   isPopular: boolean;
+//   isNew: boolean;
+//   groupKey: string;
+//   title: string;
+//   description: string;
+//   content: Content[];
+//   category: string;
+//   imageUrl: string;
+//   imagesUrl: string[];
+//   unit: string;
+//   origin_price: number;
+//   price: number;
+//   stock: number;
+//   options: Option[];
+//   freebie_note: string;
+// };
 
 const emptyContents: Content[] = [
   { key: "intro", title: "商品介紹", text: "" },
@@ -60,7 +62,7 @@ const emptyContents: Content[] = [
   { key: "shipping", title: "配送方式與訂購須知", text: "配送方式\n冷藏宅配\n門市自取（請於備註填寫取貨日期）\n\n付款方式\n信用卡 / Line Pay / Apple Pay\nATM 轉帳\n\n訂購須知\n每日手作，依訂單製作\n下單後 2–3 天出貨\n生鮮食品不接受退換貨（除商品瑕疵）" },
 ];
 
-const emptyForm: ProductForm = {
+const emptyForm: Product = {
   id: "",
   is_enabled: false,
   isPopular: false,
@@ -93,7 +95,7 @@ const emptyOption: Option = {
 export default function ManageModal({modalStateIsNew, product, groupKey, getProducts, loading, setLoading, manageModalRef, manageModalInstance}: ManageModalProps) {
 
 
-  const { register, handleSubmit, control, reset, formState, watch, setValue } = useForm<ProductForm>({
+  const { register, handleSubmit, control, reset, formState, watch, setValue } = useForm<Product>({
     defaultValues: emptyForm,
   });
   const { errors, isDirty } = formState;
@@ -109,8 +111,8 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
   const getSortData = async (sortId: string) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
-      return (Object.values(res.data.products) as ProductForm[])
-      .filter((p: ProductForm) => p.groupKey === sortId);
+      return (Object.values(res.data.products) as Product[])
+      .filter((p: Product) => p.groupKey === sortId);
     } catch (error: unknown) {
       console.warn("錯誤：", error);
     };
@@ -127,12 +129,12 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
   };
 
   // 同步options
-  const optionsSync = async (data: ProductForm) => {
+  const optionsSync = async (data: Product) => {
     // 重新取得該 groupKey 的商品資料，更新畫面
     const groupData = await getSortData(groupKey);
     if (!Array.isArray(groupData)) return;
     // 將所有相同groupKey的商品的id、unit、origin_price、price、stock、freebie_note組成新的options陣列
-    const groupOptions = groupData.map((p: ProductForm) => (
+    const groupOptions = groupData.map((p: Product) => (
       {
         optionId: p.id,
         name: p.unit,
@@ -143,7 +145,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
       }
     ));
     // 將上面組成的options陣列送出編輯商品的 API 請求，更新該組資料的options
-    await Promise.all(groupData.map((p: ProductForm) =>
+    await Promise.all(groupData.map((p: Product) =>
         axios.put(
           `${baseUrl}/v2/api/${api_path}/admin/product/${p.id}`,
           {
@@ -162,7 +164,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
     );
   }
 
-  const toSubmit = async (data: ProductForm) => {
+  const toSubmit = async (data: Product) => {
     setLoading(true);
     data.groupKey = groupKey;
     if(modalStateIsNew) {
