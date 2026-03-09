@@ -4,13 +4,15 @@ import { useSelector,useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 import { changeQty, removeProduct, changeShow } from '../stores/carts';
 import { pushToastAsync } from '../stores/toasts';
+import type { AppDispatch, RootState } from '../stores/allStores';
+import type { ToastMsg } from '../types/toasts';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function Cart() {
-  const dispatch = useDispatch() as any;
-  const { isShow, products } = useSelector((state: any) => state.carts);
+  const dispatch: AppDispatch = useDispatch();
+  const { isShow, products } = useSelector((state: RootState) => state.carts);
 
   const updateQty = async (id: string, num: number) => {
     dispatch(changeQty({ qty: num, id: id }));
@@ -25,8 +27,9 @@ export default function Cart() {
         }
       );
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
-    } catch (error:any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   };
 
@@ -36,8 +39,9 @@ export default function Cart() {
       const res = await axios.delete(
         `${API_URL}/v2/api/${API_PATH}/cart/${id}`);
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
-    } catch (error: any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   }
 
@@ -56,7 +60,7 @@ export default function Cart() {
       <h4 className="text-center mb-40">購物車商品</h4>
       <div className="body">
       {
-        products.map((item:any)=>(
+        products.map((item)=>(
           <div className="mb-40" key={item.id}>
             <div className="d-flex">
               <img
@@ -173,7 +177,7 @@ export default function Cart() {
       <hr className="mt-0 mb-40" />
       <div className="d-flex justify-content-between mb-40">
         <h5 className="mb-0">總金額</h5>
-        <h5 className="mb-0  GenSenRounded2JP-M-Full">NT$ {products.reduce((a: number, b: any)=>{
+        <h5 className="mb-0  GenSenRounded2JP-M-Full">NT$ {products.reduce((a, b)=>{
           a +=b.qty * b.product.price;
           return a;
         },0)}</h5>

@@ -1,43 +1,48 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import type { OrderInfo, LocationState, CheckData } from '../../types/carts';
 
 export default function Order() {
-  const { state } = useLocation();
+  const location = useLocation();
+  const state = location.state as LocationState;
   const [isStatus, setIsStatus] = useState(false);
-  const [request, setRequest] = useState<any>({});
+  const [request, setRequest] = useState<OrderInfo | null>(null);
 
   useEffect(() => {
-    let options = state?.request?.billOptions.find((item: any) => item.id == state?.request?.billMethod);
+    let options = state?.request?.billOptions.find((item) => item.id == state?.request?.billMethod);
     const name = state?.request?.user?.name;
     const tel = state?.request?.user?.tel;
     const email = state?.request?.user?.email;
     const address = state?.request?.user?.address;
     const message = state?.request?.message;
     const billMethod = options?.value;
-    const bill = options?.keys.reduce((a:string,b:string)=>{
+    const bill = options?.keys.reduce((a,b)=>{
       if (b){
-        a += state?.request[b]
+        const key = b as keyof CheckData;
+        a += state?.request[key];
       }
       return a;
     },'');
-    options = state?.request?.deliveryOptions.find((item: any) => item.id == state?.request?.deliveryMethod);
+    options = state?.request?.deliveryOptions.find((item) => item.id == state?.request?.deliveryMethod);
     const deliveryMethod = options?.value;
-    const delivery = options?.keys.reduce((a: string, b: string) => {
+    const delivery = options?.keys.reduce((a, b) => {
       if (b) {
-        a += state?.request[b]
+        const key = b as keyof CheckData;
+        a += state?.request[key]
       }
       return a;
     }, '');
-    options = state?.request?.paymentOptions.find((item: any) => item.id == state?.request?.paymentMethod);
+    options = state?.request?.paymentOptions.find((item) => item.id == state?.request?.paymentMethod);
     const paymentMethod = options?.value;
-    const payment = options?.keys.reduce((a: string, b: string) => {
+    const payment = options?.keys.reduce((a, b) => {
       if (b) {
-        a += state?.request[b]
+        const key = b as keyof CheckData;
+        a += state?.request[key]
       }
       return a;
     }, '');
 
-    let data = {
+    const data = {
       name,
       tel,
       email,
@@ -50,9 +55,12 @@ export default function Order() {
       paymentMethod,
       payment,
     }
-    setIsStatus(state?.success);
-    setRequest(data);
-  }, [location.pathname])
+    const fetch = ()=>{
+      setIsStatus(state?.success);
+      setRequest(data);
+    }
+    fetch();
+  }, [state])
 
   if (isStatus) {
     return (
@@ -107,11 +115,11 @@ export default function Order() {
             </div>
             <div className="col col-right col-lg-4 py-100 d-none d-lg-block">
               <p>
-                感謝​您​的​支持！<br />
-                我​們​已​收​到​您​的​訂單，​將會​盡快​處理。<br />
-                請​您​耐心​等​候 3 - 7​ ​天 ​的​製作​與出​貨​時間。<br />
-                最​新​狀態​與物​流追蹤碼，​將會​透過​電子​郵件​即時寄​送​到​您​的​信箱 ，​請留意​查收。<br />
-                期​待​這份​美味​能​點亮​您​的​特別​時刻！​<br />
+                感謝您的支持！<br />
+                我們已收到您的訂單，將會盡快處理。<br />
+                請您耐心等候 3 - 7 天 的製作與出貨時間。<br />
+                最新狀態與物流追蹤碼，將會透過電子郵件即時寄送到您的信箱 ，請留意查收。<br />
+                期待這份美味能點亮您的特別時刻！<br />
               </p>
             </div>
           </div>
@@ -128,13 +136,13 @@ export default function Order() {
           <div className="col col-left col-lg-8 py-100">
             <h4>訂單失敗</h4>
             <p>
-              非常​抱歉，<br />
-              由​於系統​在​處理​時​發生​了​異常​或​延遲，<br />
-              建議​您​稍候幾分鐘後重新​嘗試​付款。<br /><br />
-              請​不​必擔心，​我​們​未​收取​您​的​任何​費用。<br /><br />
-              如​仍​無法​成功，<br />
-              請​直接​聯繫​我​們​的​客服，​我​們將​盡​快為​您​處理。<br /><br />
-              感謝​您​的​支持​與體​諒！
+              非常抱歉，<br />
+              由於系統在處理時發生了異常或延遲，<br />
+              建議您稍候幾分鐘後重新嘗試付款。<br /><br />
+              請不必擔心，我們未收取您的任何費用。<br /><br />
+              如仍無法成功，<br />
+              請直接聯繫我們的客服，我們將盡快為您處理。<br /><br />
+              感謝您的支持與體諒！
             </p>
           </div>
           <div className="col col-right col-lg-4 py-100 d-none d-lg-block">

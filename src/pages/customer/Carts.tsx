@@ -2,28 +2,15 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import { changeQty, removeProduct, initCoupon, initProduct, initFinalTotal, initTotal, addProduct } from '../../stores/carts';
+import { changeQty, removeProduct, addCoupon, initCoupon, initProduct, initFinalTotal, initTotal, addProduct } from '../../stores/carts';
 import { pushToastAsync } from '../../stores/toasts';
+import type { ToastMsg } from '../../types/toasts';
+import type { AddonProducts, LoveProducts, TempLove,Product } from '../../types/carts';
+import type { AppDispatch, RootState } from '../../stores/allStores';
 
-interface AddonProducts {
-  id: string;
-  name: string;
-  price: number;
-  img: string;
-  isSelect: boolean,
-  qty: number,
-};
-
-interface LoveProducts {
-  id: string,
-  imageUrl: string,
-  title: string,
-  price: number,
-  isSelect: boolean,
-};
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -44,30 +31,18 @@ const addonProducts: AddonProducts[] = [
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { products, final_total, total, coupon, isAdd, keyword } = useSelector((state: any) => state.carts);
-  const dispatch = useDispatch() as any;
+  const dispatch: AppDispatch = useDispatch();
+  const { products, final_total, total, coupon, isAdd, keyword } = useSelector((state: RootState) => state.carts);
+  const productsRef = useRef(products);
+  const final_totalRef = useRef(final_total);
+  const totalRef = useRef(total);
+  const swiperRef = useRef<SwiperType | null>(null);
   const [isToken,setIsToken]= useState(false);
   const [addonList, setAddonList] = useState(addonProducts);
   const [loveList, setLoveList] = useState<LoveProducts[]>([]);
-  const swiperRef = useRef<SwiperType | null>(null);
   const [couponId,setCouponId] = useState('');
-
-
-  useEffect(()=>{
-    const token = document.cookie.replace(
-      /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
-      "$1",
-    );
-
-    setIsToken(Boolean(token));
-  }, []);
-
-  useEffect(() => {
-    if (keyword.length === 0) return;
-    initLove();
-  }, [keyword])
-
-  const initCart = async () => {
+  
+  const initCartFn = useCallback(async () => {
     try {
       const res = await axios.get(
         `${API_URL}/v2/api/${API_PATH}/cart`,
@@ -76,18 +51,15 @@ export default function Checkout() {
       dispatch(initFinalTotal(res.data.data.final_total));
       dispatch(initTotal(res.data.data.total));
     } catch (error) {
-      dispatch(initProduct(products));
-      dispatch(initFinalTotal(final_total));
-      dispatch(initTotal(total));
+      dispatch(initProduct(productsRef.current));
+      dispatch(initFinalTotal(final_totalRef.current));
+      dispatch(initTotal(totalRef.current));
+      console.error(error);
     }
-  }
-  useEffect(() => {
-    if (isAdd){
-      initCart();
-    }
-  }, [isAdd])
+  }, [productsRef,dispatch])
 
-  const updateQty = async (id: string, num: number) => {
+
+  const updateQtyFn = async (id: string, num: number) => {
     dispatch(changeQty({ qty: num, id: id }));
     try {
       const res = await axios.put(
@@ -100,15 +72,16 @@ export default function Checkout() {
         }
       );
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
-    } catch (error: any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   };
 
-  const removeCart = async (id: string) => {
+  const removeCartFn = async (id: string) => {
     const length = products.length;
     dispatch(removeProduct({ id: id }));
-    initLove();
+    initLoveFn();
 
     try {
       const res = await axios.delete(`${API_URL}/v2/api/${API_PATH}/cart/${id}`);
@@ -116,12 +89,13 @@ export default function Checkout() {
       if (length == 1) {
         navigate('/')
       }
-    } catch (error: any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   }
 
-  const addCoupon = async ()=> {
+  const addCouponFn = async ()=> {
     if (couponId.trim() === '')return;
     try {
       const res = await axios.post(`${API_URL}/v2/api/${API_PATH}/coupon`, {
@@ -130,37 +104,47 @@ export default function Checkout() {
         }
       });
       if (!res.data.success) return;
-      dispatch(initCoupon(total - res.data.data.final_total));
-    } catch (error: any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+      dispatch(addCoupon(totalRef.current - res.data.data.final_total));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   }
 
-  const initLove = async () => {
+  const removeCouponFn = () => {
+    setCouponId('');
+    dispatch(initCoupon());
+  }
+
+  const initLoveFn = useCallback(async () => {
     try {
-      const res = await axios.get(`${API_URL}/v2/api/${API_PATH}/products/all`);
-      const filteredList = res?.data?.products.filter((item: any) => {
-        const isSame = products.some((item1: any) => item1.product.title === item.title);
-        return keyword.includes(item.category) && !isSame
-      }).reduce((a: any, b: any) => {
-        const item = {
+      const res = await axios.get<{ products: Product[] }>(`${API_URL}/v2/api/${API_PATH}/products/all`);
+      const allProducts = res?.data?.products || [];
+      const filteredList = allProducts.filter((item: Product) => {
+        const isSame = productsRef.current.some((item1: Product) => item1.product.title === item.title);
+        const category = item.category as string;
+        return keyword.includes(category) && !isSame
+      }).reduce<TempLove[]>((a, b) => {
+        const item: TempLove = {
           ...b,
           isSelect: false,
         };
 
-        const filterItem = a.findIndex((s: any) => s.title === item.title);
+        const filterItem = a.findIndex((s) => s.title === item.title);
         if (filterItem === -1) {
           a.push(item);
         }
         return a;
       }, []);
 
-      setLoveList(filteredList);
-    } catch (error: any) {
+      setLoveList(filteredList as unknown as LoveProducts[]);
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
-  }
+  }, [keyword, dispatch]);
 
-  const addLove = async (id:string) => {
+  const addLoveFn = async (id:string) => {
     try {
       const res = await axios.post(
         `${API_URL}/v2/api/${API_PATH}/cart`,
@@ -173,10 +157,55 @@ export default function Checkout() {
       );
       dispatch(addProduct(res.data.data));
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
-    } catch (error: any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   };
+
+
+  useEffect(() => {
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
+      "$1",
+    );
+    const fetch = () => {
+      setIsToken(Boolean(token));
+    }
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    if (keyword.length === 0) return;
+    const fetch = () => {
+      initLoveFn();
+    }
+    fetch();
+  }, [keyword, initLoveFn])
+
+  // 導頁過來的
+  useEffect(() => {
+    if (isAdd) {
+      initCartFn();
+    }
+  }, [isAdd,initCartFn]);
+
+  useEffect(()=>{
+    if (JSON.stringify(products) !== JSON.stringify(productsRef.current)){
+      productsRef.current = products
+    }
+
+    if (JSON.stringify(final_total) !== JSON.stringify(final_totalRef.current)) {
+      final_totalRef.current = final_total
+    }
+
+    if (JSON.stringify(total) !== JSON.stringify(totalRef.current)) {
+      totalRef.current = total
+    }
+
+  }, [products, final_total, total])
+  
+
 
   return (
     <main className="container check-wrapper">
@@ -193,7 +222,7 @@ export default function Checkout() {
         </div>
 
         {
-          products.map((item: any) => (
+          products.map((item) => (
             <div className="table-grid table-grid-content" key={item.id}>
               <div className="my-auto">
                 <img
@@ -216,7 +245,7 @@ export default function Checkout() {
                       className="btn btn-orange d-flex justify-content-center align-items-center text-light p-0 rounded-1 input-icon"
                       type="button"
                       disabled={item.qty <= 1}
-                      onClick={() => updateQty(item.id, item.qty - 1)}>
+                      onClick={() => updateQtyFn(item.id, item.qty - 1)}>
                       <Icon
                         icon="material-symbols:remove-rounded"
                         width="14px"
@@ -229,7 +258,7 @@ export default function Checkout() {
                       onChange={(e) => {
                         const num = Number(e.target.value);
                         if (isNaN(num)) return;
-                        updateQty(item.id, num);
+                        updateQtyFn(item.id, num);
                       }}
                     />
                     <button
@@ -238,7 +267,7 @@ export default function Checkout() {
                       disabled={item.qty >= item.product.stock}
                       onClick={() => {
                         const num = item.qty + 1;
-                        updateQty(item.id, num)
+                        updateQtyFn(item.id, num)
                       }}>
                       <Icon
                         icon="material-symbols:add-rounded"
@@ -255,7 +284,7 @@ export default function Checkout() {
                 <button
                   type="button"
                   className="btn border-0 px-3"
-                  onClick={() => removeCart(item.id)}>
+                  onClick={() => removeCartFn(item.id)}>
                   <Icon
                     icon="carbon:trash-can"
                     width="32px"
@@ -273,7 +302,7 @@ export default function Checkout() {
         </div>
         <div>
           {
-            products.map((item: any) => (
+            products.map((item) => (
               <div className="table-grid-content mb-0 px-12" key={item.id}>
                 <div className="d-flex">
                   <img
@@ -288,7 +317,7 @@ export default function Checkout() {
                         <button
                           type="button"
                           className="btn border-0 px-3"
-                          onClick={() => removeCart(item.id)}>
+                          onClick={() => removeCartFn(item.id)}>
                           <Icon
                             icon="carbon:trash-can"
                             width="32px"
@@ -305,7 +334,7 @@ export default function Checkout() {
                             className="btn btn-orange d-flex justify-content-center align-items-center text-light p-0 rounded-1 input-icon"
                             type="button"
                             disabled={item.qty <= 1}
-                            onClick={() => updateQty(item.id, item.qty - 1)}>
+                            onClick={() => updateQtyFn(item.id, item.qty - 1)}>
                             <Icon
                               icon="material-symbols:remove-rounded"
                               width="14px"
@@ -318,7 +347,7 @@ export default function Checkout() {
                             onChange={(e) => {
                               const num = Number(e.target.value);
                               if (isNaN(num)) return;
-                              updateQty(item.id, num);
+                              updateQtyFn(item.id, num);
                             }}
                           />
                           <button
@@ -327,7 +356,7 @@ export default function Checkout() {
                             disabled={item.qty >= item.product.stock}
                             onClick={() => {
                               const num = item.qty + 1;
-                              updateQty(item.id, num)
+                              updateQtyFn(item.id, num)
                             }}>
                             <Icon
                               icon="material-symbols:add-rounded"
@@ -349,7 +378,7 @@ export default function Checkout() {
                         className="btn btn-orange d-flex justify-content-center align-items-center text-light p-0 rounded-1 input-icon"
                         type="button"
                         disabled={item.qty <= 0}
-                        onClick={() => updateQty(item.id, item.qty - 1)}>
+                        onClick={() => updateQtyFn(item.id, item.qty - 1)}>
                         <Icon
                           icon="material-symbols:remove-rounded"
                           width="14px"
@@ -362,7 +391,7 @@ export default function Checkout() {
                         onChange={(e) => {
                           const num = Number(e.target.value);
                           if (isNaN(num)) return;
-                          updateQty(item.id, num);
+                          updateQtyFn(item.id, num);
                         }}
                       />
                       <button
@@ -371,7 +400,7 @@ export default function Checkout() {
                         disabled={item.qty >= item.product.stock}
                         onClick={() => {
                           const num = item.qty + 1;
-                          updateQty(item.id, num)
+                          updateQtyFn(item.id, num)
                         }}>
                         <Icon
                           icon="material-symbols:add-rounded"
@@ -389,7 +418,14 @@ export default function Checkout() {
         </div>
       </div>
 
-      <h6 className="text-end GenSenRounded2JP-M-Full mt-20 mb-80">小計：NT$ {total}</h6>
+      <h6 className="text-end GenSenRounded2JP-M-Full mt-20 mb-80">小計：NT$
+        {
+          products.reduce((a, b) => {
+            a += b.qty * b.product.price;
+            return a
+          },total)
+        }
+      </h6>
 
       {/* 商品加購區 */}
       <div className="table-grid-title">
@@ -398,7 +434,7 @@ export default function Checkout() {
 
       <div className="addon-wrapper mb-80">
         {
-          addonList.map((item: any) => (
+          addonList.map((item) => (
             <div className="table-grid-content mb-0 addon-item" key={item.id}>
               <div className="d-flex">
                 <img
@@ -537,7 +573,7 @@ export default function Checkout() {
                               product.id === item.id ? { ...product, isSelect: !item.isSelect } : product
                             )
                           )
-                          addLove(item.id)
+                          addLoveFn(item.id)
                         }}>
                         {item.isSelect ? '已加購' : '加購'}
                       </button>
@@ -565,8 +601,8 @@ export default function Checkout() {
               value={couponId}
               onChange={(e) => setCouponId(e.target.value)} />
             <div className="d-flex">
-              <button type="submit" className="btn btn-primary me-1 w-100 text-nowrap" onClick={() => addCoupon()}>使用</button>
-              <button type="button" className="btn btn-outline-primary w-100 text-nowrap" onClick={() => setCouponId('')}>清除</button>
+              <button type="submit" className="btn btn-primary me-1 w-100 text-nowrap" onClick={() => addCouponFn()}>使用</button>
+              <button type="button" className="btn btn-outline-primary w-100 text-nowrap" onClick={() => removeCouponFn()}>清除</button>
             </div>
           </div>
         </div>
@@ -574,7 +610,14 @@ export default function Checkout() {
           <h6>總計</h6>
           <div className="d-flex justify-content-between">
             <p>小計</p>
-            <p>NT$ {total}</p>
+            <p>NT$ 
+              {
+                products.reduce((a, b) => {
+                  a += b.qty * b.product.price;
+                  return a
+                }, total)
+              }
+            </p>
           </div>
           <div className="d-flex justify-content-between">
             <p>折扣碼</p>
@@ -583,7 +626,14 @@ export default function Checkout() {
           <hr />
           <div className="d-flex justify-content-between">
             <h6>總金額</h6>
-            <h6>NT$ {final_total}</h6>
+            <h6>NT$ 
+              {
+                products.reduce((a, b) => {
+                  a += b.qty * b.product.price;
+                  return a
+                }, total) - coupon
+              }
+            </h6>
           </div>
           <div>
             {
@@ -592,7 +642,7 @@ export default function Checkout() {
                   <p className="text-center mb-1 text-primary">您尚未登入會員</p>
                   <Link className="btn btn-outline-primary w-100" to="/login">立即登入</Link>
                 </>
-              ) : <Link className="btn btn-primary w-100" to="/checkout">前往結帳</Link>
+              ) : <Link className="btn btn-primary w-100" to="/checkout" onClick={() => initCartFn()}>前往結帳</Link>
             }
           </div>
         </div>

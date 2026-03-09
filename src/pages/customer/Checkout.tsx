@@ -1,67 +1,15 @@
-interface Order {
-  isPropsUserData: boolean,
-  isPropsAddressData: boolean,
-  name: string,
-  tel: string,
-  email: string,
-  address: string,
-  address_option1: string,
-  address_option2: string,
-  address_option3: string,
-  message: string,
-  deliveryMethod: number,
-  storeMethod: number,
-  paymentMethod: number,
-  creditNumber: string,
-  creditSafeCode: string,
-  creditExpired: string,
-  isLinePay: boolean,
-  ATM: string,
-  billMethod: number,
-  bill: '',
-}
-
-interface AreaList {
-  AreaName: string,
-}
-
-interface AddressOptions {
-  AreaList: AreaList[],
-  CityName: string,
-}
-
-interface DeliveryOptions {
-  id: number,
-  value: string,
-  keys: string[],
-}
-
-interface PaymentOptions {
-  id: number,
-  value: string,
-  keys: string[],
-}
-
-interface StoreOptions {
-  id: number,
-  value: string,
-  keys: string[],
-}
-
-interface BillOptions {
-  id: number,
-  value: string,
-  keys:string[],
-}
-
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { changeShow, initProduct, initFinalTotal, initTotal, initCoupon } from '../../stores/carts';
 import { Offcanvas } from 'bootstrap';
 import { pushToastAsync } from '../../stores/toasts';
+import type { FormOrder, AddressOptions, DeliveryOptions, PaymentOptions, StoreOptions, BillOptions, CheckProps, CartProps } from '../../types/carts';
+import type { AppDispatch, RootState } from '../../stores/allStores';
+import type { ToastMsg } from '../../types/toasts';
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -128,10 +76,33 @@ const billOptions: BillOptions[] = [
   },
 ];
 
+const FormOrder: FormOrder = {
+  isPropsUserData: false,
+  isPropsAddressData: false,
+  name: "",
+  tel: "",
+  email: "",
+  address_option1: "臺北市",
+  address_option2: "中正區",
+  address_option3: "",
+  message: "",
+  deliveryMethod: 0,
+  storeMethod: 0,
+  address: "", //配送地址
+  paymentMethod: 0,
+  creditNumber: '',
+  creditSafeCode: '',
+  creditExpired: '',
+  isLinePay: false,
+  ATM: '',
+  billMethod: 0,
+  bill: '',
+};
+
 export default function Checkout() {
-  const dispatch = useDispatch() as any;
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { products, final_total, total, coupon } = useSelector((state: any) => state.carts);
+  const { products, final_total, total, coupon } = useSelector((state: RootState) => state.carts) as CartProps;
   const offcanvasRef = useRef<HTMLDivElement>(null);
   const instanceRef = useRef<Offcanvas | null>(null);
   const [offcanvasShow, setOffcanvasShow] = useState(false);
@@ -141,37 +112,16 @@ export default function Checkout() {
     handleSubmit,
     setValue,
     getValues,
-    watch,
+    control,
     formState: { errors },
-  } = useForm<Order>({
+  } = useForm<FormOrder>({
     mode: 'onTouched',
-    defaultValues: {
-      isPropsUserData: false,
-      isPropsAddressData: false,
-      name: "",
-      tel: "",
-      email: "",
-      address_option1: "臺北市",
-      address_option2: "中正區",
-      address_option3: "",
-      message: "",
-      deliveryMethod: 0,
-      storeMethod: 0,
-      address: "", //配送地址
-      paymentMethod: 0,
-      creditNumber: '',
-      creditSafeCode: '',
-      creditExpired: '',
-      isLinePay: false,
-      ATM: '',
-      billMethod: 0,
-      bill: '',
-    }
+    defaultValues: FormOrder
   });
-  const deliveryMethodVal = watch('deliveryMethod');
-  const paymentMethod = watch('paymentMethod');
-  const isLinePay = watch('isLinePay');
-  const billMethod = watch('billMethod');
+  const deliveryMethodVal = useWatch({control,name: 'deliveryMethod'});
+  const paymentMethod = useWatch({control,name: 'paymentMethod'});
+  const isLinePay = useWatch({control,name: 'isLinePay'});
+  const billMethod = useWatch({control,name: 'billMethod'});
 
   const handlerPropsUserData = () => {
     const isPropsUserData = getValues("isPropsUserData");
@@ -194,7 +144,7 @@ export default function Checkout() {
     }
   };
 
-  const handlerPropsAddress = (e: any) => {
+  const handlerPropsAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     const address_option1 = getValues("address_option1");
     const address_option2 = getValues("address_option2");
@@ -218,17 +168,6 @@ export default function Checkout() {
     setValue("isLinePay", !isLinePay);
   }
 
-  useEffect(() => {
-    taiwanAddress();
-    if (offcanvasRef.current) {
-      instanceRef.current = new Offcanvas(offcanvasRef.current, { backdrop: true });
-    }
-
-    return () => {
-      instanceRef.current?.dispose();
-    };
-  }, []);
-
   const taiwanAddress = async () => {
     const res = await fetch('/public/address.json').then(res => res.json());
     setAddressOptions(res);
@@ -239,7 +178,7 @@ export default function Checkout() {
     setOffcanvasShow(prev => !prev);
   }
 
-  const pay = async (id: string, request:any)=>{
+  const pay = async (id: string, request:unknown)=>{
     try {
       const res = await axios.post(`${API_URL}/v2/api/${API_PATH}/pay/${id}`);
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
@@ -248,25 +187,27 @@ export default function Checkout() {
         dispatch(initProduct([]))
         dispatch(initFinalTotal(0))
         dispatch(initTotal(0))
-        dispatch(initCoupon(0))
+        dispatch(initCoupon())
       }
-    } catch (error: any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   }
-  const check= async (request:any) => {
+  const check = async (request: CheckProps) => {
     try {
       const res = await axios.post(`${API_URL}/v2/api/${API_PATH}/order`, request);
       if (!res.data.success) return dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
       pay(res.data.orderId, request.data);
-    } catch (error: any) {
-      dispatch(pushToastAsync({ success: error.success, message: error.message }));
+    } catch (error) {
+      const err = error as ToastMsg;
+      dispatch(pushToastAsync({ success: err.success, message: err.message }));
     }
   }
 
-  const onSubmit =(data:any) => {
+  const onSubmit = (data: FormOrder) => {
     if (data.paymentMethod === 1 && !data.isLinePay) return dispatch(pushToastAsync({ success: false, message: '先綁定LINE PAY' }));
-    const request = {
+    const request: CheckProps = {
       data: {
         user: {
           name: data.name,
@@ -294,6 +235,20 @@ export default function Checkout() {
     }
     check(request);
   };
+
+  useEffect(() => {
+    const fetch = () => {
+      taiwanAddress();
+    }
+    fetch();
+    if (offcanvasRef.current) {
+      instanceRef.current = new Offcanvas(offcanvasRef.current, { backdrop: true });
+    }
+
+    return () => {
+      instanceRef.current?.dispose();
+    };
+  }, []);
 
   return (
     <main className="order-container">
@@ -513,11 +468,11 @@ export default function Checkout() {
                   </div>
                   <div className="col-12">
                     <ul className="mb-0">
-                      <li>宅配​到​貨日​建議​指定​週​一​至​週六。</li>
-                      <li className="mt-1">如​有＂​急​需＂​請勿網路​下單，​請電洽​各​門市​或​網路​客服​為​您​服務唷！​</li>
-                      <li className="mt-1">物​流寄​送時間將​依物流​公司​通知​為準，​如​造成​不​便​請見諒。​​</li>
-                      <li className="mt-1">平日​非​節慶​檔期時，​至少​一​周前​做​預定​ ; 如​是​節慶​檔期，​建議​至少​半個月​以前​做​預定。​</li>
-                      <li className="mt-1">ATM​匯​款期​限請於​購​買日​的​7天 。​​</li>
+                      <li>宅配到貨日建議指定週一至週六。</li>
+                      <li className="mt-1">如有＂急需＂請勿網路下單，請電洽各門市或網路客服為您服務唷！</li>
+                      <li className="mt-1">物流寄送時間將依物流公司通知為準，如造成不便請見諒。</li>
+                      <li className="mt-1">平日非節慶檔期時，至少一周前做預定 ; 如是節慶檔期，建議至少半個月以前做預定。</li>
+                      <li className="mt-1">ATM匯款期限請於購買日的7天 。</li>
                     </ul>
                   </div>
                 </div>
@@ -655,9 +610,9 @@ export default function Checkout() {
               </div>
               <div className="rounded-2 order-write-content">
                 <ul>
-                  <li>在​25度​以下，蛋糕​可​安心​存放6-8​小時，而且​出貨前​都​會冷​凍定型，​確保​不​論​自取​或​配送，​但​超過2​8度​高溫​可能​導致蛋​糕融化​或​搖晃​變形。​</li>
-                  <li>取貨​後請盡​快​食用​或​放入​冷藏​或​冷凍​保存。</li>
-                  <li>如果​需要​帶出國​或​路途​遙遠，​搭配​保冷​袋會​更​穩妥。​</li>
+                  <li>在25度以下，蛋糕可安心存放6-8小時，而且出貨錢都匯冷凍定型，確保不論自取或配送，但超過28度高溫可能導致蛋糕融化或搖晃變形。</li>
+                  <li>取貨後請盡快食用或放入冷藏或冷凍保存。</li>
+                  <li>如果需要帶出國或路途遙遠，搭配保冷袋會更穩妥。</li>
                 </ul>
               </div>
 
@@ -666,7 +621,7 @@ export default function Checkout() {
             <div className="col col-right col-lg-4 py-100 d-none d-lg-block">
               <h4>訂單明細</h4>
               {
-                products.map((item: any) => (
+                products.map((item) => (
                   <div className="table-grid-content border-0 p-0" key={item.id}>
                     <div className="d-flex">
                       <img
@@ -711,7 +666,7 @@ export default function Checkout() {
           </div>
           <div className="offcanvas-body p-0">
             {
-              products.map((item: any) => (
+              products.map((item) => (
                 <div className="table-grid-content border-0 p-0" key={item.id}>
                   <div className="d-flex">
                     <img

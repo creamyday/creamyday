@@ -1,15 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import type { ToastState } from '../types/toasts';
 
-interface ToastItem {
-  id: string;
-  color: string;
-  title: string;
-  content: string;
-}
-
-interface ToastState {
-  toasts: ToastItem[];
-}
 
 const initialState: ToastState = {
   toasts: [],

@@ -1,18 +1,9 @@
-interface CartProps {
-  isShow: boolean;
-  isAdd: boolean;
-  products: Record<string, any>[];
-  keyword: string[];
-  final_total:number;
-  total:number;
-  coupon:number;
-}
-
 import { createSlice } from '@reduxjs/toolkit';
+import type { CartProps } from '../types/carts';
 
 const initialState: CartProps = {
   isShow: false,
-  isAdd: false,
+  isAdd: false, 
   products: [],
   keyword:[],
   final_total:0,
@@ -56,7 +47,7 @@ export const cartStore = createSlice({
     },
     initProduct: function (state, action) {
       state.products = action.payload;
-      state.keyword = state.products.reduce((a: any, b: any) => {
+      state.keyword = state.products.reduce<string[]>((a, b) => {
         if (!a.includes(b.product.category)) {
           a.push(b.product.category)
         }
@@ -69,12 +60,15 @@ export const cartStore = createSlice({
     initTotal: function (state, action) {
       state.total = action.payload;
     },
-    initCoupon: function (state, action) {
+    addCoupon: function (state,action) {
       state.coupon = action.payload;
+    },
+    initCoupon: function (state) {
+      state.coupon = 0;
     },
   }
 });
 
-export const { changeShow, changeQty, addProduct, removeProduct, initProduct, initFinalTotal, initTotal, initCoupon } = cartStore.actions;
+export const { changeShow, changeQty, addProduct, removeProduct, initProduct, initFinalTotal, initTotal, addCoupon, initCoupon } = cartStore.actions;
 
 export default cartStore.reducer;
