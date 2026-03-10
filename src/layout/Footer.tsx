@@ -1,4 +1,4 @@
-// import { Link } from "react-router";
+import { Link } from "react-router";
 import { Icon } from "@iconify/react";
 
 export default function Footer() {
@@ -52,28 +52,30 @@ export default function Footer() {
           <div>
             <ul className="list-unstyled d-block footer-scope">
               <li className="link-padding">
-                <a
+                <Link
                   className="text-white text-decoration-none footer-text-18 jp-zh"
-                  href="#"
+                  to="/about"
                 >
                   關於我們
-                </a>
+                </Link>
               </li>
+
               <li className="link-padding">
-                <a
-                  className="text-white text-decoration-none footer-text-18  jp-zh"
-                  href="#"
+                <Link
+                  className="text-white text-decoration-none footer-text-18 jp-zh"
+                  to="/products/:category"
                 >
                   品牌介紹
-                </a>
+                </Link>
               </li>
+
               <li className="link-padding">
-                <a
-                  className="text-white text-decoration-none footer-text-18  jp-zh"
-                  href="#"
+                <Link
+                  className="text-white text-decoration-none footer-text-18 jp-zh"
+                  to="/faq"
                 >
                   常見問題
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
