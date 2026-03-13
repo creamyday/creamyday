@@ -364,40 +364,7 @@ body {
       }
     }
 
-    /* 右下白色圓形 + */
-    .add-btn {
-      padding: 0;
-      position: absolute;
-      right: 8px;
-      bottom: 8px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: none;
-      background: #fafafa;
-      font-size: 30px;
-      color: #815630;
-      font-weight: 700;
-      line-height: 40px;
-      display: flex; // ⭐ 置中更準確
-      align-items: center;
-      justify-content: center;
 
-      cursor: pointer;
-      transition: background 0.3s;
-
-      &:hover {
-      color:#fafafa;
-      background-color: #815630;
-      transform: scale(1.1);
-    }
-
-       @media (max-width: 991.98px) {
-          width: 32px;
-      height: 32px;
-      font-size: 24px;
-        }
-    }
 
     .card-body {
       .card-body-title {

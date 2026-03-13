@@ -3,8 +3,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { changeShow, initProduct, initFinalTotal, initTotal } from "../stores/carts.ts";
-import 'bootstrap';
+import {
+  changeShow,
+  initProduct,
+  initFinalTotal,
+  initTotal,
+} from "../stores/carts.ts";
+import "bootstrap";
 import Cart from "../components/Cart.tsx";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -30,7 +35,14 @@ function MobileMenu({
 
   return (
     <div className="mobile-nav">
-      <NavLink to="/about" className="menu-main">
+      <NavLink
+        to="/about"
+        className="menu-main"
+        data-bs-dismiss="offcanvas"
+        onClick={() => {
+          window.location.hash = "#/about";
+        }}
+      >
         關於我們
       </NavLink>
 
@@ -44,29 +56,83 @@ function MobileMenu({
           <span className={`arrow ${isOpen ? "open" : ""}`}>⌃</span>
         </div>
 
-        <div className={`submenu ${isOpen ? "show" : ""}`}>
-          <NavLink to="/products/new" className="menu-subtitle">
+        <div className={`submenu ${isOpen ? "show" : ""} mb-3`}>
+          <NavLink
+            to="/products/new"
+            className="menu-subtitle"
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              window.location.hash = "#/products/new";
+            }}
+          >
             新品推薦
           </NavLink>
-          <NavLink to="/products/hot" className="menu-subtitle">
+          <NavLink
+            to="/products/hot"
+            className="menu-subtitle"
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              window.location.hash = "#/products/hot";
+            }}
+          >
             熱門商品
           </NavLink>
-          <NavLink to="/products/basque" className="menu-subtitle">
+
+          <NavLink
+            to="/products/basque"
+            className="menu-subtitle"
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              window.location.hash = "#/products/basque";
+            }}
+          >
             巴斯克乳酪蛋糕
           </NavLink>
-          <NavLink to="/products/tiramisu" className="menu-subtitle">
+
+          <NavLink
+            to="/products/tiramisu"
+            className="menu-subtitle"
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              window.location.hash = "#/products/tiramisu";
+            }}
+          >
             提拉米蘇
           </NavLink>
-          <NavLink to="/products/roll" className="menu-subtitle">
+
+          <NavLink
+            to="/products/roll"
+            className="menu-subtitle"
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              window.location.hash = "#/products/roll";
+            }}
+          >
             生乳捲
           </NavLink>
-          <NavLink to="/products/other" className="menu-subtitle">
+
+          <NavLink
+            to="/products/other"
+            className="menu-subtitle"
+            data-bs-dismiss="offcanvas"
+            onClick={() => {
+              window.location.hash = "#/products/other";
+            }}
+          >
             其他甜點
           </NavLink>
         </div>
+
       </div>
 
-      <NavLink to="/faq" className="menu-main pb-0">
+      <NavLink
+        to="/faq"
+        className="menu-main pb-0"
+        data-bs-dismiss="offcanvas"
+        onClick={() => {
+          window.location.hash = "#/faq";
+        }}
+      >
         常見問題
       </NavLink>
 
@@ -107,9 +173,16 @@ function MobileMenu({
 
       {/* 登入登出按鈕 */}
       {!isAuth ? (
-        <NavLink to="/login" className="mobile-login-btn"  data-bs-dismiss="offcanvas">
+        <button
+          type="button"
+          className="mobile-login-btn"
+          data-bs-dismiss="offcanvas"
+          onClick={() => {
+            window.location.hash = "#/login";
+          }}
+        >
           登入 / 註冊
-        </NavLink>
+        </button>
       ) : (
         <button type="button" className="mobile-login-btn" onClick={onLogout}>
           登出
@@ -120,11 +193,18 @@ function MobileMenu({
 }
 
 export default function Header() {
+  interface CartState {
+    isShow: boolean;
+    products: { qty: number }[];
+  }
+
   interface UserType {
     name: string;
   }
   const dispatch = useDispatch();
-  const { isShow, products, final_total, total } = useSelector((state: any) => state.carts);
+  const { isShow, products } = useSelector(
+    (state: { carts: CartState }) => state.carts,
+  );
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
   const navigate = useNavigate();
@@ -133,24 +213,22 @@ export default function Header() {
   useEffect(() => {
     const token = getToken();
 
-    if (token) {
-      setIsAuth(true);
-      setUser({ name: "Claire" });
-    } else {
-      setIsAuth(false);
-      setUser(null);
-    }
-
     const checkLogin = async () => {
-      if (!token) return;
+      if (!token) {
+        setIsAuth(false);
+        setUser(null);
+        return;
+      }
 
       try {
         axios.defaults.headers.common["Authorization"] = token;
         await axios.post(`${API_URL}/v2/api/user/check`);
-      } catch (err) {
+
+        setIsAuth(true);
+        setUser({ name: "Claire" });
+      } catch {
         document.cookie =
           "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
         setIsAuth(false);
         setUser(null);
       }
@@ -158,11 +236,23 @@ export default function Header() {
 
     checkLogin();
     dispatch(changeShow(false));
-  }, [location.pathname]);
-  
-  useEffect(()=>{
+  }, [location.pathname, dispatch]);
+
+  useEffect(() => {
+    const initCart = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/v2/api/${API_PATH}/cart`);
+
+        dispatch(initProduct(res.data.data.carts));
+        dispatch(initFinalTotal(res.data.data.final_total));
+        dispatch(initTotal(res.data.data.total));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     initCart();
-  }, [])
+  }, [dispatch]);
 
   const logout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -171,20 +261,6 @@ export default function Header() {
     setUser(null);
     navigate("/");
   };
-  const initCart = async () => {
-    try {
-      const res = await axios.get(
-        `${API_URL}/v2/api/${API_PATH}/cart`,
-      );
-      dispatch(initProduct(res.data.data.carts));
-      dispatch(initFinalTotal(res.data.data.final_total));
-      dispatch(initTotal(res.data.data.total));
-    } catch (error) {
-      dispatch(initProduct(products));
-      dispatch(initFinalTotal(final_total));
-      dispatch(initTotal(total));
-    }
-  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white">
@@ -209,12 +285,9 @@ export default function Header() {
             <Icon icon="ph:shopping-cart-simple" width="24px" />
             {products?.length > 0 && (
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {
-                  products.reduce((a: any, b: any) => {
-                    a += b.qty;
-                    return a;
-                  }, 0)
-                }
+                {products.reduce((a: number, b: { qty: number }) => {
+                  return a + b.qty;
+                }, 0)}
               </span>
             )}
           </button>
@@ -361,7 +434,10 @@ export default function Header() {
                 </ul>
               </div>
             ) : (
-              <Link className="btn btn-outline-primary login-btn me-3" to="/login">
+              <Link
+                className="btn btn-outline-primary login-btn me-3"
+                to="/login"
+              >
                 登入 / 註冊
               </Link>
             )}
@@ -374,19 +450,15 @@ export default function Header() {
 
               {products?.length > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  {
-                    products.reduce((a: any, b: any) => {
-                      a+=b.qty;
-                      return a;
-                    },0)
-                  }
+                  {products.reduce((a: number, b: { qty: number }) => {
+                    return a + b.qty;
+                  }, 0)}
                 </span>
               )}
             </button>
             <div className="position-relative">
               <Cart />
             </div>
-
           </div>
         </div>
       </div>
