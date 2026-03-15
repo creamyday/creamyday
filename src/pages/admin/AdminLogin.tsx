@@ -60,7 +60,7 @@ export default function AdminLogin() {
             <div className="row mb-3">
               <label htmlFor="username" className="col-sm-3 col-form-label">密碼:</label>
               <div className="col-sm-9">
-                <input type="text" className="form-control"
+                <input type="password" className="form-control"
                   {...register("password")} />
               </div>
             </div>
