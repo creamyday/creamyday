@@ -20,40 +20,11 @@ type ManageModalProps = {
   manageModalInstance: React.RefObject<Modal | null>,
 }
 
-// type Option = {
-//   optionId: string;
-//   name: string;
-//   origin_price: number;
-//   price: number;
-//   stock: number;
-//   freebie_note: string;
-// };
-
 type Content = {
   key: string;
   title: string;
   text: string;
 };
-
-// type ProductForm = {
-//   id: "";
-//   is_enabled: boolean;
-//   isPopular: boolean;
-//   isNew: boolean;
-//   groupKey: string;
-//   title: string;
-//   description: string;
-//   content: Content[];
-//   category: string;
-//   imageUrl: string;
-//   imagesUrl: string[];
-//   unit: string;
-//   origin_price: number;
-//   price: number;
-//   stock: number;
-//   options: Option[];
-//   freebie_note: string;
-// };
 
 const emptyContents: Content[] = [
   { key: "intro", title: "商品介紹", text: "" },
@@ -183,6 +154,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
       }));
       await optionsSync(data);
       await getProducts();
+      reset(emptyForm);
       if(manageModalInstance.current) manageModalInstance.current.hide();
       setLoading(false);
     } else {
@@ -399,7 +371,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
                             <option value="disabled" disabled>請選擇</option>
                             <option value="生乳捲">生乳捲</option>
                             <option value="提拉米蘇">提拉米蘇</option>
-                            <option value="巴斯克">巴斯克</option>
+                            <option value="巴斯克乳酪蛋糕">巴斯克乳酪蛋糕</option>
                             <option value="其他甜點">其他甜點</option>
                           </select>
                           {errors.category && (
