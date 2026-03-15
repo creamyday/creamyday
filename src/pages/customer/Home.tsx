@@ -37,7 +37,7 @@ const recommendProducts = [
     price: 160,
     imageUrl: "./recommend-cake4.png",
     tag: "暢銷熱賣",
-    link: "/products/hot/-OnkCVODhO6Db6CUL8zJ",
+    link: "/products/hot/-Onk0c8t2cEf2inY39uS",
   },
 ];
 
