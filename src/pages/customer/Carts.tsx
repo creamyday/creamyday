@@ -2,7 +2,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback,useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import { changeQty, removeProduct, addCoupon, initCoupon, initProduct, initFinalTotal, initTotal, addProduct } from '../../stores/carts';
@@ -203,9 +203,15 @@ export default function Checkout() {
       totalRef.current = total
     }
 
-  }, [products, final_total, total])
+  }, [products, final_total, total])  
   
-
+  const cartSubtotal = useMemo(() => {
+    return products.reduce((acc, item) => acc + (item.qty * item.product.price), 0);
+  }, [products]);
+  
+  const amountToPay = useMemo(() => {
+    return total - coupon;
+  }, [total, coupon]);
 
   return (
     <main className="container check-wrapper">
@@ -419,12 +425,7 @@ export default function Checkout() {
       </div>
 
       <h6 className="text-end GenSenRounded2JP-M-Full mt-20 mb-80">小計：NT$
-        {
-          products.reduce((a, b) => {
-            a += b.qty * b.product.price;
-            return a
-          },total)
-        }
+        {cartSubtotal}
       </h6>
 
       {/* 商品加購區 */}
@@ -611,12 +612,7 @@ export default function Checkout() {
           <div className="d-flex justify-content-between">
             <p>小計</p>
             <p>NT$ 
-              {
-                products.reduce((a, b) => {
-                  a += b.qty * b.product.price;
-                  return a
-                }, total)
-              }
+              {cartSubtotal}
             </p>
           </div>
           <div className="d-flex justify-content-between">
@@ -627,12 +623,7 @@ export default function Checkout() {
           <div className="d-flex justify-content-between">
             <h6>總金額</h6>
             <h6>NT$ 
-              {
-                products.reduce((a, b) => {
-                  a += b.qty * b.product.price;
-                  return a
-                }, total) - coupon
-              }
+              {amountToPay}
             </h6>
           </div>
           <div>
