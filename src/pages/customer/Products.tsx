@@ -20,7 +20,6 @@ const categoryLabel: Record<CategorySlug, string> = {
 const labelToSlug: Record<string, CategorySlug> = {
   新品推薦: "new",
   熱門商品: "hot",
-  巴斯克: "basque",
   巴斯克乳酪蛋糕: "basque",
   提拉米蘇: "tiramisu",
   生乳捲: "roll",
