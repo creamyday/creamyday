@@ -13,7 +13,7 @@ const recommendProducts = [
     price: 160,
     imageUrl: "./recommend-cake1.png",
     tag: "新品上市",
-    link: "/products/hot/-OmD4b9DO5OZEDrMd2jV",
+    link: "/products/hot/-OnjxwCUhhcK1dOgQ0hz",
   },
   {
     id: "2",
@@ -21,7 +21,7 @@ const recommendProducts = [
     price: 140,
     imageUrl: "./recommend-cake2.png",
     tag: "店長推薦",
-    link: "/products/hot/-OmE7elIz0ymdxqQaqp3",
+    link: "/products/hot/-Onjzu4gpdAxA8OxzJlm",
   },
   {
     id: "3",
@@ -29,7 +29,7 @@ const recommendProducts = [
     price: 170,
     imageUrl: "./recommend-cake3.png",
     tag: "暢銷口味",
-    link: "/products/hot/-OmEAB0E3i-7BgJ706-j",
+    link: "/products/hot/-Onk-wUKW7Xw4xQOq9H9",
   },
   {
     id: "4",
@@ -37,7 +37,7 @@ const recommendProducts = [
     price: 160,
     imageUrl: "./recommend-cake4.png",
     tag: "暢銷熱賣",
-    link: "/products/hot/-OmED5S0MJEw-LioTKYJ",
+    link: "/products/hot/-OnkCVODhO6Db6CUL8zJ",
   },
 ];
 
