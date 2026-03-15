@@ -157,6 +157,7 @@ export default function Checkout() {
           },
         },
       );
+      await initCartFn();
       dispatch(addProduct(res.data.data));
       dispatch(pushToastAsync({ success: res.data.success, message: res.data.message }));
     } catch (error) {
