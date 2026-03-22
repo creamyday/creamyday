@@ -18,6 +18,9 @@ body {
   background-color: #fff7eb;
   line-height: 1.5;
   letter-spacing: 0.04em;
+  margin: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Hero */
@@ -310,12 +313,12 @@ body {
   }
 
   .mb-40 {
-  margin-bottom: 40px;
-  
-  @media (max-width: 575.98px) {
-    margin-bottom: 36px;
+    margin-bottom: 40px;
+
+    @media (max-width: 575.98px) {
+      margin-bottom: 36px;
+    }
   }
-}
 
   .recommend-card {
     .img-box {
@@ -362,8 +365,6 @@ body {
       }
     }
 
-
-
     .card-body {
       .card-body-title {
         font-size: 24px;
@@ -393,7 +394,7 @@ body {
 .recommed-btn-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
 .view-all-btn {
@@ -412,8 +413,8 @@ body {
   transition: all 0.3s ease;
 
   @media (max-width: 991.98px) {
-  font-size: 14px;
-  padding: 8px 20px;
+    font-size: 14px;
+    padding: 8px 20px;
   }
 
   .arrow {
@@ -643,7 +644,6 @@ body {
     position: relative;
     max-width: 1136px;
     margin: 0 auto;
-    overflow: hidden; 
 
     .swiper {
       max-width: 100%;
@@ -742,6 +742,29 @@ body {
     }
   }
 }
+@media (max-width:1300px){
+
+  .moment-wrapper {
+
+    .moment-slider {
+
+      .moment-arrow {
+
+        &--prev{
+          left:-20px;
+        }
+
+        &--next{
+          right:-20px;
+        }
+
+      }
+
+    }
+
+  }
+
+}
 
 @media (max-width: 991.98px) {
   .moment-wrapper {
@@ -788,16 +811,12 @@ body {
   }
 }
 
-@media (max-width:1199.98px){
-  .moment-slider{
-    overflow:hidden;
+@media (max-width: 1199.98px) {
+  .moment-slider {
+    overflow: hidden;
   }
 
-  .moment-slider .swiper{
-    padding:0 16px;
+  .moment-slider .swiper {
+    padding: 0 16px;
   }
 }
-
-// html, body {
-//   overflow-x: hidden;
-// }
