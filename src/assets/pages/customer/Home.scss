@@ -1,6 +1,6 @@
-*{
-  outline: 1px solid red;
-}
+// *{
+//   outline: 1px solid red;
+// }
 /* Medium  */
 @font-face {
   font-family: "GenSenRounded";
@@ -246,11 +246,6 @@ body {
     max-width: 230px;
   }
 }
-
-
-
-
-
 
 .mb-32 {
   margin-bottom: 32px;
@@ -648,12 +643,14 @@ body {
     position: relative;
     max-width: 1136px;
     margin: 0 auto;
+    overflow: hidden; 
 
     .swiper {
       max-width: 100%;
       margin: 0 auto;
       padding: 0 40px;
       box-sizing: border-box;
+      overflow: hidden;
     }
 
     .swiper-slide {
@@ -749,19 +746,18 @@ body {
 @media (max-width: 991.98px) {
   .moment-wrapper {
     padding: 0 0;
-    overflow: hidden;
-    
     .moment-bg {
       border-radius: 0;
     }
 
     .moment-slider {
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
+      width: 100%;
+      margin-left: 0;
 
       .swiper {
         width: 100%;
         padding: 0;
+        overflow: hidden;
       }
 
       .moment-arrow {
@@ -791,3 +787,17 @@ body {
     }
   }
 }
+
+@media (max-width:1199.98px){
+  .moment-slider{
+    overflow:hidden;
+  }
+
+  .moment-slider .swiper{
+    padding:0 16px;
+  }
+}
+
+// html, body {
+//   overflow-x: hidden;
+// }
