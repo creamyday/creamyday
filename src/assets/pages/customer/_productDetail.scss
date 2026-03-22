@@ -14,8 +14,9 @@
     width: 100%;
 
     @media (min-width: 992px) {
-      flex: 0 0 526px;
-      width: 526px;
+      flex: 0 0 45%;
+      max-width: 526px;
+      min-width: 0;
     }
   }
 
@@ -156,6 +157,11 @@
     @media (min-width: 992px) {
       flex: 1;
       margin-top: 0;
+      margin-left: 5%;
+      min-width: 0;
+    }
+
+    @media (min-width: 1200px) {
       margin-left: 120px;
     }
   }
@@ -272,10 +278,10 @@
     flex-direction: column;
     gap: 4px;
     width: calc((100% - 20px) / 2);
+    max-width: 315px;
 
     @media (min-width: 992px) {
       gap: 8px;
-      width: auto;
     }
   }
 
@@ -294,9 +300,6 @@
   // 尺寸下拉選單
   &__select-wrapper {
     width: 100%;
-    @media (min-width: 992px) {
-      width: 315px;
-    }
   }
 
   &__select {
@@ -344,7 +347,6 @@
     background-color: transparent;
 
     @media (min-width: 992px) {
-      width: 315px;
       height: 59px;
     }
 
@@ -600,6 +602,7 @@
     list-style: none;
     padding: 20px 0;
     margin: 0;
+    justify-content: safe center;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
@@ -609,10 +612,7 @@
     }
 
     @media (min-width: 992px) {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
       gap: 24px;
-      overflow-x: visible;
     }
   }
 
@@ -627,8 +627,7 @@
     flex-direction: column;
 
     @media (min-width: 992px) {
-      grid-column: span 3;
-      width: auto;
+      flex: 0 0 306px;
       padding: 16px 20px;
       border-radius: 12px;
     }
@@ -807,16 +806,15 @@
 
 // 商品詳細頁的容器
 .detail-container {
-  max-width: 100%;
+  // max-width: 100%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 12px;
   padding-right: 12px;
 
   @media (min-width: 992px) {
-    max-width: 1076px;
-    padding-left: 0;
-    padding-right: 0;
+    max-width: 1100px;
   }
 }
 
@@ -866,6 +864,7 @@
       gap: 0;
       border-radius: 48px;
       overflow: hidden;
+      justify-content: safe center;
 
       @media (max-width: 991px) {
         overflow-x: auto;
@@ -876,7 +875,10 @@
       }
 
       @media (min-width: 992px) {
-        justify-content: center;
+        gap: 20px;
+      }
+
+      @media (min-width: 1200px) {
         gap: 60px;
       }
     }
