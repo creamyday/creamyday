@@ -130,7 +130,6 @@ const news = [
     text: "快來預定有滿滿過節氣氛春節禮盒！",
   },
 ];
-
 export default function HeroCarousel() {
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -143,7 +142,7 @@ export default function HeroCarousel() {
           alt="background"
         />
 
-        <div className="container">
+        <div className="container mx-auto">
           <div
             id="carouselExample"
             className="carousel slide hero-carousel"

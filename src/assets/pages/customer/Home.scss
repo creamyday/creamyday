@@ -1,6 +1,6 @@
-*{
-  outline: 1px solid red;
-}
+// *{
+//   outline: 1px solid red;
+// }
 /* Medium  */
 @font-face {
   font-family: "GenSenRounded";
@@ -18,6 +18,9 @@ body {
   background-color: #fff7eb;
   line-height: 1.5;
   letter-spacing: 0.04em;
+  margin: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Hero */
@@ -247,11 +250,6 @@ body {
   }
 }
 
-
-
-
-
-
 .mb-32 {
   margin-bottom: 32px;
 }
@@ -315,12 +313,12 @@ body {
   }
 
   .mb-40 {
-  margin-bottom: 40px;
-  
-  @media (max-width: 575.98px) {
-    margin-bottom: 36px;
+    margin-bottom: 40px;
+
+    @media (max-width: 575.98px) {
+      margin-bottom: 36px;
+    }
   }
-}
 
   .recommend-card {
     .img-box {
@@ -367,8 +365,6 @@ body {
       }
     }
 
-
-
     .card-body {
       .card-body-title {
         font-size: 24px;
@@ -398,7 +394,7 @@ body {
 .recommed-btn-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
 .view-all-btn {
@@ -417,8 +413,8 @@ body {
   transition: all 0.3s ease;
 
   @media (max-width: 991.98px) {
-  font-size: 14px;
-  padding: 8px 20px;
+    font-size: 14px;
+    padding: 8px 20px;
   }
 
   .arrow {
@@ -654,6 +650,7 @@ body {
       margin: 0 auto;
       padding: 0 40px;
       box-sizing: border-box;
+      overflow: hidden;
     }
 
     .swiper-slide {
@@ -745,23 +742,45 @@ body {
     }
   }
 }
+@media (max-width:1300px){
+
+  .moment-wrapper {
+
+    .moment-slider {
+
+      .moment-arrow {
+
+        &--prev{
+          left:-20px;
+        }
+
+        &--next{
+          right:-20px;
+        }
+
+      }
+
+    }
+
+  }
+
+}
 
 @media (max-width: 991.98px) {
   .moment-wrapper {
     padding: 0 0;
-    overflow: hidden;
-    
     .moment-bg {
       border-radius: 0;
     }
 
     .moment-slider {
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
+      width: 100%;
+      margin-left: 0;
 
       .swiper {
         width: 100%;
         padding: 0;
+        overflow: hidden;
       }
 
       .moment-arrow {
@@ -789,5 +808,15 @@ body {
         }
       }
     }
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .moment-slider {
+    overflow: hidden;
+  }
+
+  .moment-slider .swiper {
+    padding: 0 16px;
   }
 }
