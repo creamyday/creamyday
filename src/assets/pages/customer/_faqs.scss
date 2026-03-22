@@ -122,6 +122,7 @@
     gap: 0px;
     border-radius: 48px;
     overflow: hidden;
+    justify-content: safe center;
 
     @media (max-width: 991px) {
       overflow-x: auto;
@@ -133,7 +134,6 @@
     }
 
     @media (min-width: 992px) {
-      justify-content: center;
       gap: 60px;
     }
   }
