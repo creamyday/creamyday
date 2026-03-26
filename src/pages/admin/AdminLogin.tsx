@@ -34,8 +34,7 @@ export default function AdminLogin() {
     axios.defaults.headers.common["Authorization"] = creamydayToken;
     (async () => {
       try {
-        const res = await axios.post(`${baseUrl}/v2/api/user/check`)
-        console.log(res);
+        await axios.post(`${baseUrl}/v2/api/user/check`)
         navigate('/admin/dashboard');
       } catch (error: unknown) {
         console.warn(error);

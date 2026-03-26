@@ -31,7 +31,6 @@ export default function Dashboard() {
       let allOrders = [...first.data.orders];
       const result = await Promise.all([...Array(totalPages-1)].map((_, index: number) => getOrders(index + 2)));
       result.forEach((page) => {
-        console.log("page", page)
         if(!page) return
         allOrders = [...allOrders, ...page.data.orders];
       });
@@ -50,7 +49,7 @@ export default function Dashboard() {
           end: endOfMonth(new Date()),
         })
       )
-      console.log(allOrders);
+
       // 取得當日營收數據
       setTodayTotal(todayOrder.reduce((sum: number, b: Order) =>  sum + b.total, 0));
       // 取得當日訂單數
@@ -78,8 +77,7 @@ export default function Dashboard() {
       const key: string = `${format(new Date(order.create_at * 1000), "yyyy-MM")}-01`;
       if(key in total) total[key] += order.total;
     })
-    console.log(monthKeys);
-    console.log(total);
+
     const chart = c3.generate({
       bindto: '#chart',
       padding: {

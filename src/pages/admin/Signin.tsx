@@ -16,7 +16,6 @@ export default function Signin() {
       username: email,
       password
     });
-    console.log("Sign-in successful:", res.data);
     const { token, expired } = res.data;
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     document.cookie = `creamydayToken=${token}; expires=${new Date(expired)}`;

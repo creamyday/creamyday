@@ -42,7 +42,6 @@ export default function OrderModal({orderModalRef, orderModalInstance, singleOrd
               <tbody>
                 {
                   products.map((product: ProductOfOrder, index: number) => {
-                    console.log("檢查",singleOrder);
                     return (
                       <tr key={index}>
                         <td>{index+1}</td>
