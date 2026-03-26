@@ -373,6 +373,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
                             <option value="提拉米蘇">提拉米蘇</option>
                             <option value="巴斯克乳酪蛋糕">巴斯克乳酪蛋糕</option>
                             <option value="其他甜點">其他甜點</option>
+                            <option value="加購商品">加購商品</option>
                           </select>
                           {errors.category && (
                             <div className="text-danger small mt-1">{errors.category.message}</div>
