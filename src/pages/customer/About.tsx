@@ -9,7 +9,7 @@ function About() {
           <div className="about-hero__heading">
             <img
               src="./bear.png"
-              alt=""
+              alt="熊插圖"
               className="about-hero__animal"
               aria-hidden="true"
             />
@@ -21,7 +21,7 @@ function About() {
 
             <img
               src="./cat.png"
-              alt=""
+              alt="貓插圖"
               className="about-hero__animal"
               aria-hidden="true"
             />
@@ -69,7 +69,7 @@ function About() {
               <div className="about-opening__media">
                 <img
                   src="./about-cake-2.png"
-                  alt="CreamyDay 甜點照片"
+                  alt="CreamyDay甜點照片"
                   className="about-opening__img"
                 />
               </div>
@@ -199,7 +199,7 @@ function About() {
               <img
                 className="about-cta__animal"
                 src="./mouse.png"
-                alt=""
+                alt="老鼠插圖"
                 aria-hidden="true"
               />
             </div>
