@@ -1,17 +1,17 @@
 @import "bootstrap/scss/functions";
 
-@import "./base/base.scss";
+@import "./base/base";
 @import "./vendors/bootstrap/variables";
-@import "./layout/Footer.scss";
-@import "./layout/Header.scss";
-@import "./base/admin.scss";
+@import "./layout/Footer";
+@import "./layout/Header";
+@import "./base/admin";
 
 @import "bootstrap/scss/bootstrap";
 @import "./pages/customer/products";
 @import "./pages/customer/productDetail";
 @import "./pages/customer/faqs";
-@import "./pages/customer/ForgetPassword";
+@import "./pages/customer/forgetPassword";
 @import "./pages/customer/about";
-@import "./components/Cart.scss";
-@import "./pages/customer/Carts.scss";
-@import "./pages/customer/Checkout.scss";
+@import "./components/cart";
+@import "./pages/customer/carts";
+@import "./pages/customer/checkout";

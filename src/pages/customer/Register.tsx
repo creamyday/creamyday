@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useForm, useWatch } from "react-hook-form";
-import "../../assets/pages/customer/Register.scss";
+import "../../assets/pages/customer/_Register.scss";
 
 interface FormRegister {
   name: string;
