@@ -442,7 +442,6 @@ export default function Register() {
     },
   });
 
-  // useWatch 監聽表單值
   const isEmailVerified = useWatch({ control, name: "isEmailTo" });
   const selectedCity = useWatch({ control, name: "city" });
 
@@ -641,8 +640,7 @@ export default function Register() {
                 )}
               </div>
             </div>
-
-            {/* 地址 */}
+            
             <div className="row mb-4 align-items-center">
               <div className="col-md-2">
                 <label className="fw-bold">* 地址：</label>
@@ -687,7 +685,7 @@ export default function Register() {
               </div>
             </div>
 
-            {/* 送出 */}
+          
             <div className="d-flex justify-content-center">
               <button type="submit" className="btn btn-primary px-5">
                 送出資料

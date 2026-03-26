@@ -1,3 +1,7 @@
+body{
+  padding-top:60px ;
+}
+
 .logo-circle {
   width: 51px;
   height: 51px;
@@ -9,14 +13,12 @@
 }
 
 .logo-circle img {
-  width: 180%;       // 控制 icon 比例
+  width: 180%;       
   height: auto;
   object-fit: contain;
-  transform: translate(-2px, -3px); //微調
+  transform: translate(-2px, -3px);
 }
 .navbar {
-
-  //Header 全部文字行高
   .navbar-brand,
   .nav-link,
   .dropdown-item,
@@ -24,12 +26,10 @@
     line-height: 1.5;
   }
 
-  //品牌區塊 
   .navbar-brand {
     padding-left: 7.5px;
   }
 
-  //導覽列 
   .navbar-nav {
 
     .nav-item {
@@ -70,17 +70,14 @@
   .dropdown-item {
     color: #292929;
     padding: 0 0 0 24px;
-    // padding-left: 24px;
 
     &:hover {
       color: #815630;
       background-color: transparent; 
-      // Bootstrap 預設會變藍灰
     }
   }
 }
 
-//登入/註冊
 .btn.login-btn {
   width: 180px;
   padding: 12px 0;
@@ -88,14 +85,12 @@
   border-width: 1px;
   transition: all 300ms ease-out;
 
-  // Hover
   &:hover {
     background-color: #9A7859;
     border-color: #9A7859;
     color: #fff;
   }
 
-  // Press
   &:active{
     background-color: #815630 !important;
     border-color: #815630 !important;
@@ -103,13 +98,13 @@
     transform: scale(0.98);
   }
 
-  // 防止 Bootstrap focus 藍框干擾
+
   &:focus {
     box-shadow: none;
   }
 }
 
-// 登入Claire
+
 .btn.user-btn {
   width: 180px;
   height: 54px;
@@ -160,10 +155,6 @@
   margin: 4px 7px 4px 4px;
 }
 
-
-
-
-//基本的格式設置
 .mb-12{
   margin-bottom: 12px;
 }
@@ -173,7 +164,6 @@
 }
 
 
-// 手機側欄
 .mobile-menu {
   width: 100%;
   max-width: 320px;
@@ -184,7 +174,6 @@
     color: #292929;
   }
 
-  //主項目
   .menu-main {
     display: block;
     font-size: 16px;
@@ -207,7 +196,6 @@
     }
   }
 
-  /* 商品介紹標題 */
   .menu-title {
     display: flex;
     justify-content: space-between;
@@ -216,7 +204,6 @@
     margin-bottom: 16px;
   }
 
-  /* 子項目 */
   .menu-subtitle {
     display: block;
     font-size: 14px;
@@ -237,7 +224,6 @@
     }
   }
 
-  /* submenu 動畫 */
   .submenu {
     max-height: 0;
     overflow: hidden;
@@ -248,7 +234,6 @@
     }
   }
 
-  /* 箭頭動畫 */
   .arrow {
     transition: transform 0.25s ease;
     display: inline-block;
@@ -258,13 +243,11 @@
     }
   }
 
-  /* 分隔線 */
   .menu-divider {
     border-bottom: 1px solid #ccc;
     margin: 28px 0;
   }
 
-  /* 登入 / 註冊按鈕 */
   .mobile-login-btn {
     display: flex;
     justify-content: center;
@@ -290,7 +273,6 @@
     }
   }
 
-  /* ================= 登入後區塊 ================= */
 
   .mobile-user {
     margin-bottom: 20px;
@@ -311,12 +293,11 @@
     }
 
     .menu-subtitle {
-      font-size: 16px;   // ← 登入後字級不同
+      font-size: 16px;
     }
   }
 }
 
-/* 點擊游標 */
 .clickable {
   cursor: pointer;
 }

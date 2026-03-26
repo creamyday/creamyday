@@ -1,7 +1,4 @@
-// *{
-//   outline: 1px solid red;
-// }
-/* Medium  */
+
 @font-face {
   font-family: "GenSenRounded";
   src: url("/fonts/GenSenRounded2JPM.ttf") format("truetype");
@@ -23,7 +20,7 @@ body {
   margin-right: 0;
 }
 
-/* Hero */
+
 .hero-wrapper {
   position: relative;
   width: 100%;
@@ -31,7 +28,7 @@ body {
   padding: 60px 0;
 }
 
-/* 背景圖 */
+
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -61,7 +58,6 @@ body {
     right: 0;
   }
 
-  /*  Indicators */
   .carousel-indicators {
     [data-bs-target] {
       width: 10px;
@@ -86,14 +82,14 @@ body {
   display: none;
 }
 
-/* 第三張圖位置 */
+
 .carousel-item:nth-child(3) {
   img {
     object-position: center 75%;
   }
 }
 
-/* 文字區 */
+
 .custom-caption {
   top: 0;
   bottom: 0;
@@ -174,7 +170,6 @@ body {
   }
 }
 
-/* 防止 Bootstrap / Link 預設覆蓋 */
 .carousel-caption .hero-btn {
   color: #fafafa;
 }
@@ -237,7 +232,6 @@ body {
   }
 }
 
-/* 通用樣式 */
 .title-header {
   margin: 0 32px;
   width: 400px;
@@ -304,7 +298,6 @@ body {
   }
 }
 
-/* Recommed 區塊 */
 .recommed-wrapper {
   padding: 60px 0;
 
@@ -432,7 +425,6 @@ body {
   }
 }
 
-/* News 區塊*/
 .news-wrapper {
   padding: 60px 0;
 
@@ -440,7 +432,6 @@ body {
     padding: 28px 0;
   }
 
-  /* ===== 上波浪 ===== */
   .news-wave-top {
     height: 41px;
     background-image: url("/pattern.png");
@@ -454,7 +445,7 @@ body {
     }
   }
 
-  /* ===== 背景區 ===== */
+
   .news-bg {
     background-color: #f6e9d7;
   }
@@ -469,7 +460,7 @@ body {
     }
   }
 
-  /* ===== 內容區 ===== */
+
   .news-list {
     max-width: 100%;
 
@@ -546,7 +537,6 @@ body {
     }
   }
 
-  /* ===== 下波浪 ===== */
   .news-wave-bottom {
     height: 41px;
     background-image: url("/pattern.png");
@@ -562,7 +552,6 @@ body {
   }
 }
 
-/* about區塊 */
 .about-wrapper {
   padding: 60px 0px;
 
@@ -622,7 +611,6 @@ body {
   }
 }
 
-/* Moment 區塊 */
 .moment-wrapper {
   padding: 60px 0px;
 
@@ -665,7 +653,6 @@ body {
       display: block;
     }
 
-    /* 卡片本體 */
     .moment-card {
       background: #ffffff;
       border-radius: 16px;
@@ -715,7 +702,7 @@ body {
       }
     }
 
-    /* 自訂箭頭 */
+
     .moment-arrow {
       position: absolute;
       top: 50%;

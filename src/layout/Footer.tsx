@@ -80,8 +80,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-
-        {/* 下半部：版權 */}
+        
         <div className="footer-wrapper footer-scope">
           <div className="footer-info white-space mb-60">
             <span className="text-white footer-item footer-text-16 jp-zh">
