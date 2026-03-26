@@ -275,7 +275,7 @@ export default function Checkout() {
               </div>
               <div className="rounded-2 order-write-content">
                 <div className="row g-2 write-wrapper">
-                  <div className="col-12 col-lg-6">
+                  <div className=" col-lg-6">
                     <label htmlFor="name" className="w-100">
                       *姓名
                       <input
@@ -291,7 +291,7 @@ export default function Checkout() {
                         })} />
                     </label>
                   </div>
-                  <div className="col-12 col-lg-6">
+                  <div className=" col-lg-6">
                     <label htmlFor="tel" className="w-100">
                       *手機
                       <input
@@ -316,7 +316,7 @@ export default function Checkout() {
                         })} />
                     </label>
                   </div>
-                  <div className="col-12">
+                  <div className="">
                     <label htmlFor="email" className="w-100">
                       *Email
                       <input
@@ -337,7 +337,7 @@ export default function Checkout() {
                         })} />
                     </label>
                   </div>
-                  <div className="col-12">
+                  <div className="">
                     <label htmlFor="address_option1" className="w-100">
                       地址
                       <div className="row g-2">
@@ -371,7 +371,7 @@ export default function Checkout() {
                             }
                           </select>
                         </div>
-                        <div className="col-12 col-lg-4">
+                        <div className=" col-lg-4">
                           <input
                             type="text"
                             className="form-control input-bg mt-1"
@@ -383,7 +383,7 @@ export default function Checkout() {
                       </div>
                     </label>
                   </div>
-                  <div className="col-12">
+                  <div className="">
                     <label htmlFor="message" className="w-100">
                       備註
                       <input
@@ -416,7 +416,7 @@ export default function Checkout() {
               </div>
               <div className="rounded-2 order-write-content">
                 <div className="row write-wrapper">
-                  <div className="col-12">
+                  <div className="">
                     <select
                       className="form-select input-bg mt-1 w-100"
                       {...register('deliveryMethod', {
@@ -438,9 +438,9 @@ export default function Checkout() {
                       }
                     </select>
                   </div>
-                  <div className="col-12">
+                  <div className="">
                     <div className="row g-2">
-                      <div className={deliveryMethodVal === 1 ? "col-3" : "col-12 d-none"}>
+                      <div className={deliveryMethodVal === 1 ? "col-3" : " d-none"}>
                         <select
                           className="form-select input-bg mt-1"
                           {...register('storeMethod', { valueAsNumber: true })}>
@@ -451,7 +451,7 @@ export default function Checkout() {
                           }
                         </select>
                       </div>
-                      <div className={deliveryMethodVal === 1 ? "col-9" : deliveryMethodVal === 2 ?"d-none":"col-12"}>
+                      <div className={deliveryMethodVal === 1 ? "col-9" : deliveryMethodVal === 2 ?"d-none":""}>
                         <input
                           type="text"
                           className={`form-control input-bg mt-1 ${errors["address"] && 'is-invalid'}`}
@@ -466,7 +466,7 @@ export default function Checkout() {
                       </div>
                     </div>
                   </div>
-                  <div className="col-12">
+                  <div className="">
                     <ul className="mb-0">
                       <li>宅配到貨日建議指定週一至週六。</li>
                       <li className="mt-1">如有＂急需＂請勿網路下單，請電洽各門市或網路客服為您服務唷！</li>
@@ -487,7 +487,7 @@ export default function Checkout() {
               </div>
               <div className="rounded-2 order-write-content">
                 <div className="row write-wrapper">
-                  <div className="col-12">
+                  <div className="">
                     <select className="form-select input-bg mt-1 w-100"
                       {...register('paymentMethod', {
                         valueAsNumber: true,
@@ -506,58 +506,77 @@ export default function Checkout() {
                       }
                     </select>
                   </div>
-                  <div className={paymentMethod === 0 ? "col-12 d-block" : 'd-none'}>
+                  <div className={paymentMethod === 0 ? " d-block" : 'd-none'}>
                     <div className="row g-2">
-                      <div className="col-12">
+                      <div className="">
                         <input
                           type="text"
+                          maxLength={19}
                           className={`form-control input-bg mt-1 ${errors["creditNumber"] && 'is-invalid'}`}
-                          placeholder="請填寫信用卡號"
+                          placeholder="請填寫信用卡號:13至19個數字"
                           {...register('creditNumber', {
                             required: {
                               value: paymentMethod === 0,
                               message: '信用卡號為必填'
                             },
+                            pattern: {
+                              value: /^\d{13,19}$/i,
+                              message: '信用卡號格式不正確'
+                            },
                           })} />
                       </div>
                       <div className="col-6">
                         <input
                           type="text"
+                          maxLength={4}
                           className={`form-control input-bg mt-1 ${errors["creditSafeCode"] && 'is-invalid'}`}
-                          placeholder="請填寫安全碼"
+                          placeholder="請填寫安全碼:CVV"
                           {...register('creditSafeCode', {
                             required: {
                               value: paymentMethod === 0,
                               message: '安全碼為必填'
                             },
+                            pattern: {
+                              value: /^\d{3,4}$/i,
+                              message: '安全碼格式不正確'
+                            },
                           })} />
                       </div>
                       <div className="col-6">
                         <input
                           type="text"
+                          maxLength={4}
                           className={`form-control input-bg mt-1 ${errors["creditExpired"] && 'is-invalid'}`}
-                          placeholder="請填寫到期日"
+                          placeholder="請填寫到期日:MMYY"
                           {...register('creditExpired', {
                             required: {
                               value: paymentMethod === 0,
                               message: '到期日為必填'
                             },
+                            pattern: {
+                              value: /^\d{4}$/i,
+                              message: '到期日格式不正確'
+                            },
                           })} />
                       </div>
                     </div>
                   </div>
-                  <div className={paymentMethod === 1 ? "col-12 d-block" : 'd-none'}>
+                  <div className={paymentMethod === 1 ? " d-block" : 'd-none'}>
                     <button type="button" className="btn w-100 btn-primary py-3" onClick={() => changeLinePay()}>{!isLinePay ? '綁定LINE PAY' : '已綁定LINE PAY'}</button>
                   </div>
-                  <div className={paymentMethod === 2 ? "col-12 d-block" : 'd-none'}>
+                  <div className={paymentMethod === 2 ? " d-block" : 'd-none'}>
                     <input
                       type="text"
                       className={`form-control input-bg mt-1 ${errors["bill"] && 'is-invalid'}`}
-                      placeholder="請填寫帳戶"
+                      placeholder="請填寫帳戶:10至14個數字"
                       {...register('ATM', {
                         required: {
                           value: paymentMethod === 2,
                           message: '帳戶為必填'
+                        },
+                        pattern: {
+                          value: /^\d{10,14}$/i,
+                          message: '帳戶格式不正確'
                         },
                       })} />
                   </div>
@@ -572,7 +591,7 @@ export default function Checkout() {
               </div>
               <div className="rounded-2 order-write-content">
                 <div className="row g-2 write-wrapper">
-                  <div className={`${billMethod === 0 ? "col-6" : 'col-12'}`}>
+                  <div className={`${billMethod === 0 ? "col-6" : ''}`}>
                     <select className="form-select input-bg mt-1 w-100"
                       {...register('billMethod', {
                         valueAsNumber: true,
