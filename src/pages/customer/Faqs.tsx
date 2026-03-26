@@ -152,7 +152,7 @@ function Faqs() {
             <img
               className="faqs-hero__animal"
               src="./bear.png"
-              alt=""
+              alt="熊插圖"
               aria-hidden="true"
             />
 
@@ -164,7 +164,7 @@ function Faqs() {
             <img
               className="faqs-hero__animal"
               src="./rabbit.png"
-              alt=""
+              alt="兔子插圖"
               aria-hidden="true"
             />
           </div>
