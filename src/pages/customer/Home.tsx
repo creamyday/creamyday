@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "swiper/css";
-import "../../assets/pages/customer/Home.scss";
+import "../../assets/pages/customer/_Home.scss";
 import { useRef } from "react";
 import { Link } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";

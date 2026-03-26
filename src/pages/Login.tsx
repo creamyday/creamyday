@@ -2,23 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-
-// const API_URL = import.meta.env.VITE_API_URL;
-
-// const handleLogin = async () => {
-//   try {
-//     const res = await axios.post(`${API_URL}/v2/admin/signin`, data);
-//     const { token, expired } = res.data;
-
-//     document.cookie = `token=${token}; expires=${new Date(expired)}; path=/`;
-//     axios.defaults.headers.common["Authorization"] = token;
-
-//     navigate("/");
-//   } catch (error) {
-//     console.log("登入失敗", error?.response || error);
-//   }
-// };
-
 export default function Login() {
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -29,7 +12,6 @@ export default function Login() {
 
   const changeData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // console.log(name,value);
     setData({ ...data, [name]: value.trim() });
   };
 
@@ -42,7 +24,6 @@ export default function Login() {
     ) {
       setError(true);
     }
-    // console.log(data);
     if (isError) return;
     try {
       const res = await axios.post("/v2/admin/signin", data);
@@ -54,7 +35,6 @@ export default function Login() {
       console.error(error);
       setError(true);
     }
-    // console.log(isError);
   };
 
   return (

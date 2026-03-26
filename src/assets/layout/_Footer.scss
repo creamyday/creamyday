@@ -3,12 +3,10 @@
   font-family: 'Marmelad', sans-serif;
   line-height: 1.5;
 
-  /* 中文 */
   .jp-zh {
     font-family: 'GenSenRounded2JP-M', sans-serif;
   }
 
-  /* 日系英文 */
   .jp-en {
     font-family: 'GenSenRounded2JP-R', sans-serif;
   }
@@ -27,12 +25,10 @@
 
 
 footer {
-  /* 手機預設 */
   padding-top: 40px;
   padding-bottom: 20px;
 }
 
-/* 非手機（平板以上） */
 @media (min-width: 576px) {
   footer {
     padding-top: 80px;
@@ -60,7 +56,6 @@ footer {
   margin-bottom: 36px;
 }
 
-/* 手機（xs） */
 .mb-40 {
   margin-bottom: 40px;
 
@@ -74,7 +69,6 @@ footer {
   margin-bottom: 0px;
 }
 
-/* sm 以上全部關掉 */
 @media (min-width: 576px) {
   .mb-40 {
     margin-bottom: 0;
@@ -132,18 +126,12 @@ footer {
 }
 
 
-
-
-//社群 icon 列表
 .social-list {
   display: flex;
-  /* 橫排 */
   align-items: center;
   gap: 12px;
-  /* icon 間距 */
 }
 
-// 連結本身
 .social-link {
   display: inline-flex;
   align-items: center;
@@ -151,7 +139,6 @@ footer {
   text-decoration: none;
 }
 
-//icon 基本樣式
 .social-icon {
   font-size: 28px;
   color: #fff;
@@ -169,7 +156,6 @@ footer {
   }
 }
 
-//共用 hover 效果
 .social-link:hover .social-icon {
   transform: scale(1.15);
   opacity: 0.9;
@@ -177,22 +163,20 @@ footer {
 
 .social-list {
   display: flex;
-  /* 橫排 */
   align-items: center;
   gap: 12px;
-  /* icon 間距 */
 }
 
-//下半部版權
+
 
 .footer-info {
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
-  padding: 0 12px; // 給最左、最右的線空間
+  padding: 0 12px; 
 
-  /* 最左邊的線 */
+
   &::before {
     content: "";
     position: absolute;
@@ -204,7 +188,6 @@ footer {
     background-color: #fff;
   }
 
-  /* 最右邊的線 */
   &::after {
     content: "";
     position: absolute;
@@ -217,14 +200,12 @@ footer {
   }
 }
 
-/* footer 項目 */
 .footer-item {
   position: relative;
-  padding-left: 12px; // 留給中間線
+  padding-left: 12px; 
   white-space: nowrap;
 }
 
-/* 中間分隔線（桌機） */
 .footer-item:not(:first-child)::before {
   content: "";
   position: absolute;
@@ -236,7 +217,7 @@ footer {
   background-color: #fff;
 }
 
-/* 連結樣式（精準對應 HTML） */
+
 a.footer-item {
   color: #fff;
   text-decoration: none;
@@ -246,9 +227,6 @@ a.footer-item:hover {
   opacity: 0.8;
 }
 
-/* ===============================
-   Footer layout（桌機）
-   =============================== */
 
 .footer-wrapper {
   display: flex;
@@ -256,49 +234,43 @@ a.footer-item:hover {
   align-items: center;
 }
 
-/* ===============================
-   📱 手機版
-   =============================== */
 
 @media (max-width: 992px) {
 
-  /* 外層改直排 */
+
   .footer-wrapper {
     flex-direction: column;
     align-items: center;
   }
 
-  /* info 改直排 */
+
   .footer-info {
     flex-direction: column;
     align-items: center;
     gap: 16px;
     padding: 0;
 
-    /* 手機不顯示直線 */
+
     &::before,
     &::after {
       display: none;
     }
   }
 
-  /* 讓每個 item 寬度一致 */
+
   .footer-item {
     width: 100%;
     max-width: 480px;
-    /* 所有線的共同寬度 */
     text-align: center;
 
     padding-left: 0;
     padding-bottom: 12px;
     position: relative;
 
-    /* 關掉桌機中間直線 */
     &::before {
       display: none;
     }
 
-    /* 手機橫線：現在一定一樣長 */
     &::after {
       content: "";
       position: absolute;
@@ -310,7 +282,6 @@ a.footer-item:hover {
     }
   }
 
-  /* 最後一個不要線 */
   .footer-item:last-child::after {
     display: none;
   }

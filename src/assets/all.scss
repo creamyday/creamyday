@@ -2,11 +2,14 @@
 
 @import "./base/base.scss";
 @import "./vendors/bootstrap/variables";
-@import "./layout/Footer.scss";
-@import "./layout/Header.scss";
+@import "./layout/Footer";
+@import "./layout/Header";
 @import "./base/admin.scss";
 
 @import "bootstrap/scss/bootstrap";
+
+@import "./pages/customer/Home"; 
+
 @import "./pages/customer/products";
 @import "./pages/customer/productDetail";
 @import "./pages/customer/faqs";
