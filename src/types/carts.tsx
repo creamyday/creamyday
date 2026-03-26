@@ -27,13 +27,9 @@ export interface CartProps {//購物車store
   coupon: number;
 }
 
-export interface AddonProducts {// 加購商品
-  id: string;
-  name: string;
-  price: number;
-  img: string;
+export interface AddonProducts extends Product {// 加購商品
+  [key: string]: unknown;
   isSelect: boolean;
-  qty: number;
 };
 
 export interface TempLove extends Product {// 猜你喜歡

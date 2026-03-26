@@ -2,7 +2,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, type SetStateAction } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import { changeQty, removeProduct, addCoupon, initCoupon, initProduct, initFinalTotal, initTotal, addProduct } from '../../stores/carts';
@@ -15,20 +15,6 @@ import type { AppDispatch, RootState } from '../../stores/allStores';
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-const addonProducts: AddonProducts[] = [
-  {
-    id: "a1",
-    name: "刀盤蠟燭",
-    price: 80,
-    img: "./addon-cakeutensil-candle-set.jpeg",
-    isSelect: false,
-    qty: 1,
-  },
-  { id: "a2", name: "刀盤", price: 30, img: "./addon-cakeutensil.jpeg", isSelect: false, qty: 1 },
-  { id: "a3", name: "蠟燭", price: 10, img: "./addon-candles.jpeg", isSelect: false, qty: 1 },
-  { id: "a4", name: "保冷袋", price: 100, img: "./addon-coolerbag.jpeg", isSelect: false, qty: 1 },
-];
-
 export default function Checkout() {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -38,9 +24,10 @@ export default function Checkout() {
   const totalRef = useRef(total);
   const swiperRef = useRef<SwiperType | null>(null);
   const [isToken,setIsToken]= useState(false);
-  const [addonList, setAddonList] = useState(addonProducts);
+  const [addonList, setAddonList] = useState<AddonProducts[]>([]);
   const [loveList, setLoveList] = useState<LoveProducts[]>([]);
-  const [couponId,setCouponId] = useState('');
+  const [couponId, setCouponId] = useState('');
+  
   
   const initCartFn = useCallback(async () => {
     try {
@@ -58,6 +45,16 @@ export default function Checkout() {
     }
   }, [productsRef,dispatch])
 
+  
+  const updateAddonFn = (id:string,num:number)=>{
+    if (addonList.length === 0)return;
+    setAddonList(prev =>
+      prev.map(product =>
+        product.id === id ? { ...product, isSelect: !product.isSelect } : product
+      )
+    )
+    updateQtyFn(id,num);
+  }
 
   const updateQtyFn = async (id: string, num: number) => {
     dispatch(changeQty({ qty: num, id: id }));
@@ -193,11 +190,42 @@ export default function Checkout() {
     }
   }, [isAdd,initCartFn]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (JSON.stringify(products) !== JSON.stringify(productsRef.current)){
       productsRef.current = products
     }
 
+    const initAddonListFn = (list: SetStateAction<AddonProducts[]>) => {
+      setAddonList(list);
+    }
+    if (products.length > 0) {
+
+      initAddonListFn(prev => {
+        const currentSource = products
+          .filter(item => item.product.category === '加購商品') as AddonProducts[];
+
+        if (prev.length === 0 && currentSource.length > 0) {
+          return currentSource.map(item => ({ ...item, isSelect: false }));
+        }
+        const isDifferent = currentSource.length !== prev.length ||
+          currentSource.some((item, index) => {
+            const p = prev[index];
+            return !p || item.id !== p.id || item.qty !== p.qty;
+          });
+
+        if (!isDifferent) {
+          return prev;
+        }
+
+        return currentSource.map(item => {
+          const exist = prev.find(p => p.id === item.id);
+          return {
+            ...item,
+            isSelect: exist ? exist.isSelect : false
+          };
+        });
+      });
+    }
     if (JSON.stringify(final_total) !== JSON.stringify(final_totalRef.current)) {
       final_totalRef.current = final_total
     }
@@ -223,7 +251,9 @@ export default function Checkout() {
         </div>
 
         {
-          products.map((item) => (
+          products
+          .filter(item => item.product.category !== '加購商品')
+          .map((item) => (
             <div className="table-grid table-grid-content" key={item.id}>
               <div className="my-auto">
                 <img
@@ -303,7 +333,9 @@ export default function Checkout() {
         </div>
         <div>
           {
-            products.map((item) => (
+            products
+              .filter(item => item.product.category !== '加購商品')
+              .map((item) => (
               <div className="table-grid-content mb-0 px-12" key={item.id}>
                 <div className="d-flex">
                   <img
@@ -434,14 +466,14 @@ export default function Checkout() {
             <div className="table-grid-content mb-0 addon-item" key={item.id}>
               <div className="d-flex">
                 <img
-                  src={item.img}
+                  src={item.product.imageUrl}
                   alt="主圖"
                   className="rounded-1"
                 />
                 <div className="ps-3 w-100 d-flex align-items-center">
                   <div>
-                    <p className="mb-2">{item.name}</p>
-                    <p className="mb-0 GenSenRounded2JP-M-Full">NT${item.price}</p>
+                    <p className="mb-2">{item.product.title}</p>
+                    <p className="mb-0 GenSenRounded2JP-M-Full">NT${item.product.price}</p>
                   </div>
                 </div>
               </div>
@@ -506,11 +538,7 @@ export default function Checkout() {
                 </div>
                 <button
                   className="btn btn-outline-orange rounded-1 w-100 h-100"
-                  onClick={() => setAddonList(prev =>
-                    prev.map(product =>
-                      product.id === item.id ? { ...product, isSelect: !item.isSelect } : product
-                    )
-                  )}
+                  onClick={() => updateAddonFn(item.id,item.qty)}
                   type="button">
                   {item.isSelect ? '已加購' : '加購'}
                 </button>
