@@ -56,7 +56,6 @@ export default function CouponsManagement() {
       due_date: Math.floor(new Date(data.due_date).getTime() / 1000),
     }
     setAdding(true);
-    console.log(newData);
     try {
       await axios.post(`${baseUrl}/v2/api/${api_path}/admin/coupon`,{data: newData});
       await getCoupons();
@@ -78,7 +77,7 @@ export default function CouponsManagement() {
       await axios.put(`${baseUrl}/v2/api/${api_path}/admin/coupon/${coupon.id}`, {data: newCoupon});
       await getCoupons();
     } catch (error: unknown) {
-      console.log(error);
+      console.warn(error);
     } finally {
       setLoadingId(null);
     }

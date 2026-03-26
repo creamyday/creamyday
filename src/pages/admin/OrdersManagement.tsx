@@ -38,7 +38,6 @@ export default function OrdersManagement() {
   const getOrders = useCallback(async (page = 1) => {
     try {
       const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/orders?page=${page}`);
-      console.log(res.data);
       setOrders(res.data.orders);
       setCurrentPage(res.data.pagination.current_page);
       setTotalPage(res.data.pagination.total_pages);

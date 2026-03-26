@@ -12,8 +12,7 @@ const api_path = import.meta.env.VITE_API_PATH;
 
 const getData = async () => {
   try {
-    const res = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
-    console.log(res);
+    await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
   } catch (error: unknown) {
     console.warn("錯誤：", error)
   }
@@ -91,7 +90,6 @@ export default function ProductsManagement() {
   const getAllProducts = async () => {
     try {
       const response = await axios.get(`${baseUrl}/v2/api/${api_path}/admin/products/all`);
-      console.log("getAllProducts response:", response);
       setAllProducts(Object.values(response.data.products));
     } catch (error: unknown) {
       console.warn('取得商品列表失敗', error);
