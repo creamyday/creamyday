@@ -101,6 +101,10 @@ export default function Products() {
   );
 
   let filtered = displayProducts.filter((p) => {
+    if (p.category === "加購商品") {
+      return false;
+    }
+
     const slug = labelToSlug[p.category] ?? "other";
 
     if (activeSlug === "new") return p.isNew;
@@ -137,15 +141,11 @@ export default function Products() {
         const response = await axios.get(
           `${API_URL}/v2/api/${API_PATH}/products/all`,
         );
-        // console.log("取得商品成功：", response.data.products);
         setProducts(response.data.products);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          // console.log(error.response);
-          // console.log(error.response?.data);
           setErrorMsg(error.response?.data?.message ?? "取得商品失敗");
         } else {
-          // console.log(error);
           setErrorMsg("取得商品失敗");
         }
       } finally {
@@ -229,7 +229,7 @@ export default function Products() {
                                   ? "./icon-heart-liked.svg"
                                   : "./icon-heart.svg"
                               }
-                              alt=""
+                              alt="收藏"
                               className="product-card__icon"
                             />
                           </button>

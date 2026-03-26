@@ -46,43 +46,8 @@ type AddonProduct = {
   price: number;
   img: string;
   qty: number;
-  isSelect: boolean;
+  isAdding: boolean;
 };
-
-const addonProducts: AddonProduct[] = [
-  {
-    id: "a1",
-    name: "刀盤蠟燭",
-    price: 80,
-    img: "./addon-cakeutensil-candle-set.jpeg",
-    qty: 1,
-    isSelect: false,
-  },
-  {
-    id: "a2",
-    name: "刀盤",
-    price: 30,
-    img: "./addon-cakeutensil.jpeg",
-    qty: 1,
-    isSelect: false,
-  },
-  {
-    id: "a3",
-    name: "蠟燭",
-    price: 10,
-    img: "./addon-candles.jpeg",
-    qty: 1,
-    isSelect: false,
-  },
-  {
-    id: "a4",
-    name: "保冷袋",
-    price: 100,
-    img: "./addon-coolerbag.jpeg",
-    qty: 1,
-    isSelect: false,
-  },
-];
 
 const ICON = {
   switch: "./icon-switch.svg",
@@ -116,7 +81,7 @@ export default function ProductDetail() {
     return stored ? new Set(JSON.parse(stored)) : new Set();
   });
 
-  const [addonList, setAddonList] = useState(addonProducts);
+  const [addonList, setAddonList] = useState<AddonProduct[]>([]);
 
   const navigate = useNavigate();
 
@@ -126,7 +91,6 @@ export default function ProductDetail() {
         const res = await axios.get(
           `${API_URL}/v2/api/${API_PATH}/products/all`,
         );
-        // console.log("取得全部商品成功：", res.data.products);
         setAllProducts(res.data.products);
       } catch (error) {
         console.error("取得全部商品失敗:", error);
@@ -158,7 +122,6 @@ export default function ProductDetail() {
           const response = await axios.get(
             `${API_URL}/v2/api/${API_PATH}/product/${productId}`,
           );
-          // console.log(response.data);
 
           if (!response.data.product) {
             setErrorMsg("找不到商品資料");
@@ -166,10 +129,6 @@ export default function ProductDetail() {
             return;
           }
           setProduct(response.data.product);
-          // console.log(
-          //   "default option name:",
-          //   response.data.product.options?.[0]?.name,
-          // );
         } catch (error: unknown) {
           if (axios.isAxiosError(error)) {
             setErrorMsg(error.response?.data?.message ?? "取得商品失敗");
@@ -184,6 +143,22 @@ export default function ProductDetail() {
 
     getProduct();
   }, [productId, allProducts]);
+
+  useEffect(() => {
+    if (allProducts.length > 0) {
+      const addonProducts = allProducts
+        .filter((p) => p.category === "加購商品")
+        .map((p) => ({
+          id: p.id,
+          name: p.title,
+          price: p.price,
+          img: p.imageUrl,
+          qty: 1,
+          isAdding: false,
+        }));
+      setAddonList(addonProducts);
+    }
+  }, [allProducts]);
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(Array.from(favoriteSet)));
@@ -340,12 +315,57 @@ export default function ProductDetail() {
     );
   };
 
-  const toggleAddonSelect = (id: string) => {
+  // 加購商品加入購物車
+  const handleAddAddonToCart = async (addon: AddonProduct) => {
+    // 設定該加購品為 Loading 狀態
     setAddonList((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, isSelect: !item.isSelect } : item,
+        item.id === addon.id ? { ...item, isAdding: true } : item,
       ),
     );
+
+    try {
+      const payload = {
+        data: {
+          product_id: addon.id,
+          qty: addon.qty,
+        },
+      };
+
+      const res = await axios.post(
+        `${API_URL}/v2/api/${API_PATH}/cart`,
+        payload,
+      );
+
+      // 顯示成功訊息並更新 Redux
+      dispatch(
+        pushToastAsync({
+          success: true,
+          message: `已加入加購品：${addon.name}`,
+        }),
+      );
+      dispatch(addProduct(res.data.data));
+
+      // 成功：重置數量為 1，並關閉 Loading 狀態
+      setAddonList((prev) =>
+        prev.map((item) =>
+          item.id === addon.id ? { ...item, qty: 1, isAdding: false } : item,
+        ),
+      );
+    } catch (error: unknown) {
+      let message = "加購失敗";
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || message;
+      }
+      dispatch(pushToastAsync({ success: false, message }));
+
+      // 失敗：關閉 Loading 狀態
+      setAddonList((prev) =>
+        prev.map((item) =>
+          item.id === addon.id ? { ...item, isAdding: false } : item,
+        ),
+      );
+    }
   };
 
   return (
@@ -540,7 +560,7 @@ export default function ProductDetail() {
                   <img
                     src={isFav ? "./icon-heart-liked.svg" : "./icon-heart.svg"}
                     className="product-main__favorite-icon"
-                    alt="heart icon"
+                    alt="收藏"
                   />
 
                   <span>{isFav ? "已加入追蹤清單" : "加入追蹤清單"}</span>
@@ -572,7 +592,7 @@ export default function ProductDetail() {
                         type="button"
                         className="product-addon__qty-btn"
                         onClick={() => updateAddonQty(item.id, item.qty - 1)}
-                        disabled={item.qty <= 1}
+                        disabled={item.qty <= 1 || item.isAdding}
                       >
                         <img src={ICON.minus} alt="減少" />
                       </button>
@@ -583,6 +603,7 @@ export default function ProductDetail() {
                         type="button"
                         className="product-addon__qty-btn"
                         onClick={() => updateAddonQty(item.id, item.qty + 1)}
+                        disabled={item.isAdding}
                       >
                         <img src={ICON.plus} alt="增加" />
                       </button>
@@ -590,10 +611,10 @@ export default function ProductDetail() {
 
                     <button
                       type="button"
-                      className={`product-addon__add-btn ${item.isSelect ? "active" : ""}`}
-                      onClick={() => toggleAddonSelect(item.id)}
+                      className="product-addon__add-btn"
+                      onClick={() => handleAddAddonToCart(item)}
                     >
-                      {item.isSelect ? "已加購" : "加購"}
+                      {item.isAdding ? "加入中..." : "加購"}
                     </button>
                   </div>
                 </li>
