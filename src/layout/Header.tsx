@@ -45,8 +45,6 @@ function MobileMenu({
       >
         關於我們
       </NavLink>
-
-      {/* 手機商品介紹 */}
       <div className="menu-section">
         <div
           className="menu-title clickable"
@@ -171,7 +169,6 @@ function MobileMenu({
         </>
       )}
 
-      {/* 登入登出按鈕 */}
       {!isAuth ? (
         <button
           type="button"
@@ -263,9 +260,8 @@ export default function Header() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white fixed-top">
       <div className="container d-flex  align-items-center ">
-        {/* 電腦版的header 左邊的logo+文字 */}
         <Link className="text-decoration-none" to="/">
           <div className="brand d-flex align-items-center">
             <div className="logo-circle">
@@ -275,7 +271,7 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* 手機的漢堡選單 */}
+       
         <div>
           <button
             type="button"
@@ -316,7 +312,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* 電腦版的header 項目 */}
         <div
           className="collapse navbar-collapse d-none d-lg-flex"
           id="navbarScroll"
@@ -328,7 +323,6 @@ export default function Header() {
               </Link>
             </li>
 
-            {/* 商品介紹 dropdown */}
             <li className="nav-item dropdown">
               <Link
                 className="nav-link dropdown-toggle h5"
