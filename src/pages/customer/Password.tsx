@@ -38,7 +38,7 @@ export default function ChangePassword() {
         <CustomerSidebar />
 
         {/* 🔹 右側表單 */}
-        <div className="col-12 col-md-9">
+        <div className="col-md-9">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="form-label">

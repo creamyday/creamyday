@@ -55,7 +55,6 @@ export default function Orders() {
             return !o.is_paid;
           }
         });
-  console.log(filteredOrders);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -63,10 +62,9 @@ export default function Orders() {
         const response = await axios.get(
           `${API_URL}/v2/api/${API_PATH}/admin/orders`,
         );
-        console.log("取得訂單成功：", response.data.orders);
         setOrders(response.data.orders);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     getOrders();
@@ -82,7 +80,7 @@ export default function Orders() {
       <div className="row">
         <CustomerSidebar />
 
-        <div className="col-12 col-md-9">
+        <div className="col-md-9">
           {!reviewOrder ? (
             <>
               {/* Tabs */}

@@ -67,12 +67,12 @@ export default function Favorite() {
       <div className="row">
         <CustomerSidebar />
 
-        <div className="col-12 col-md-9">
+        <div className="col-md-9">
           {/* ================= Skeleton ================= */}
           {loading && (
             <div className="row g-4">
               {[1, 2, 3].map((item) => (
-                <div key={item} className="col-12 col-md-6 col-lg-4">
+                <div key={item} className="col-md-6 col-lg-4">
                   <div className="placeholder-glow">
                     <div
                       className="placeholder col-12 rounded"
@@ -91,7 +91,7 @@ export default function Favorite() {
                 const isFav = favorites.includes(item.id);
 
                 return (
-                  <div key={item.id} className="col-12 col-md-6 col-lg-4">
+                  <div key={item.id} className="col-md-6 col-lg-4">
                     <div className="card border-0 h-100">
                       <div className="position-relative overflow-hidden rounded">
                         {/* 圖片 */}
@@ -133,7 +133,7 @@ export default function Favorite() {
                                 ? "./icon-heart-liked.svg"
                                 : "./icon-heart.svg"
                             }
-                            alt=""
+                            alt="收藏icon"
                             className="product-card__icon"
                           />
                         </button>

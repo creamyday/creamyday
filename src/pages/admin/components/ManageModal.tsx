@@ -530,7 +530,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
                                         <div className="text-danger small mt-1">{errors.options[i].stock.message}</div>
                                       )}
                                     </div>
-                                    <div className="form-floating col-12 col-sm-6">
+                                    <div className="form-floating col-sm-6">
                                       <input type="number" className="form-control" id={`optionOriginPrice-${field.id}`} placeholder="原價"
                                       {...register(`options.${i}.origin_price`,{
                                         valueAsNumber: true,
@@ -544,7 +544,7 @@ export default function ManageModal({modalStateIsNew, product, groupKey, getProd
                                     {errors.options && errors.options[i] && errors.options[i].origin_price && (
                                       <div className="text-danger small mt-1">{errors.options[i].origin_price.message}</div>
                                     )}
-                                    <div className="form-floating col-12 col-sm-6">
+                                    <div className="form-floating col-sm-6">
                                       <input type="number" className="form-control" id={`optionPrice-${field.id}`} placeholder="售價" 
                                       {...register(`options.${i}.price`,{
                                         valueAsNumber: true,
