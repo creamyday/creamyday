@@ -9,7 +9,7 @@ export default function CustomerSidebar() {
   ];
 
   return (
-    <div className="col-12 col-md-3 mb-4">
+    <div className="col-md-3 mb-4">
       <div className="list-group">
         {items.map((item) => (
           <NavLink

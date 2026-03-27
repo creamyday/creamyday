@@ -420,7 +420,6 @@ export default function Profile() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("送出資料:", formData);
     alert("資料已送出（Demo）");
   };
 
@@ -432,7 +431,7 @@ export default function Profile() {
         <CustomerSidebar />
 
         {/* ================= 右側內容 ================= */}
-        <div className="col-12 col-md-9">
+        <div className="col-md-9">
           <form onSubmit={handleSubmit}>
             {/* 姓名 */}
             <div className="mb-3">
