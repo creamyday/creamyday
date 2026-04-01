@@ -6,11 +6,21 @@ import CustomerSidebar from "./CustomerSideBar";
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
+const labelToSlug: Record<string, string> = {
+  新品推薦: "new",
+  熱門商品: "hot",
+  巴斯克乳酪蛋糕: "basque",
+  提拉米蘇: "tiramisu",
+  生乳捲: "roll",
+  其他甜點: "other",
+};
+
 type Product = {
   id: string;
   title: string;
   price: number;
   imageUrl: string;
+  category: string;
 };
 
 export default function Favorite() {
@@ -60,6 +70,12 @@ export default function Favorite() {
 
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
 
+  // 跳轉至商品詳情頁
+  const handleNavigate = (item: Product) => {
+    const slug = labelToSlug[item.category] || "new";
+    navigate(`/products/${slug}/${item.id}`);
+  };
+
   return (
     <main className="container py-5">
       <h2 className="fw-bold mb-4">會員中心 / 我的收藏</h2>
@@ -105,7 +121,8 @@ export default function Favorite() {
                             cursor: "pointer",
                             transition: "0.4s",
                           }}
-                          onClick={() => navigate(`/product/${item.id}`)}
+                          // onClick={() => navigate(`/products/${item.id}`)}
+                          onClick={() => handleNavigate(item)}
                           onMouseOver={(e) =>
                             (e.currentTarget.style.transform = "scale(1.05)")
                           }
@@ -144,7 +161,8 @@ export default function Favorite() {
                         <h6
                           className="fw-bold"
                           style={{ cursor: "pointer", transition: "0.3s" }}
-                          onClick={() => navigate(`/product/${item.id}`)}
+                          // onClick={() => navigate(`/product/${item.id}`)}
+                          onClick={() => handleNavigate(item)}
                           onMouseOver={(e) =>
                             e.currentTarget.classList.add("text-primary")
                           }
