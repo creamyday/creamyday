@@ -10,7 +10,7 @@
   min-width: 611px;
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  
+
 
   @media (max-width: 992px) {
     position: fixed;
@@ -57,6 +57,10 @@
   .body {
     overflow-y: auto;
     max-height: 350px;
+
+    @media (max-width: 992px) {
+      max-height: 60%;
+    }
   }
 
   .mb-40 {
